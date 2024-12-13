@@ -2,6 +2,7 @@ package org.example.Tools;
 
 import static org.example.Tools.BinaryConventer.convertToBin;
 
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -66,17 +67,24 @@ public class Encrypter {
     }
 
     private void writeToFile() throws IOException {
-        FileWriter fw = new FileWriter(this.outputPath);
+        try (FileOutputStream fw = new FileOutputStream("output.dat")) {
         FileReader fr = new FileReader(this.inputPath);
-        fw.write(convertToBin(additionalZeroes));
+        StringBuilder byteCode= new StringBuilder();
+        byteCode.append(convertToBin(additionalZeroes));
         int i;
         while ((i = fr.read()) != -1) {
-            fw.write(dictionary.getPairAt(i).getCode());
+            byteCode.append(dictionary.getPairAt(i).getCode());
+            while (byteCode.length() >= 8) {
+                fw.write((byte) Integer.parseInt(byteCode.toString(), 2));
+                byteCode.delete(0, 8);
+            }
         }
         fr.close();
-        for (int k = 0; k < additionalZeroes; k++) {
-            fw.write("0");
+        byteCode.append("0".repeat(Math.max(0, additionalZeroes)));
+        fw.write((byte) Integer.parseInt(byteCode.toString(), 2));
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        fw.close();
     }
 }

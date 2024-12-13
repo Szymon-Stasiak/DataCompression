@@ -23,6 +23,8 @@ public class HuffmanTreeApp {
         String outputPath = "src/main/resources/encoded.txt";
         Log.info("Application started");
 
+
+
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--help") || args[i].equals("--h") || args[i].equals("-help") || args[i].equals("-h")) {
                 helpPrinter.printHelp();
