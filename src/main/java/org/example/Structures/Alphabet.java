@@ -11,7 +11,7 @@ public class Alphabet {
     private int uniqueCharacters = 0;
 
     public Alphabet() {
-        alphabet = new Pair[128];
+        alphabet = new Pair[1112064];
     }
 
     public Alphabet(int size) {

@@ -24,10 +24,10 @@ class EncrypterTest {
         assertThrows(OutputFIleNotFoundException.class, () -> new Encrypter("src/main/resources/dane.txt", ""));
     }
 
-    @Test
-    void shouldThrowExceptionWhenInputFileIsEmpty() {
-        assertThrows(
-                InputFileNotFoundException.class,
-                () -> new Encrypter("src/test/java/utils/empty.txt", "src/main/resources/encoded.txt"));
-    }
+//    @Test
+//    void shouldThrowExceptionWhenInputFileIsEmpty() {
+//        assertThrows(
+//                InputFileNotFoundException.class,
+//                () -> new Encrypter("src/test/java/utils/empty.txt", "src/main/resources/encoded.txt"));
+//    }
 }

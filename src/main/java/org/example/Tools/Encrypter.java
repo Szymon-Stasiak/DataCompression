@@ -29,6 +29,7 @@ public class Encrypter {
         Log.info("Size of encrypted file: " + sizeOfEncryptedFile);
         try {
             writeToFile();
+            writeToFileTxt();
         } catch (IOException e) {
             throw new OutputFIleNotFoundException("File with path '" + outputPath + "' not found");
         }
@@ -38,53 +39,75 @@ public class Encrypter {
         dictionary = new Alphabet();
         try {
             FileReader fr = new FileReader(inputPath);
-            boolean fileIsEmpty = fr.read() == -1;
-            if (fileIsEmpty) {
-                throw new InputFileNotFoundException("File with path '" + inputPath + "' is empty");
-            }
             int i;
             while ((i = fr.read()) != -1) {
                 dictionary.add((char) i);
             }
             fr.close();
         } catch (Exception e) {
-            throw new InputFileNotFoundException("File with path '" + inputPath + "' not found");
+            throw new InputFileNotFoundException("File with path '" + inputPath + "' is empty");
         }
         new HuffmanTree(dictionary);
     }
 
     private void countSizeOfEncryptedFile() {
-        sizeOfEncryptedFile = 0;
-        for (int i = 0; i < 128; i++) {
+        sizeOfEncryptedFile = 3;
+        for (int i = 0; i < 1112064; i++) {
             Pair temp = dictionary.getPairAt(i);
             if (temp != null) {
                 sizeOfEncryptedFile += temp.getCounter() * temp.getCode().length();
             }
         }
-        sizeOfEncryptedFile += 3;
-        additionalZeroes = 8 - sizeOfEncryptedFile % 8;
+        System.out.println(sizeOfEncryptedFile);
+        additionalZeroes = (8 - sizeOfEncryptedFile % 8) % 8;
         sizeOfEncryptedFile += additionalZeroes;
     }
 
     private void writeToFile() throws IOException {
-        try (FileOutputStream fw = new FileOutputStream("output.dat")) {
-        FileReader fr = new FileReader(this.inputPath);
-        StringBuilder byteCode= new StringBuilder();
-        byteCode.append(convertToBin(additionalZeroes));
-        int i;
-        while ((i = fr.read()) != -1) {
-            byteCode.append(dictionary.getPairAt(i).getCode());
-            while (byteCode.length() >= 8) {
-                fw.write((byte) Integer.parseInt(byteCode.toString(), 2));
-                byteCode.delete(0, 8);
+        try (FileOutputStream fw = new FileOutputStream(this.outputPath)) {
+            FileReader fr = new FileReader(this.inputPath);
+            StringBuilder byteCode = new StringBuilder();
+            byteCode.append(convertToBin(additionalZeroes));
+            int i;
+            while ((i = fr.read()) != -1) {
+                byteCode.append(dictionary.getPairAt(i).getCode());
+                while (byteCode.length() >= 8) {
+                    String temp = byteCode.substring(0, 8);
+                    Log.info("Byte: " + temp);
+                    fw.write((byte) Integer.parseInt(temp, 16));
+                    byteCode.delete(0, 8);
+                }
             }
+            fr.close();
+            byteCode.append("0".repeat(Math.max(0, additionalZeroes)));
+            if (byteCode.length() == 8) {
+                fw.write((byte) Integer.parseInt(byteCode.toString(), 2));
+            }
+        } catch (IOException e) {
+            throw new OutputFIleNotFoundException("File with path '" + outputPath + "' not found");
+        }
+    }
+
+    private void writeToFileTxt() throws IOException {
+        FileWriter fw = new FileWriter(this.outputPath+".txt");
+        FileReader fr = new FileReader(this.inputPath);
+        fw.write(convertToBin(additionalZeroes));
+        Log.info("Additional zeroes: " + additionalZeroes);
+        Log.info("Additional zeroes in binary: " + convertToBin(additionalZeroes));
+        int i;
+        int sum = 0;
+        while ((i = fr.read()) != -1) {
+            fw.write(dictionary.getPairAt(i).getCode());
+            sum+=dictionary.getPairAt(i).getCode().length();
+            Log.info("Character: " + (char) i + " Code: " + dictionary.getPairAt(i).getCode() + " Length " + dictionary.getPairAt(i).getCode().length() + " Sum: " + sum);
         }
         fr.close();
-        byteCode.append("0".repeat(Math.max(0, additionalZeroes)));
-        fw.write((byte) Integer.parseInt(byteCode.toString(), 2));
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        int counter = 0;
+        for (int k = 0; k < additionalZeroes; k++) {
+            fw.write("0");
+            counter++;
         }
+        Log.info("Additional zeroes written: " + counter);
+        fw.close();
     }
 }
