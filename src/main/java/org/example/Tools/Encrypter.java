@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import org.example.Exceptions.InputFileNotFoundException;
 import org.example.Exceptions.OutputFIleNotFoundException;
+import org.example.Log;
 import org.example.Structures.Alphabet;
 import org.example.Structures.Basics.Pair;
 import org.example.Structures.HuffmanTree;
@@ -24,7 +25,7 @@ public class Encrypter {
         this.outputPath = outputPath;
         makeDictionary();
         countSizeOfEncryptedFile();
-        System.out.println("Size of encrypted file: " + sizeOfEncryptedFile);
+        Log.info("Size of encrypted file: " + sizeOfEncryptedFile);
         try {
             writeToFile();
         } catch (IOException e) {

@@ -21,6 +21,7 @@ public class HuffmanTreeApp {
     public void run(String[] args) {
         String inputPath = "src/main/resources/dane.txt";
         String outputPath = "src/main/resources/encoded.txt";
+        Log.info("Application started");
 
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--help") || args[i].equals("--h") || args[i].equals("-help") || args[i].equals("-h")) {

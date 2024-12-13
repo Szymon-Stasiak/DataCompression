@@ -38,6 +38,11 @@
             <artifactId>spotless-maven-plugin</artifactId>
             <version>2.44.0.BETA4</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.23.1</version>
+        </dependency>
     </dependencies>
 
     <build>
