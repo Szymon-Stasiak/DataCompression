@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.example.Exceptions.InputFileNotFoundException;
 import org.example.Exceptions.OutputFIleNotFoundException;
 import org.example.Log;
@@ -38,10 +39,10 @@ public class Encrypter {
     private void makeDictionary() {
         dictionary = new Alphabet();
         try {
-            FileReader fr = new FileReader(inputPath);
+            FileReader fr = new FileReader(inputPath, StandardCharsets.UTF_8);
             int i;
             while ((i = fr.read()) != -1) {
-                dictionary.add((char) i);
+                dictionary.add(i);
             }
             fr.close();
         } catch (Exception e) {
@@ -61,20 +62,25 @@ public class Encrypter {
         System.out.println(sizeOfEncryptedFile);
         additionalZeroes = (8 - sizeOfEncryptedFile % 8) % 8;
         sizeOfEncryptedFile += additionalZeroes;
+        System.out.println("size " + sizeOfEncryptedFile);
     }
 
     private void writeToFile() throws IOException {
         try (FileOutputStream fw = new FileOutputStream(this.outputPath)) {
-            FileReader fr = new FileReader(this.inputPath);
+            FileReader fr = new FileReader(this.inputPath, StandardCharsets.UTF_8);
             StringBuilder byteCode = new StringBuilder();
             byteCode.append(convertToBin(additionalZeroes));
             int i;
             while ((i = fr.read()) != -1) {
+
                 byteCode.append(dictionary.getPairAt(i).getCode());
+
                 while (byteCode.length() >= 8) {
                     String temp = byteCode.substring(0, 8);
                     Log.info("Byte: " + temp);
-                    fw.write((byte) Integer.parseInt(temp, 16));
+                    Log.info("Byte in decimal: " + Integer.parseInt(temp, 2));
+                    fw.write((byte) Integer.parseInt(temp, 2));
+                    System.out.println(((byte) Integer.parseInt(temp, 2)) & 0xFF);
                     byteCode.delete(0, 8);
                 }
             }
@@ -89,8 +95,8 @@ public class Encrypter {
     }
 
     private void writeToFileTxt() throws IOException {
-        FileWriter fw = new FileWriter(this.outputPath+".txt");
-        FileReader fr = new FileReader(this.inputPath);
+        FileWriter fw = new FileWriter(this.outputPath + ".txt");
+        FileReader fr = new FileReader(this.inputPath, StandardCharsets.UTF_8);
         fw.write(convertToBin(additionalZeroes));
         Log.info("Additional zeroes: " + additionalZeroes);
         Log.info("Additional zeroes in binary: " + convertToBin(additionalZeroes));
@@ -98,8 +104,10 @@ public class Encrypter {
         int sum = 0;
         while ((i = fr.read()) != -1) {
             fw.write(dictionary.getPairAt(i).getCode());
-            sum+=dictionary.getPairAt(i).getCode().length();
-            Log.info("Character: " + (char) i + " Code: " + dictionary.getPairAt(i).getCode() + " Length " + dictionary.getPairAt(i).getCode().length() + " Sum: " + sum);
+            sum += dictionary.getPairAt(i).getCode().length();
+            Log.info("Character: " + (char) i + " Code: "
+                    + dictionary.getPairAt(i).getCode() + " Length "
+                    + dictionary.getPairAt(i).getCode().length() + " Sum: " + sum);
         }
         fr.close();
         int counter = 0;

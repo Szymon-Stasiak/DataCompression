@@ -18,9 +18,9 @@ public class Alphabet {
         alphabet = new Pair[size];
     }
 
-    public void add(char character) {
+    public void add(int character) {
         if (alphabet[character] == null) {
-            alphabet[character] = new Pair(character);
+            alphabet[character] = new Pair((char) character);
             uniqueCharacters++;
         } else {
             alphabet[character].increment();
@@ -45,7 +45,7 @@ public class Alphabet {
     }
 
     public Pair getPairAt(int index) {
-        return alphabet[index];
+        return alphabet[(char) index];
     }
     //
     //    @Override

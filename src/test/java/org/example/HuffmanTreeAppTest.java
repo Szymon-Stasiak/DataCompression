@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.io.File;
-import java.util.Scanner;
 import org.example.Exceptions.FilePathsAreTheSameException;
 import org.example.Tools.HelpPrinter;
 import org.junit.jupiter.api.BeforeAll;
@@ -181,25 +180,25 @@ class HuffmanTreeAppTest {
         assertThrows(FilePathsAreTheSameException.class, () -> app.run(args));
     }
 
-//    @Test
-//    public void should_correctCodeOCoChodzi() {
-//        String inputPath = "src/test/java/utils/ocochodzi.txt";
-//        String outputPath = "src/test/java/utils/encodedTest.txt";
-//        String[] args = {"--in", inputPath, "--out", outputPath};
-//        HuffmanTreeApp.main(args);
-//        assertTrue(new java.io.File(inputPath).exists());
-//        assertTrue(new java.io.File(outputPath).exists());
-//        String expectedOutput = "D8=";
-//        String output;
-//        try {
-//            File file = new File(outputPath);
-//            Scanner scanner = new Scanner(file);
-//            output = scanner.nextLine();
-//            scanner.close();
-//            assertEquals(expectedOutput, output);
-//        } catch (java.io.FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        new File(outputPath).delete();
-//    }
+    //    @Test
+    //    public void should_correctCodeOCoChodzi() {
+    //        String inputPath = "src/test/java/utils/ocochodzi.txt";
+    //        String outputPath = "src/test/java/utils/encodedTest.txt";
+    //        String[] args = {"--in", inputPath, "--out", outputPath};
+    //        HuffmanTreeApp.main(args);
+    //        assertTrue(new java.io.File(inputPath).exists());
+    //        assertTrue(new java.io.File(outputPath).exists());
+    //        String expectedOutput = "D8=";
+    //        String output;
+    //        try {
+    //            File file = new File(outputPath);
+    //            Scanner scanner = new Scanner(file);
+    //            output = scanner.nextLine();
+    //            scanner.close();
+    //            assertEquals(expectedOutput, output);
+    //        } catch (java.io.FileNotFoundException e) {
+    //            e.printStackTrace();
+    //        }
+    //        new File(outputPath).delete();
+    //    }
 }
