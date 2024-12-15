@@ -2,11 +2,13 @@ package org.example.Structures;
 
 import java.util.ArrayList;
 import lombok.Getter;
+import org.example.RbtMap;
+import org.example.Structures.Basics.Pair;
 import org.example.Structures.Basics.TreeNode;
 
 public class HeapPriorityQueue {
     @Getter
-    private int size;
+    private int size=0;
 
     private final ArrayList<TreeNode> heap;
 
@@ -18,6 +20,27 @@ public class HeapPriorityQueue {
         }
         buildHeap();
     }
+
+    public HeapPriorityQueue(RbtMap<Character> redBlackTree) {
+        heap = new ArrayList<>();
+        Pair root = redBlackTree.getRoot();
+        BuildPriorityQueueFormRoot(root);
+        buildHeap();
+    }
+
+
+    //TODO: Implement this method make itarator
+    public void  BuildPriorityQueueFormRoot(Pair root){
+       if(root == null){
+           return;}
+
+        heap.add(new TreeNode(root));
+        size++;
+        BuildPriorityQueueFormRoot(root.getLeft());
+        BuildPriorityQueueFormRoot(root.getRight());
+
+    }
+
 
     private void swap(int i, int j) {
         if (i != j) {

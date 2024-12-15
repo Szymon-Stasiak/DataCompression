@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import org.example.Exceptions.InputFileNotFoundException;
 import org.example.Exceptions.OutputFIleNotFoundException;
 import org.example.Log;
+import org.example.RbtMap;
 import org.example.Structures.Alphabet;
 import org.example.Structures.Basics.Pair;
 import org.example.Structures.HuffmanTree;
@@ -17,6 +18,7 @@ import org.example.Structures.HuffmanTree;
 public class Encrypter {
 
     private Alphabet dictionary;
+    private RbtMap<Character> dictionaryTxt;
     private final String inputPath;
     private final String outputPath;
     private int sizeOfEncryptedFile;
@@ -31,6 +33,7 @@ public class Encrypter {
         try {
             writeToFile();
             writeToFileTxt();
+            writeToFileRBTTxt();
         } catch (IOException e) {
             throw new OutputFIleNotFoundException("File with path '" + outputPath + "' not found");
         }
@@ -38,17 +41,20 @@ public class Encrypter {
 
     private void makeDictionary() {
         dictionary = new Alphabet();
+        dictionaryTxt = new RbtMap<>();
         try {
             FileReader fr = new FileReader(inputPath, StandardCharsets.UTF_8);
             int i;
             while ((i = fr.read()) != -1) {
                 dictionary.add(i);
+                dictionaryTxt.addAt((char) i);
             }
             fr.close();
         } catch (Exception e) {
             throw new InputFileNotFoundException("File with path '" + inputPath + "' is empty");
         }
         new HuffmanTree(dictionary);
+        new HuffmanTree(dictionaryTxt);
     }
 
     private void countSizeOfEncryptedFile() {
@@ -94,6 +100,24 @@ public class Encrypter {
         }
     }
 
+    private void writeToFileRBTTxt() throws IOException {
+        FileWriter fw = new FileWriter(this.outputPath + "rbt.txt");
+        FileReader fr = new FileReader(this.inputPath, StandardCharsets.UTF_8);
+        fw.write(convertToBin(additionalZeroes));
+        Log.info("Additional zeroes: " + additionalZeroes);
+        int i;
+        while ((i = fr.read()) != -1) {
+            fw.write(dictionaryTxt.getPair((char) i).getCode());
+            fw.write((char) dictionary.getPairAt(i).getKey());
+        }
+        fr.close();
+
+        for (int k = 0; k < additionalZeroes; k++) {
+            fw.write("0");
+        }
+        fw.close();
+    }
+
     private void writeToFileTxt() throws IOException {
         FileWriter fw = new FileWriter(this.outputPath + ".txt");
         FileReader fr = new FileReader(this.inputPath, StandardCharsets.UTF_8);
@@ -104,6 +128,7 @@ public class Encrypter {
         int sum = 0;
         while ((i = fr.read()) != -1) {
             fw.write(dictionary.getPairAt(i).getCode());
+            fw.write((char) dictionary.getPairAt(i).getKey());
             sum += dictionary.getPairAt(i).getCode().length();
             Log.info("Character: " + (char) i + " Code: "
                     + dictionary.getPairAt(i).getCode() + " Length "

@@ -1,6 +1,7 @@
 package org.example.Structures.Basics;
 
 import lombok.Data;
+import org.example.Color;
 
 @Data
 public class TreeNode implements Comparable<TreeNode> {
@@ -9,6 +10,8 @@ public class TreeNode implements Comparable<TreeNode> {
     private TreeNode right;
     private Pair pair;
     private int value;
+    private Color color;
+
 
     public TreeNode(Pair pair) {
         this.pair = pair;
