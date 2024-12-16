@@ -1,19 +1,21 @@
 package org.example;
 
+import static org.example.enums.Color.BLACK;
+import static org.example.enums.Color.RED;
+
+import java.util.Iterator;
 import lombok.Getter;
-import org.example.Structures.Basics.Pair;
+import org.example.Structures.Basics.QueueBFS;
+import org.example.Structures.Basics.WordNode;
 
-import static org.example.Color.RED;
-import static org.example.Color.BLACK;
-
-public class RedBlackTree<K extends Comparable<K>> {
+public class RedBlackTree<K extends Comparable<K>> implements Iterable<WordNode<K>> {
 
     @Getter
-    private Pair<K> root;
+    private WordNode<K> root;
 
-    public Pair<K> getPair(K key) {
+    public WordNode<K> getPair(K key) {
         validateKey(key);
-        Pair<K> pair = root;
+        WordNode<K> pair = root;
 
         while (pair != null) {
 
@@ -32,7 +34,7 @@ public class RedBlackTree<K extends Comparable<K>> {
 
     public int get(K key) {
         validateKey(key);
-        Pair<K> pair = root;
+        WordNode<K> pair = root;
 
         int result = 0;
 
@@ -58,31 +60,24 @@ public class RedBlackTree<K extends Comparable<K>> {
         root.setColor(BLACK);
     }
 
-
     private void validateKey(K key) {
         if (key == null) {
             throw new IllegalArgumentException("Key cannot be null.");
         }
     }
 
-    private boolean shouldCheckOnTheLeft(K key, Pair<K> node) {
+    private boolean shouldCheckOnTheLeft(K key, WordNode<K> node) {
         return key.compareTo(node.getKey()) < 0;
     }
 
-    private boolean shouldCheckOnTheRight(K key, Pair<K> node) {
+    private boolean shouldCheckOnTheRight(K key, WordNode<K> node) {
         return key.compareTo(node.getKey()) > 0;
     }
 
-    private void validateParams(K key, int value) {
-        if (key == null ) {
-            throw new IllegalArgumentException("Input params (key, value) cannot be null.");
-        }
-    }
-
-    private Pair<K>  put(Pair<K> node, K key) {
+    private WordNode<K> put(WordNode<K> node, K key) {
 
         if (node == null) {
-            return new Pair<>(key);
+            return new WordNode<>(key);
         }
 
         if (isKeyBiggerThanNode(key, node)) {
@@ -100,25 +95,25 @@ public class RedBlackTree<K extends Comparable<K>> {
         return node;
     }
 
-    private boolean isKeyBiggerThanNode(K key, Pair<K> node) {
+    private boolean isKeyBiggerThanNode(K key, WordNode<K> node) {
         return key.compareTo(node.getKey()) > 0;
     }
 
-    private void putOnTheRight(Pair<K> node, K key) {
-        Pair<K> rightChild = put(node.getRight(), key);
+    private void putOnTheRight(WordNode<K> node, K key) {
+        WordNode<K> rightChild = put(node.getRight(), key);
         node.setRight(rightChild);
     }
 
-    private boolean isKeySmallerThanNode(K key, Pair<K> node) {
+    private boolean isKeySmallerThanNode(K key, WordNode<K> node) {
         return key.compareTo(node.getKey()) < 0;
     }
 
-    private void putOnTheLeft(Pair<K> node, K key) {
-        Pair<K> leftChild = put(node.getLeft(), key);
+    private void putOnTheLeft(WordNode<K> node, K key) {
+        WordNode<K> leftChild = put(node.getLeft(), key);
         node.setLeft(leftChild);
     }
 
-    private Pair<K> reorganizeTree(Pair<K> node) {
+    private WordNode<K> reorganizeTree(WordNode<K> node) {
         node = rotateLeftIfNeeded(node);
         node = rotateRightIfNeeded(node);
         changeColorsIfNeeded(node);
@@ -126,15 +121,15 @@ public class RedBlackTree<K extends Comparable<K>> {
         return node;
     }
 
-    private Pair<K> rotateLeftIfNeeded(Pair<K> node) {
+    private WordNode<K> rotateLeftIfNeeded(WordNode<K> node) {
         if (isBlack(node.getLeft()) && isRed(node.getRight())) {
             node = rotateLeft(node);
         }
         return node;
     }
 
-    private Pair<K> rotateLeft(Pair<K> node) {
-        Pair<K> head = node.getRight();
+    private WordNode<K> rotateLeft(WordNode<K> node) {
+        WordNode<K> head = node.getRight();
         node.setRight(head.getLeft());
         head.setLeft(node);
         head.setColor(node.getColor());
@@ -143,15 +138,15 @@ public class RedBlackTree<K extends Comparable<K>> {
         return head;
     }
 
-    private Pair<K> rotateRightIfNeeded(Pair<K> node) {
+    private WordNode<K> rotateRightIfNeeded(WordNode<K> node) {
         if (isRed(node.getLeft()) && isRed(node.getLeft().getLeft())) {
             node = rotateRight(node);
         }
         return node;
     }
 
-    private Pair<K> rotateRight(Pair<K> node) {
-        Pair<K> head = node.getLeft();
+    private WordNode<K> rotateRight(WordNode<K> node) {
+        WordNode<K> head = node.getLeft();
         node.setLeft(head.getRight());
         head.setRight(node);
         head.setColor(node.getColor());
@@ -160,19 +155,19 @@ public class RedBlackTree<K extends Comparable<K>> {
         return head;
     }
 
-    private void changeColorsIfNeeded(Pair<K> node) {
+    private void changeColorsIfNeeded(WordNode<K> node) {
         if (isRed(node.getLeft()) && isRed(node.getRight())) {
             changeColors(node);
         }
     }
 
-    private void changeColors(Pair<K> node) {
+    private void changeColors(WordNode<K> node) {
         swapColor(node);
         swapColor(node.getLeft());
         swapColor(node.getRight());
     }
 
-    private void swapColor(Pair<K> node) {
+    private void swapColor(WordNode<K> node) {
         if (node.isRed()) {
             node.setColor(BLACK);
         } else {
@@ -180,11 +175,51 @@ public class RedBlackTree<K extends Comparable<K>> {
         }
     }
 
-    private boolean isBlack(Pair<K> node) {
+    private boolean isBlack(WordNode<K> node) {
         return !isRed(node);
     }
 
-    private boolean isRed(Pair<K> node) {
+    private boolean isRed(WordNode<K> node) {
         return node != null && node.isRed();
+    }
+
+    @Override
+    public Iterator<WordNode<K>> iterator() {
+        return new BFSIterator();
+    }
+
+    private class BFSIterator implements Iterator<WordNode<K>> {
+        private final QueueBFS<WordNode<K>> queue;
+
+        public BFSIterator() {
+            queue = new QueueBFS<>();
+            if (root != null) {
+                queue.add(root);
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !queue.isEmpty();
+        }
+
+        @Override
+        public WordNode<K> next() {
+            if (!hasNext()) {
+                throw new IllegalStateException("No more elements in the tree");
+            }
+
+            WordNode<K> currentNode = queue.poll();
+
+            if (currentNode.getLeft() != null) {
+                queue.add(currentNode.getLeft());
+            }
+
+            if (currentNode.getRight() != null) {
+                queue.add(currentNode.getRight());
+            }
+
+            return currentNode;
+        }
     }
 }

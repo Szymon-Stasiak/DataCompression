@@ -1,35 +1,24 @@
 package org.example.Structures;
 
 import org.example.RbtMap;
-import org.example.RedBlackTree;
-import org.example.Structures.Basics.CharChain;
-import org.example.Structures.Basics.Pair;
-import org.example.Structures.Basics.TreeNode;
+import org.example.Structures.Basics.HuffmanTreeNode;
 
 public class HuffmanTree {
 
-    private TreeNode root;
-    private final HeapPriorityQueue heap;
-
-    public HuffmanTree(Alphabet alphabet) {
-        heap = new HeapPriorityQueue(alphabet.removeEmpty());
-        buildTree();
-        generateCodes();
-    }
+    private HuffmanTreeNode root;
+    private final HuffmanHeapPriorityQueue heap;
 
     public HuffmanTree(RbtMap redBlackTree) {
-        heap = new HeapPriorityQueue(redBlackTree);
+        heap = new HuffmanHeapPriorityQueue(redBlackTree);
         buildTree();
         generateCodes();
     }
-
-
 
     private void buildTree() {
         while (heap.getSize() > 1) {
-            TreeNode left = heap.poll();
-            TreeNode right = heap.poll();
-            TreeNode parent = new TreeNode(left, right);
+            HuffmanTreeNode left = heap.poll();
+            HuffmanTreeNode right = heap.poll();
+            HuffmanTreeNode parent = new HuffmanTreeNode(left, right);
             heap.add(parent);
         }
         root = heap.poll();
@@ -39,9 +28,9 @@ public class HuffmanTree {
         generateCodes(root, "");
     }
 
-    private void generateCodes(TreeNode node, String code) {
+    private void generateCodes(HuffmanTreeNode node, String code) {
         if (node.getLeft() == null && node.getRight() == null) {
-            node.getPair().setCode(code);
+            node.getWordNode().setCode(code);
             return;
         }
         generateCodes(node.getRight(), code + "1");

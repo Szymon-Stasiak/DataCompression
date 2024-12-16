@@ -1,32 +1,30 @@
 package org.example.Structures.Basics;
 
-import lombok.Data;
-import org.example.Color;
+import static org.example.enums.Color.RED;
 
-import static org.example.Color.RED;
+import lombok.Data;
+import org.example.enums.Color;
 
 @Data
-public class Pair<K extends Comparable<K>> {
+public class WordNode<K extends Comparable<K>> implements Comparable<WordNode<K>> {
 
-    private int counter=0;
+    private int counter = 0;
     private K key;
     private String code;
     private Color color;
-    private Pair<K> left;
-    private Pair<K> right;
+    private WordNode<K> left;
+    private WordNode<K> right;
 
-
-    public Pair(K key, int counter) {
+    public WordNode(K key, int counter) {
         this.key = key;
         this.counter = counter;
         this.color = RED;
     }
 
-    public Pair(K key) {
+    public WordNode(K key) {
         this.key = key;
         this.counter += 1;
         this.color = RED;
-
     }
 
     public void increment() {
@@ -37,6 +35,10 @@ public class Pair<K extends Comparable<K>> {
         return RED.equals(color);
     }
 
+    @Override
+    public int compareTo(WordNode<K> o) {
+        return key.compareTo(o.getKey());
+    }
 
     //    @Override
     //    public String toString() {

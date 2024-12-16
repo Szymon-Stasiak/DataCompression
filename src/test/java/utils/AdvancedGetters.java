@@ -2,13 +2,13 @@ package utils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import org.example.Structures.Basics.TreeNode;
-import org.example.Structures.HeapPriorityQueue;
+import org.example.Structures.Basics.HuffmanTreeNode;
+import org.example.Structures.HuffmanHeapPriorityQueue;
 import org.example.Structures.HuffmanTree;
 
 public class AdvancedGetters {
 
-    public static ArrayList<Comparable> getHeap(HeapPriorityQueue heapPriorityQueue) {
+    public static ArrayList<Comparable> getHeap(HuffmanHeapPriorityQueue heapPriorityQueue) {
         String fieldName = "heap";
         try {
             ArrayList<Comparable> heap = null;
@@ -24,15 +24,15 @@ public class AdvancedGetters {
         }
     }
 
-    public static TreeNode getRoot(HuffmanTree huffmanTree) {
+    public static HuffmanTreeNode getRoot(HuffmanTree huffmanTree) {
         String fieldName = "root";
         try {
-            TreeNode root = null;
+            HuffmanTreeNode root = null;
 
             Field field = huffmanTree.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
 
-            root = (TreeNode) field.get(huffmanTree);
+            root = (HuffmanTreeNode) field.get(huffmanTree);
 
             return root;
         } catch (NoSuchFieldException | IllegalAccessException e) {

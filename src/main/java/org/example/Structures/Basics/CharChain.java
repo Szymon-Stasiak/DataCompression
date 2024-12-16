@@ -26,25 +26,8 @@ public class CharChain implements Comparable<CharChain> {
         return true;
     }
 
-//    @Override
-//    public int compareTo( Object o) {
-//
-//        //check if no null
-//        if (o == null) {
-//            throw new IllegalArgumentException("Cannot compare with null.");
-//        }
-//        CharChain other = (CharChain) o;
-//        for (int i = 0; i < chain.length; i++) {
-//            if (chain[i] != other.chain[i]) {
-//                return chain[i] - other.chain[i];
-//            }
-//        }
-//        return 0;
-//    }
-
     @Override
     public int compareTo(CharChain o) {
-        // compare as a stings alphabetically
         return this.toString().compareTo(o.toString());
     }
 

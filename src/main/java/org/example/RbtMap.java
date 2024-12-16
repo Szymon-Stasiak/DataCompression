@@ -1,11 +1,9 @@
 package org.example;
 
-import org.example.Structures.Basics.Pair;
-import org.example.service.MapInterface;
-
 import java.util.Iterator;
+import org.example.Structures.Basics.WordNode;
 
-public class RbtMap<K extends Comparable<K>>  {
+public class RbtMap<K extends Comparable<K>> {
 
     private final RedBlackTree<K> tree;
 
@@ -13,19 +11,18 @@ public class RbtMap<K extends Comparable<K>>  {
         tree = new RedBlackTree<>();
     }
 
-
     public void addAt(K key) {
-        if (key == null ) {
+        if (key == null) {
             throw new IllegalArgumentException("Params (key, value) cannot be null.");
         }
         tree.put(key);
     }
 
-    public Pair getRoot() {
-        return  tree.getRoot();
+    public WordNode getRoot() {
+        return tree.getRoot();
     }
 
-    public Pair getPair(K key) {
+    public WordNode getPair(K key) {
         return tree.getPair(key);
     }
 
@@ -36,5 +33,7 @@ public class RbtMap<K extends Comparable<K>>  {
         return tree.get(key);
     }
 
-
+    public Iterator<WordNode<K>> iterator() {
+        return tree.iterator();
+    }
 }
