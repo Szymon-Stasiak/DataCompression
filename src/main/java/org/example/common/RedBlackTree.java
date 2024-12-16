@@ -1,19 +1,19 @@
-package org.example;
+package org.example.common;
 
 import static org.example.enums.Color.BLACK;
 import static org.example.enums.Color.RED;
 
 import java.util.Iterator;
 import lombok.Getter;
-import org.example.Structures.Basics.QueueBFS;
-import org.example.Structures.Basics.WordNode;
+import org.example.encrypter.QueueBFS;
+import org.example.service.MapInterface;
 
-public class RedBlackTree<K extends Comparable<K>> implements Iterable<WordNode<K>> {
+public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, Iterable<WordNode<K>> {
 
     @Getter
     private WordNode<K> root;
 
-    public WordNode<K> getPair(K key) {
+    public WordNode<K> getNode(K key) {
         validateKey(key);
         WordNode<K> pair = root;
 
@@ -32,11 +32,11 @@ public class RedBlackTree<K extends Comparable<K>> implements Iterable<WordNode<
         return pair;
     }
 
-    public int get(K key) {
+    public String getCode(K key) {
         validateKey(key);
         WordNode<K> pair = root;
 
-        int result = 0;
+        String result = "";
 
         while (pair != null) {
 
@@ -47,14 +47,14 @@ public class RedBlackTree<K extends Comparable<K>> implements Iterable<WordNode<
                 pair = pair.getRight();
 
             } else {
-                result = pair.getCounter();
+                result = pair.getCode();
                 break;
             }
         }
         return result;
     }
 
-    public void put(K key) {
+    public void addAt(K key) {
         validateKey(key);
         root = put(root, key);
         root.setColor(BLACK);

@@ -1,6 +1,6 @@
-package org.example.Tools;
+package org.example.encrypter;
 
-public class BinaryConventer {
+public class BinaryConverter {
 
     public static String convertToBin(int number) {
         int binary = 0;

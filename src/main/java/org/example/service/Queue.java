@@ -2,9 +2,9 @@ package org.example.service;
 
 public interface Queue<T> {
 
-    public boolean isEmpty();
+    boolean isEmpty();
 
-    public T poll();
+    T poll();
 
-    public void add(T element);
+    void add(T element);
 }

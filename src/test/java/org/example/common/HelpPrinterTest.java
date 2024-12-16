@@ -1,9 +1,10 @@
-package org.example.Tools;
+package org.example.common;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+
 import org.junit.jupiter.api.Test;
 
 public class HelpPrinterTest {
@@ -23,5 +24,6 @@ public class HelpPrinterTest {
         assertTrue(output.contains("Usage: java -jar HuffmanTreeApp.jar [options]"));
         assertTrue(output.contains("--in <path>    Path to the file to be encoded"));
         assertTrue(output.contains("--out <path>   Path to the file where the encoded file will be saved"));
+        assertTrue(output.contains("--length <n>   Length of the sequence to be encoded"));
     }
 }

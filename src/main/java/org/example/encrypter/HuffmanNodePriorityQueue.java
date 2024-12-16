@@ -1,15 +1,14 @@
-package org.example.Structures;
+package org.example.encrypter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.example.RbtMap;
-import org.example.Structures.Basics.HuffmanTreeNode;
-import org.example.Structures.Basics.WordNode;
+import org.example.common.RedBlackTree;
+import org.example.common.WordNode;
 import org.example.service.HeapPriorityQueue;
 
-public class HuffmanHeapPriorityQueue extends HeapPriorityQueue<HuffmanTreeNode> {
+public class HuffmanNodePriorityQueue extends HeapPriorityQueue<HuffmanTreeNode> {
 
-    public HuffmanHeapPriorityQueue(RbtMap redBlackTree) {
+    public HuffmanNodePriorityQueue(RedBlackTree redBlackTree) {
         heap = new ArrayList<>();
         Iterator iterator = redBlackTree.iterator();
         while (iterator.hasNext()) {

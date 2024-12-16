@@ -1,17 +1,25 @@
-package org.example.Structures;
+package org.example.encrypter;
 
-import org.example.RbtMap;
-import org.example.Structures.Basics.HuffmanTreeNode;
+import org.example.common.RedBlackTree;
 
 public class HuffmanTree {
 
     private HuffmanTreeNode root;
-    private final HuffmanHeapPriorityQueue heap;
+    private final HuffmanNodePriorityQueue heap;
 
-    public HuffmanTree(RbtMap redBlackTree) {
-        heap = new HuffmanHeapPriorityQueue(redBlackTree);
-        buildTree();
-        generateCodes();
+    public HuffmanTree(RedBlackTree redBlackTree) {
+        heap = new HuffmanNodePriorityQueue(redBlackTree);
+        if (heap.getSize() == 1) {
+            handleWhenOnlyOneSequenceExist();
+        } else {
+            buildTree();
+            generateCodes();
+        }
+    }
+
+    public void handleWhenOnlyOneSequenceExist() {
+        root = heap.poll();
+        root.getWordNode().setCode("0");
     }
 
     private void buildTree() {

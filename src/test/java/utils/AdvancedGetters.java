@@ -2,13 +2,13 @@ package utils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import org.example.Structures.Basics.HuffmanTreeNode;
-import org.example.Structures.HuffmanHeapPriorityQueue;
-import org.example.Structures.HuffmanTree;
+import org.example.encrypter.HuffmanNodePriorityQueue;
+import org.example.encrypter.HuffmanTree;
+import org.example.encrypter.HuffmanTreeNode;
 
 public class AdvancedGetters {
 
-    public static ArrayList<Comparable> getHeap(HuffmanHeapPriorityQueue heapPriorityQueue) {
+    public static ArrayList<Comparable> getHeap(HuffmanNodePriorityQueue heapPriorityQueue) {
         String fieldName = "heap";
         try {
             ArrayList<Comparable> heap = null;

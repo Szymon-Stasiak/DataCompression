@@ -1,9 +1,9 @@
-package org.example.Tools;
+package org.example.encrypter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.example.Exceptions.InputFileNotFoundException;
-import org.example.Exceptions.OutputFIleNotFoundException;
+import org.example.exceptions.InputFileNotFoundException;
+import org.example.exceptions.OutputFIleNotFoundException;
 import org.junit.jupiter.api.Test;
 
 class EncrypterTest {

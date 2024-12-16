@@ -1,6 +1,7 @@
-package org.example.Structures.Basics;
+package org.example.encrypter;
 
 import lombok.Data;
+import org.example.common.WordNode;
 import org.example.enums.Color;
 
 @Data

@@ -1,8 +1,9 @@
 package org.example;
 
-import org.example.Exceptions.FilePathsAreTheSameException;
-import org.example.Tools.Encrypter;
-import org.example.Tools.HelpPrinter;
+import org.example.common.HelpPrinter;
+import org.example.encrypter.Encrypter;
+import org.example.exceptions.FilePathsAreTheSameException;
+import org.example.logger.Log;
 
 public class HuffmanTreeApp {
 
@@ -21,7 +22,7 @@ public class HuffmanTreeApp {
     public void run(String[] args) {
         String inputPath = "src/main/resources/dane.txt";
         String outputPath = "src/main/resources/encoded.txt";
-        int lengthOfSequence = 4;
+        int lengthOfSequence = 3;
         Log.info("Application started");
 
         for (int i = 0; i < args.length; i++) {

@@ -1,4 +1,4 @@
-package org.example.Structures.Basics;
+package org.example.common;
 
 import static org.junit.jupiter.api.Assertions.*;
 

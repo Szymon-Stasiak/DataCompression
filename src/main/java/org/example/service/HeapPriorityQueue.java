@@ -3,7 +3,7 @@ package org.example.service;
 import java.util.ArrayList;
 import lombok.Getter;
 
-public abstract class HeapPriorityQueue<K extends Comparable<K>> implements Queue<K> {
+public class HeapPriorityQueue<K extends Comparable<K>> implements Queue<K> {
     @Getter
     protected int size = 0;
 

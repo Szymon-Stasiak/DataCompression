@@ -1,4 +1,4 @@
-package org.example.Structures.Basics;
+package org.example.encrypter;
 
 import org.example.service.Queue;
 

@@ -1,23 +1,23 @@
-package org.example.Tools;
+package org.example.encrypter;
 
-import static org.example.Tools.BinaryConventer.convertToBin;
+import static org.example.encrypter.BinaryConverter.convertToBin;
 
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import org.example.Exceptions.InputFileNotFoundException;
-import org.example.Exceptions.OutputFIleNotFoundException;
-import org.example.Log;
-import org.example.RbtMap;
-import org.example.Structures.Basics.CharChain;
-import org.example.Structures.Basics.WordNode;
-import org.example.Structures.HuffmanTree;
+import java.util.Iterator;
+import org.example.common.RedBlackTree;
+import org.example.common.WordNode;
+import org.example.enums.CharChain;
+import org.example.exceptions.InputFileNotFoundException;
+import org.example.exceptions.OutputFIleNotFoundException;
+import org.example.logger.Log;
 
 public class Encrypter {
 
-    private RbtMap dictionary;
+    private RedBlackTree dictionary;
     private final String inputPath;
     private final String outputPath;
     private int sizeOfEncryptedFile = 3;
@@ -29,8 +29,9 @@ public class Encrypter {
         this.outputPath = outputPath;
         this.lengthOfSequence = lengthOfSequence;
         makeDictionary();
-        SizeOfEncryptedFileForSequences();
+        countSizeOfEncryptedFileForSequences();
         try {
+            writeToFile();
             writeToFileForSequence();
         } catch (IOException e) {
             throw new OutputFIleNotFoundException("File with path '" + outputPath + "' not found");
@@ -38,7 +39,7 @@ public class Encrypter {
     }
 
     private void makeDictionary() {
-        dictionary = new RbtMap<CharChain>();
+        dictionary = new RedBlackTree<CharChain>();
         try {
             FileReader fr = new FileReader(inputPath, StandardCharsets.UTF_8);
             CharChain chain = new CharChain(lengthOfSequence);
@@ -51,31 +52,26 @@ public class Encrypter {
                     chain = new CharChain(lengthOfSequence);
                 }
             }
-
+            if (chain.isNorEmpty()) {
+                dictionary.addAt(chain);
+                Log.info("Chain added: " + chain);
+            }
             fr.close();
         } catch (Exception e) {
             throw new InputFileNotFoundException("File with path '" + inputPath + "' is empty");
         }
-        Log.info("Dictionary size:");
         new HuffmanTree(dictionary);
     }
 
-    private void SizeOfEncryptedFileForSequences() {
-        WordNode root = dictionary.getRoot();
-        countSizeOfEncryptedFileForSequences(root);
+    private void countSizeOfEncryptedFileForSequences() {
+        Iterator iterator = dictionary.iterator();
+        while (iterator.hasNext()) {
+            WordNode node = (WordNode) iterator.next();
+            sizeOfEncryptedFile += node.getCounter() * node.getCode().length();
+        }
         additionalZeroes = (8 - sizeOfEncryptedFile % 8) % 8;
         sizeOfEncryptedFile += additionalZeroes;
-    }
-
-    private void countSizeOfEncryptedFileForSequences(WordNode root) {
-        if (root == null) {
-            return;
-        }
-        if (root.getLeft() == null && root.getRight() == null) {
-            sizeOfEncryptedFile += root.getCounter() * root.getCode().length();
-        }
-        countSizeOfEncryptedFileForSequences(root.getLeft());
-        countSizeOfEncryptedFileForSequences(root.getRight());
+        Log.info("Size of encrypted file: " + sizeOfEncryptedFile + " Additional zeroes: " + additionalZeroes);
     }
 
     private void writeToFile() throws IOException {
@@ -83,19 +79,22 @@ public class Encrypter {
             FileReader fr = new FileReader(this.inputPath, StandardCharsets.UTF_8);
             StringBuilder byteCode = new StringBuilder();
             byteCode.append(convertToBin(additionalZeroes));
+            CharChain chain = new CharChain(lengthOfSequence);
             int i;
             while ((i = fr.read()) != -1) {
-
-                byteCode.append(dictionary.getPair((char) i).getCode());
-
-                while (byteCode.length() >= 8) {
-                    String temp = byteCode.substring(0, 8);
-                    Log.info("Byte: " + temp);
-                    Log.info("Byte in decimal: " + Integer.parseInt(temp, 2));
-                    fw.write((byte) Integer.parseInt(temp, 2));
-                    System.out.println(((byte) Integer.parseInt(temp, 2)) & 0xFF);
-                    byteCode.delete(0, 8);
+                chain.add((char) i);
+                if (chain.isFull()) {
+                    byteCode.append(dictionary.getCode(chain));
+                    chain = new CharChain(lengthOfSequence);
+                    while (byteCode.length() >= 8) {
+                        String temp = byteCode.substring(0, 8);
+                        fw.write((byte) Integer.parseInt(temp, 2));
+                        byteCode.delete(0, 8);
+                    }
                 }
+            }
+            if (chain.isNorEmpty()) {
+                byteCode.append(dictionary.getCode(chain));
             }
             fr.close();
             byteCode.append("0".repeat(Math.max(0, additionalZeroes)));
@@ -108,7 +107,7 @@ public class Encrypter {
     }
 
     public void writeToFileForSequence() throws IOException {
-        FileWriter fw = new FileWriter(this.outputPath);
+        FileWriter fw = new FileWriter(this.outputPath + "zeroOne.txt");
         FileReader fr = new FileReader(this.inputPath, StandardCharsets.UTF_8);
         fw.write(convertToBin(additionalZeroes));
         Log.info("Additional zeroes: " + additionalZeroes);
@@ -117,10 +116,14 @@ public class Encrypter {
         while ((i = fr.read()) != -1) {
             chain.add((char) i);
             if (chain.isFull()) {
-                fw.write(dictionary.getPair(chain).getCode());
-                fw.write(dictionary.getPair(chain).getKey().toString());
+                fw.write(dictionary.getCode(chain));
+                fw.write(dictionary.getNode(chain).getKey().toString());
                 chain = new CharChain(lengthOfSequence);
             }
+        }
+        if (chain.isNorEmpty()) {
+            fw.write(dictionary.getCode(chain));
+            fw.write(dictionary.getNode(chain).getKey().toString());
         }
         fr.close();
 

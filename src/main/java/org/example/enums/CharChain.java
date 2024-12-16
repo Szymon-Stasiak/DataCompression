@@ -1,4 +1,6 @@
-package org.example.Structures.Basics;
+package org.example.enums;
+
+import static java.sql.Types.NULL;
 
 public class CharChain implements Comparable<CharChain> {
 
@@ -26,6 +28,15 @@ public class CharChain implements Comparable<CharChain> {
         return true;
     }
 
+    public boolean isNorEmpty() {
+        for (char c : chain) {
+            if (c != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public int compareTo(CharChain o) {
         return this.toString().compareTo(o.toString());
@@ -35,7 +46,9 @@ public class CharChain implements Comparable<CharChain> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (char c : chain) {
-            sb.append(c);
+            if (c != NULL) {
+                sb.append(c);
+            }
         }
         return sb.toString();
     }

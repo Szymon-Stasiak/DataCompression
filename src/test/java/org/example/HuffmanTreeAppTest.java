@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.io.File;
-import org.example.Exceptions.FilePathsAreTheSameException;
-import org.example.Tools.HelpPrinter;
+import org.example.common.HelpPrinter;
+import org.example.exceptions.FilePathsAreTheSameException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.logger;
 
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
