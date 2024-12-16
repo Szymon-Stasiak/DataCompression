@@ -21,6 +21,7 @@ public class HuffmanTreeApp {
     public void run(String[] args) {
         String inputPath = "src/main/resources/dane.txt";
         String outputPath = "src/main/resources/encoded.txt";
+        int lengthOfSequence = 3;
         Log.info("Application started");
 
         for (int i = 0; i < args.length; i++) {
@@ -32,6 +33,11 @@ public class HuffmanTreeApp {
                     inputPath = args[++i];
                 } else if (args[i].equals("--out") && i + 1 < args.length && args[i + 1].charAt(0) != '-') {
                     outputPath = args[++i];
+                }else if (args[i].equals("--length") && i + 1 < args.length && args[i + 1].charAt(0) != '-') {
+                    lengthOfSequence = Integer.parseInt(args[++i]);
+                } else {
+                    helpPrinter.printHelp();
+                    return;
                 }
             }
         }
@@ -39,6 +45,6 @@ public class HuffmanTreeApp {
             throw new FilePathsAreTheSameException(
                     "Input and output paths are the same. You have to choose different paths.");
         }
-        new Encrypter(inputPath, outputPath);
+        new Encrypter(inputPath, outputPath , lengthOfSequence);
     }
 }

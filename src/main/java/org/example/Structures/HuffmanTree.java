@@ -2,6 +2,7 @@ package org.example.Structures;
 
 import org.example.RbtMap;
 import org.example.RedBlackTree;
+import org.example.Structures.Basics.CharChain;
 import org.example.Structures.Basics.Pair;
 import org.example.Structures.Basics.TreeNode;
 
@@ -16,11 +17,13 @@ public class HuffmanTree {
         generateCodes();
     }
 
-    public HuffmanTree(RbtMap<Character> redBlackTree) {
+    public HuffmanTree(RbtMap redBlackTree) {
         heap = new HeapPriorityQueue(redBlackTree);
         buildTree();
         generateCodes();
     }
+
+
 
     private void buildTree() {
         while (heap.getSize() > 1) {
@@ -35,7 +38,7 @@ public class HuffmanTree {
     private void generateCodes() {
         generateCodes(root, "");
     }
-//nie ustawiony root dla rbt
+
     private void generateCodes(TreeNode node, String code) {
         if (node.getLeft() == null && node.getRight() == null) {
             node.getPair().setCode(code);

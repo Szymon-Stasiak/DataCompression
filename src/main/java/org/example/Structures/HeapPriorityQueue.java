@@ -21,7 +21,7 @@ public class HeapPriorityQueue {
         buildHeap();
     }
 
-    public HeapPriorityQueue(RbtMap<Character> redBlackTree) {
+    public HeapPriorityQueue(RbtMap redBlackTree) {
         heap = new ArrayList<>();
         Pair root = redBlackTree.getRoot();
         BuildPriorityQueueFormRoot(root);
