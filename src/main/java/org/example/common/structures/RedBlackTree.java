@@ -186,7 +186,7 @@ public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, I
 
     @Override
     public Iterator<WordNode<K>> iterator() {
-        return new BFSIterator(root);
+        return new BFSIterator<>(root);
     }
 
 

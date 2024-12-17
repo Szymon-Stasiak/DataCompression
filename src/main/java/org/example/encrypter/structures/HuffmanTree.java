@@ -3,6 +3,7 @@ package org.example.encrypter.structures;
 import lombok.Getter;
 import org.example.common.structures.RedBlackTree;
 import org.example.common.structures.WordNode;
+import org.example.common.tools.BFSIterator;
 
 import java.util.Iterator;
 
@@ -54,37 +55,10 @@ public class HuffmanTree implements Iterable<HuffmanTreeNode> {
 
     @Override
     public Iterator<HuffmanTreeNode> iterator() {
-        return new BFSIterator();
+        return new BFSIterator<>(root);
     }
 
-    private class BFSIterator implements Iterator<HuffmanTreeNode> {
-        private final QueueBFS<HuffmanTreeNode> queue;
-        private HuffmanTreeNode current;
 
-        public BFSIterator() {
-            queue = new QueueBFS<>();
-            if (root != null) {
-                queue.add(root);
-            }
-        }
-
-        @Override
-        public boolean hasNext() {
-            return !queue.isEmpty();
-        }
-
-        @Override
-        public HuffmanTreeNode next() {
-            current = queue.poll();
-            if (current.getLeft() != null) {
-                queue.add(current.getLeft());
-            }
-            if (current.getRight() != null) {
-                queue.add(current.getRight());
-            }
-            return current;
-        }
-    }
 
 
 }
