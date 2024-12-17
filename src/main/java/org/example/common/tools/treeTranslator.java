@@ -1,22 +1,15 @@
 package org.example.common.tools;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import org.example.common.structures.CharChain;
-import org.example.common.structures.WordNode;
-import org.example.encrypter.structures.HuffmanTree;
 import org.example.encrypter.structures.HuffmanTreeNode;
 import org.example.encrypter.tools.BinaryConverter;
-import org.example.service.TreeNode;
-
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.StandardCharsets;
 
 public class treeTranslator<K extends Comparable<K>> {
 
-    public int encryptTreeAndReturnSize(HuffmanTreeNode root, FileOutputStream fw, int bytesOfTheBiggestChar, StringBuilder byteCode) {
+    public int encryptTreeAndReturnSize(
+            HuffmanTreeNode root, FileOutputStream fw, int bytesOfTheBiggestChar, StringBuilder byteCode) {
         int size = 2;
         byteCode.append(BinaryConverter.convertByteSizeToBinValue(bytesOfTheBiggestChar));
         BFSIterator<HuffmanTreeNode> iterator = new BFSIterator<>(root);
@@ -25,57 +18,63 @@ public class treeTranslator<K extends Comparable<K>> {
             if (node.getWordNode().getCode() == null) {
                 byteCode.append("0");
                 size++;
-            }else{
+            } else {
                 byteCode.append("1");
                 size++;
                 CharChain charChain = new CharChain(node.getWordNode().getKey().toString());
-              //  for(char c : charChain.getChain()){
-
-
+                //  for(char c : charChain.getChain()){
 
             }
-
-
-
         }
         return size;
     }
 
-    public static String speaceNeededToWriteCharacter(int bytesOfTheBiggestChar, char c){
-        if(bytesOfTheBiggestChar == 1) {
+    public static String speaceNeededToWriteCharacter(int bytesOfTheBiggestChar, char c) {
+        if (bytesOfTheBiggestChar == 1) {
             return "";
-        }else {
-            //check how may bytes are needed to write the character
+        } else {
+            // check how may bytes are needed to write the character
             int bitsNeeded = 0;
-
-
         }
 
         return "";
     }
 
     public static void main(String[] args) {
-        String filePath = "C:\\Users\\stszy\\IdeaProjects\\DataCompression\\src\\main\\resources\\dane.txt";
+        String filePath =
+                "C:\\Users\\stszy\\IdeaProjects\\DataCompression\\src\\main\\resources\\dane.txt"; // Ścieżka do pliku
 
-        try (InputStream inputStream = new FileInputStream(filePath)) {
-            byte[] bytes = inputStream.readAllBytes();
-            CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder();
+        try (InputStream inputStream = new FileInputStream(filePath);
+                BufferedReader reader =
+                        new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
 
-            ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-            CharBuffer charBuffer = decoder.decode(byteBuffer);
+            int codePoint;
+            int bufferSize = 8192; // Rozmiar bufora (8 KB, można dostosować)
+            char[] buffer = new char[bufferSize];
+            while (true) {
+                int charsRead = reader.read(buffer);
+                if (charsRead == -1) {
+                    break; // Koniec pliku
+                }
 
-            for (int i = 0; i < charBuffer.length(); i++) {
-                int codePoint = Character.codePointAt(charBuffer, i);
-                System.out.printf("Znak: %c, Punkt kodowy: U+%04X%n", codePoint, codePoint);
-                if (Character.charCount(codePoint) == 2) {
-                    i++; // Przeskocz drugi znak pary zastępczej
+                // Przetwarzanie wczytanych znaków
+                for (int i = 0; i < charsRead; i++) {
+                    codePoint = buffer[i];
+                    // Jeśli znak jest częścią pary zastępczej, sprawdzamy drugi znak
+                    if (Character.isHighSurrogate((char) codePoint)) {
+                        if (i + 1 < charsRead) {
+                            int lowSurrogate = buffer[i + 1];
+                            codePoint = Character.toCodePoint((char) codePoint, (char) lowSurrogate);
+                            i++; // Przechodzimy do następnego znaku
+                        }
+                    }
+                    // Wyświetlamy punkt kodowy
+                    System.out.printf("Znak: %c, Punkt kodowy: U+%04X%n", codePoint, codePoint);
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 }
-

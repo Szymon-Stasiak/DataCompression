@@ -15,7 +15,7 @@ import org.example.logger.Log;
 
 public class Encrypter {
 
-    private RedBlackTree dictionary;
+    private RedBlackTree<CharChain> dictionary;
     private final String inputPath;
     private final String outputPath;
     private int sizeOfEncryptedFile = 3;
@@ -40,20 +40,28 @@ public class Encrypter {
         dictionary = new RedBlackTree<CharChain>();
         try {
             FileInputStream fr = new FileInputStream(inputPath);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fr, StandardCharsets.UTF_8));
+
             CharChain chain = new CharChain(lengthOfSequence);
-            int i;
-            while ((i = fr.read()) != -1) {
-                chain.add( i);
-                if (chain.isFull()) {
-                    dictionary.addAt(chain);
-                    Log.info("Chain added: " + chain);
-                    chain = new CharChain(lengthOfSequence);
+            char[] buffer = new char[8192];
+            int charsRead;
+
+            while ((charsRead = reader.read(buffer)) != -1) {
+                for (int i = 0; i < charsRead; i++) {
+                    chain.add(buffer[i]);
+                    if (chain.isFull()) {
+                        dictionary.addAt(chain);
+                        Log.info("Chain added: " + chain);
+                        chain = new CharChain(lengthOfSequence);
+                    }
                 }
             }
+
             if (chain.isNorEmpty()) {
                 dictionary.addAt(chain);
                 Log.info("Chain added: " + chain);
             }
+
             fr.close();
         } catch (Exception e) {
             throw new InputFileNotFoundException("File with path '" + inputPath + "' is empty");
@@ -106,39 +114,50 @@ public class Encrypter {
 
     public void writeToFileForSequence() throws IOException {
         FileInputStream fr = new FileInputStream(inputPath);
-        FileOutputStream fw = new FileOutputStream(outputPath+"zeroOnes.txt");
+        FileOutputStream fw = new FileOutputStream(outputPath + "zeroOnes.txt");
+
         for (int i = 0; i < 3; i++) {
-            fw.write(convertToBin(sizeOfEncryptedFile).charAt(i) );
+            fw.write(convertToBin(sizeOfEncryptedFile).charAt(i));
         }
         Log.info("Additional zeroes: " + additionalZeroes);
-        int i;
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(fr, StandardCharsets.UTF_8));
         CharChain chain = new CharChain(lengthOfSequence);
-        while ((i = fr.read()) != -1) {
-            chain.add(i);
-            Log.info("Chain: " + chain);
-            if (chain.isFull()) {
-                 String toWrite = dictionary.getCode(chain);
-                 CharChain temp = (CharChain) dictionary.getNode(chain).getKey();
-                 for (int j = 0; j < toWrite.length(); j++) {
-                     fw.write(toWrite.charAt(j));
-                 }
-                 fw.write(temp.getChain()[0]);
-//                fw.write(dictionary.getCode(chain));
-//                fw.write(dictionary.getNode(chain).getKey().toString());
-                chain = new CharChain(lengthOfSequence);
+        char[] buffer = new char[8192];
+        int charsRead;
+
+        while ((charsRead = reader.read(buffer)) != -1) {
+            for (int i = 0; i < charsRead; i++) {
+                chain.add(buffer[i]);
+                Log.info("Chain: " + chain);
+
+                if (chain.isFull()) {
+                    String toWrite = dictionary.getCode(chain);
+                    CharChain temp = (CharChain) dictionary.getNode(chain).getKey();
+
+                    for (int j = 0; j < toWrite.length(); j++) {
+                        fw.write(toWrite.charAt(j));
+                    }
+
+                    fw.write(temp.getChain()[0]);
+
+                    chain = new CharChain(lengthOfSequence);
+                }
             }
         }
+
         if (chain.isNorEmpty()) {
             String toWrite = dictionary.getCode(chain);
             for (int j = 0; j < toWrite.length(); j++) {
                 fw.write(toWrite.charAt(j));
             }
         }
-        fr.close();
 
         for (int k = 0; k < additionalZeroes; k++) {
             fw.write('0');
         }
+
+        fr.close();
         fw.close();
     }
 }

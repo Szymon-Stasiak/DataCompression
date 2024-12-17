@@ -119,7 +119,7 @@ class CharChainTest {
         charChain2.add('z');
         charChain2.add('b');
         charChain2.add('d');
-        assert (charChain1.compareTo(charChain2) > 0);
+        assert (charChain1.compareTo(charChain2) < 0);
     }
 
     @Test
@@ -132,7 +132,7 @@ class CharChainTest {
         charChain2.add('a');
         charChain2.add('b');
         charChain2.add('b');
-        assert (charChain1.compareTo(charChain2) < 0);
+        assert (charChain1.compareTo(charChain2) > 0);
     }
 
     @Test
@@ -141,7 +141,8 @@ class CharChainTest {
         charChain.add('a');
         charChain.add('b');
         charChain.add('c');
-        assertEquals("abc", charChain.toString());
+
+        assertEquals("979899", charChain.toString());
     }
 
     @Test
@@ -149,6 +150,6 @@ class CharChainTest {
         CharChain charChain = new CharChain(56);
         charChain.add('a');
         charChain.add('c');
-        assertEquals("ac", charChain.toString());
+        assertEquals("9799", charChain.toString());
     }
 }

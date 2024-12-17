@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 class BFSIteratorTest {
 
-
     @Test
     void should_properly_checkIfHasNext() {
         WordNode<String> wordNode = new WordNode<>("word", 1);
@@ -53,7 +52,6 @@ class BFSIteratorTest {
         wordNode2.setLeft(wordNode3);
         wordNode3.setLeft(wordNode4);
         wordNode4.setLeft(wordNode5);
-
 
         BFSIterator<WordNode<String>> bfsIterator = new BFSIterator<>(wordNode);
 

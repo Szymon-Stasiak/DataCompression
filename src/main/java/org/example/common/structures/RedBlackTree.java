@@ -4,12 +4,10 @@ import static org.example.enums.Color.BLACK;
 import static org.example.enums.Color.RED;
 
 import java.util.Iterator;
-
 import org.example.common.tools.BFSIterator;
-import org.example.encrypter.structures.QueueBFS;
 import org.example.service.MapInterface;
 
-public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, Iterable<WordNode<K>>{
+public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, Iterable<WordNode<K>> {
 
     private WordNode<K> root;
 
@@ -74,7 +72,7 @@ public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, I
         return key.compareTo(node.getKey()) > 0;
     }
 
-    //TODO delete Iteration
+    // TODO delete Iteration
     private WordNode<K> put(WordNode<K> node, K key) {
 
         if (node == null) {
@@ -188,7 +186,4 @@ public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, I
     public Iterator<WordNode<K>> iterator() {
         return new BFSIterator<>(root);
     }
-
-
-
 }

@@ -17,7 +17,7 @@ public class CharChain implements Comparable<CharChain> {
         }
     }
 
-    public  int[] getChain(){
+    public int[] getChain() {
         return chain;
     }
 

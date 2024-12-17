@@ -1,17 +1,15 @@
 package org.example.encrypter.structures;
 
+import java.util.Iterator;
 import lombok.Getter;
 import org.example.common.structures.RedBlackTree;
-import org.example.common.structures.WordNode;
 import org.example.common.tools.BFSIterator;
-
-import java.util.Iterator;
-
 
 public class HuffmanTree implements Iterable<HuffmanTreeNode> {
 
     @Getter
     private HuffmanTreeNode root;
+
     private final HuffmanNodePriorityQueue heap;
 
     public HuffmanTree(RedBlackTree redBlackTree) {
@@ -57,10 +55,4 @@ public class HuffmanTree implements Iterable<HuffmanTreeNode> {
     public Iterator<HuffmanTreeNode> iterator() {
         return new BFSIterator<>(root);
     }
-
-
-
-
 }
-
-

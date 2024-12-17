@@ -6,7 +6,7 @@ import org.example.enums.Color;
 import org.example.service.TreeNode;
 
 @Data
-public class HuffmanTreeNode  implements Comparable<HuffmanTreeNode> , TreeNode<HuffmanTreeNode> {
+public class HuffmanTreeNode implements Comparable<HuffmanTreeNode>, TreeNode<HuffmanTreeNode> {
 
     private HuffmanTreeNode left;
     private HuffmanTreeNode right;
@@ -29,6 +29,4 @@ public class HuffmanTreeNode  implements Comparable<HuffmanTreeNode> , TreeNode<
     public int compareTo(HuffmanTreeNode o) {
         return Integer.compare(value, o.getValue());
     }
-
-
 }

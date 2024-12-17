@@ -192,16 +192,17 @@ class HuffmanTreeAppTest {
         assertThrows(FilePathsAreTheSameException.class, () -> app.run(args));
     }
 
-        @Test
-        public void should_throwSequencesCantBeLessThanZeroException() {
-            HelpPrinter mockPrinter = mock(HelpPrinter.class);
+    @Test
+    public void should_throwSequencesCantBeLessThanZeroException() {
+        HelpPrinter mockPrinter = mock(HelpPrinter.class);
 
-            HuffmanTreeApp app = new HuffmanTreeApp(mockPrinter);
+        HuffmanTreeApp app = new HuffmanTreeApp(mockPrinter);
 
-            String[] args = {"--in", "src/main/resources/dane.txt", "--out", "src/main/resources/encoded.txt",
-     "--length", "0"};
-            assertThrows(SequencesCantBeLessThanZeroException.class, () -> app.run(args));
-        }
+        String[] args = {
+            "--in", "src/main/resources/dane.txt", "--out", "src/main/resources/encoded.txt", "--length", "0"
+        };
+        assertThrows(SequencesCantBeLessThanZeroException.class, () -> app.run(args));
+    }
 
     //    @Test
     //    public void should_correctCodeOCoChodzi() {

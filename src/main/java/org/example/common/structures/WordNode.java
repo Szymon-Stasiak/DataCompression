@@ -7,7 +7,7 @@ import org.example.enums.Color;
 import org.example.service.TreeNode;
 
 @Data
-public class WordNode<K extends Comparable<K>> implements Comparable<WordNode<K>> , TreeNode<WordNode<K>>{
+public class WordNode<K extends Comparable<K>> implements Comparable<WordNode<K>>, TreeNode<WordNode<K>> {
 
     private int counter = 0;
     private K key;
