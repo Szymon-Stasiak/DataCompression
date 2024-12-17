@@ -42,13 +42,24 @@ public class Encrypter {
             FileInputStream fr = new FileInputStream(inputPath);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fr, StandardCharsets.UTF_8));
 
+            int codePoint;
             CharChain chain = new CharChain(lengthOfSequence);
             char[] buffer = new char[8192];
-            int charsRead;
-
-            while ((charsRead = reader.read(buffer)) != -1) {
+            while (true) {
+                int charsRead = reader.read(buffer);
+                if (charsRead == -1) {
+                    break; // Koniec pliku
+                }
                 for (int i = 0; i < charsRead; i++) {
-                    chain.add(buffer[i]);
+                    codePoint = buffer[i];
+                    if (Character.isHighSurrogate((char) codePoint)) {
+                        if (i + 1 < charsRead) {
+                            int lowSurrogate = buffer[i + 1];
+                            codePoint = Character.toCodePoint((char) codePoint, (char) lowSurrogate);
+                            i++; // Przechodzimy do następnego znaku
+                        }
+                    }
+                    chain.add(codePoint);
                     if (chain.isFull()) {
                         dictionary.addAt(chain);
                         Log.info("Chain added: " + chain);
@@ -115,20 +126,32 @@ public class Encrypter {
     public void writeToFileForSequence() throws IOException {
         FileInputStream fr = new FileInputStream(inputPath);
         FileOutputStream fw = new FileOutputStream(outputPath + "zeroOnes.txt");
-
         for (int i = 0; i < 3; i++) {
             fw.write(convertToBin(sizeOfEncryptedFile).charAt(i));
         }
         Log.info("Additional zeroes: " + additionalZeroes);
 
+        int codePoint;
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(fr, StandardCharsets.UTF_8));
         CharChain chain = new CharChain(lengthOfSequence);
         char[] buffer = new char[8192];
-        int charsRead;
-
-        while ((charsRead = reader.read(buffer)) != -1) {
+        while (true) {
+            int charsRead = reader.read(buffer);
+            if (charsRead == -1) {
+                break; // Koniec pliku
+            }
             for (int i = 0; i < charsRead; i++) {
-                chain.add(buffer[i]);
+                codePoint = buffer[i];
+                // Jeśli znak jest częścią pary zastępczej, sprawdzamy drugi znak
+                if (Character.isHighSurrogate((char) codePoint)) {
+                    if (i + 1 < charsRead) {
+                        int lowSurrogate = buffer[i + 1];
+                        codePoint = Character.toCodePoint((char) codePoint, (char) lowSurrogate);
+                        i++; // Przechodzimy do następnego znaku
+                    }
+                }
+                chain.add(codePoint);
                 Log.info("Chain: " + chain);
 
                 if (chain.isFull()) {
