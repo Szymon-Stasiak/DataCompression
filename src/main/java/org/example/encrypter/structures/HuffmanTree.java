@@ -1,9 +1,15 @@
 package org.example.encrypter.structures;
 
+import lombok.Getter;
 import org.example.common.structures.RedBlackTree;
+import org.example.common.structures.WordNode;
 
-public class HuffmanTree {
+import java.util.Iterator;
 
+
+public class HuffmanTree implements Iterable<HuffmanTreeNode> {
+
+    @Getter
     private HuffmanTreeNode root;
     private final HuffmanNodePriorityQueue heap;
 
@@ -45,4 +51,42 @@ public class HuffmanTree {
         generateCodes(node.getRight(), code + "1");
         generateCodes(node.getLeft(), code + "0");
     }
+
+    @Override
+    public Iterator<HuffmanTreeNode> iterator() {
+        return new BFSIterator();
+    }
+
+    private class BFSIterator implements Iterator<HuffmanTreeNode> {
+        private final QueueBFS<HuffmanTreeNode> queue;
+        private HuffmanTreeNode current;
+
+        public BFSIterator() {
+            queue = new QueueBFS<>();
+            if (root != null) {
+                queue.add(root);
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !queue.isEmpty();
+        }
+
+        @Override
+        public HuffmanTreeNode next() {
+            current = queue.poll();
+            if (current.getLeft() != null) {
+                queue.add(current.getLeft());
+            }
+            if (current.getRight() != null) {
+                queue.add(current.getRight());
+            }
+            return current;
+        }
+    }
+
+
 }
+
+

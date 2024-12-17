@@ -4,10 +4,12 @@ import static org.example.enums.Color.BLACK;
 import static org.example.enums.Color.RED;
 
 import java.util.Iterator;
+
+import org.example.common.tools.BFSIterator;
 import org.example.encrypter.structures.QueueBFS;
 import org.example.service.MapInterface;
 
-public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, Iterable<WordNode<K>> {
+public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, Iterable<WordNode<K>>{
 
     private WordNode<K> root;
 
@@ -72,6 +74,7 @@ public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, I
         return key.compareTo(node.getKey()) > 0;
     }
 
+    //TODO delete Iteration
     private WordNode<K> put(WordNode<K> node, K key) {
 
         if (node == null) {
@@ -183,41 +186,9 @@ public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, I
 
     @Override
     public Iterator<WordNode<K>> iterator() {
-        return new BFSIterator();
+        return new BFSIterator(root);
     }
 
-    private class BFSIterator implements Iterator<WordNode<K>> {
-        private final QueueBFS<WordNode<K>> queue;
 
-        public BFSIterator() {
-            queue = new QueueBFS<>();
-            if (root != null) {
-                queue.add(root);
-            }
-        }
 
-        @Override
-        public boolean hasNext() {
-            return !queue.isEmpty();
-        }
-
-        @Override
-        public WordNode<K> next() {
-            if (!hasNext()) {
-                throw new IllegalStateException("No more elements in the tree");
-            }
-
-            WordNode<K> currentNode = queue.poll();
-
-            if (currentNode.getLeft() != null) {
-                queue.add(currentNode.getLeft());
-            }
-
-            if (currentNode.getRight() != null) {
-                queue.add(currentNode.getRight());
-            }
-
-            return currentNode;
-        }
-    }
 }

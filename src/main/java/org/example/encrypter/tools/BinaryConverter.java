@@ -17,4 +17,13 @@ public class BinaryConverter {
         }
         return result;
     }
+
+    public static String convertByteSizeToBinValue(int size) {
+        return switch (size) {
+            case 1 -> "00";
+            case 2 -> "01";
+            case 3 -> "10";
+            default -> "11";
+        };
+    }
 }

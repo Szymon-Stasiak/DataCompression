@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import java.io.File;
 import org.example.common.tools.HelpPrinter;
 import org.example.exceptions.FilePathsAreTheSameException;
+import org.example.exceptions.SequencesCantBeLessThanZeroException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ class HuffmanTreeAppTest {
     void should_properlySetPaths() {
         String inputPath = "src/test/java/utils/ocochodzi.txt";
         String outputPath = "src/main/resources/encodedTest.txt";
-        String[] args = {"--in", inputPath, "--out", outputPath, "--length", "1"};
+        String[] args = {"--in", inputPath, "--out", outputPath, "--length", "2"};
         HuffmanTreeApp.main(args);
         assertTrue(new java.io.File(inputPath).exists());
         assertTrue(new java.io.File(outputPath).exists());
@@ -191,16 +192,16 @@ class HuffmanTreeAppTest {
         assertThrows(FilePathsAreTheSameException.class, () -> app.run(args));
     }
 
-    //    @Test
-    //    public void should_throwSequencesCantBeLessThanZeroException() {
-    //        HelpPrinter mockPrinter = mock(HelpPrinter.class);
-    //
-    //        HuffmanTreeApp app = new HuffmanTreeApp(mockPrinter);
-    //
-    //        String[] args = {"--in", "src/main/resources/dane.txt", "--out", "src/main/resources/encoded.txt",
-    // "--length", "0"};
-    //        assertThrows(FilePathsAreTheSameException.class, () -> app.run(args));
-    //    }
+        @Test
+        public void should_throwSequencesCantBeLessThanZeroException() {
+            HelpPrinter mockPrinter = mock(HelpPrinter.class);
+
+            HuffmanTreeApp app = new HuffmanTreeApp(mockPrinter);
+
+            String[] args = {"--in", "src/main/resources/dane.txt", "--out", "src/main/resources/encoded.txt",
+     "--length", "0"};
+            assertThrows(SequencesCantBeLessThanZeroException.class, () -> app.run(args));
+        }
 
     //    @Test
     //    public void should_correctCodeOCoChodzi() {
