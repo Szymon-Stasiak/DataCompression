@@ -4,13 +4,24 @@ import static java.sql.Types.NULL;
 
 public class CharChain implements Comparable<CharChain> {
 
-    private char[] chain;
+    private int[] chain;
 
     public CharChain(int size) {
-        chain = new char[size];
+        chain = new int[size];
     }
 
-    public void add(char c) {
+    public CharChain(String s) {
+        chain = new int[s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            chain[i] = s.charAt(i);
+        }
+    }
+
+    public  int[] getChain(){
+        return chain;
+    }
+
+    public void add(int c) {
         for (int i = 0; i < chain.length; i++) {
             if (chain[i] == 0) {
                 chain[i] = c;
@@ -20,7 +31,7 @@ public class CharChain implements Comparable<CharChain> {
     }
 
     public boolean isFull() {
-        for (char c : chain) {
+        for (int c : chain) {
             if (c == 0) {
                 return false;
             }
@@ -29,7 +40,7 @@ public class CharChain implements Comparable<CharChain> {
     }
 
     public boolean isNorEmpty() {
-        for (char c : chain) {
+        for (int c : chain) {
             if (c != 0) {
                 return true;
             }
@@ -45,7 +56,7 @@ public class CharChain implements Comparable<CharChain> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (char c : chain) {
+        for (int c : chain) {
             if (c != NULL) {
                 sb.append(c);
             }

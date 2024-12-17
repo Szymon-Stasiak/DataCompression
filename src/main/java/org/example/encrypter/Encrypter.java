@@ -2,10 +2,7 @@ package org.example.encrypter;
 
 import static org.example.encrypter.tools.BinaryConverter.convertToBin;
 
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import org.example.common.structures.CharChain;
@@ -42,11 +39,11 @@ public class Encrypter {
     private void makeDictionary() {
         dictionary = new RedBlackTree<CharChain>();
         try {
-            FileReader fr = new FileReader(inputPath, StandardCharsets.UTF_8);
+            FileInputStream fr = new FileInputStream(inputPath);
             CharChain chain = new CharChain(lengthOfSequence);
             int i;
             while ((i = fr.read()) != -1) {
-                chain.add((char) i);
+                chain.add( i);
                 if (chain.isFull()) {
                     dictionary.addAt(chain);
                     Log.info("Chain added: " + chain);
@@ -77,13 +74,13 @@ public class Encrypter {
 
     private void writeToFile() throws IOException {
         try (FileOutputStream fw = new FileOutputStream(this.outputPath)) {
-            FileReader fr = new FileReader(this.inputPath, StandardCharsets.UTF_8);
+            InputStream fr = new FileInputStream(this.inputPath);
             StringBuilder byteCode = new StringBuilder();
             byteCode.append(convertToBin(additionalZeroes));
             CharChain chain = new CharChain(lengthOfSequence);
             int i;
             while ((i = fr.read()) != -1) {
-                chain.add((char) i);
+                chain.add(i);
                 if (chain.isFull()) {
                     byteCode.append(dictionary.getCode(chain));
                     chain = new CharChain(lengthOfSequence);
@@ -108,28 +105,39 @@ public class Encrypter {
     }
 
     public void writeToFileForSequence() throws IOException {
-        FileWriter fw = new FileWriter(this.outputPath + "zeroOne.txt");
-        FileReader fr = new FileReader(this.inputPath, StandardCharsets.UTF_8);
-        fw.write(convertToBin(additionalZeroes));
+        FileInputStream fr = new FileInputStream(inputPath);
+        FileOutputStream fw = new FileOutputStream(outputPath+"zeroOnes.txt");
+        for (int i = 0; i < 3; i++) {
+            fw.write(convertToBin(sizeOfEncryptedFile).charAt(i) );
+        }
         Log.info("Additional zeroes: " + additionalZeroes);
         int i;
         CharChain chain = new CharChain(lengthOfSequence);
         while ((i = fr.read()) != -1) {
-            chain.add((char) i);
+            chain.add(i);
+            Log.info("Chain: " + chain);
             if (chain.isFull()) {
-                fw.write(dictionary.getCode(chain));
-                fw.write(dictionary.getNode(chain).getKey().toString());
+                 String toWrite = dictionary.getCode(chain);
+                 CharChain temp = (CharChain) dictionary.getNode(chain).getKey();
+                 for (int j = 0; j < toWrite.length(); j++) {
+                     fw.write(toWrite.charAt(j));
+                 }
+                 fw.write(temp.getChain()[0]);
+//                fw.write(dictionary.getCode(chain));
+//                fw.write(dictionary.getNode(chain).getKey().toString());
                 chain = new CharChain(lengthOfSequence);
             }
         }
         if (chain.isNorEmpty()) {
-            fw.write(dictionary.getCode(chain));
-            fw.write(dictionary.getNode(chain).getKey().toString());
+            String toWrite = dictionary.getCode(chain);
+            for (int j = 0; j < toWrite.length(); j++) {
+                fw.write(toWrite.charAt(j));
+            }
         }
         fr.close();
 
         for (int k = 0; k < additionalZeroes; k++) {
-            fw.write("0");
+            fw.write('0');
         }
         fw.close();
     }
