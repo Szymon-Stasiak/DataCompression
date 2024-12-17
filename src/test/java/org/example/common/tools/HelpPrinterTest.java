@@ -1,10 +1,9 @@
-package org.example.common;
+package org.example.common.tools;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
 import org.junit.jupiter.api.Test;
 
 public class HelpPrinterTest {

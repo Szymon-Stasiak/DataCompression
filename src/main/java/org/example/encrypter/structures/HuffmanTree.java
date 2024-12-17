@@ -1,6 +1,6 @@
-package org.example.encrypter;
+package org.example.encrypter.structures;
 
-import org.example.common.RedBlackTree;
+import org.example.common.structures.RedBlackTree;
 
 public class HuffmanTree {
 
@@ -36,6 +36,7 @@ public class HuffmanTree {
         generateCodes(root, "");
     }
 
+    // TODO delete recursion
     private void generateCodes(HuffmanTreeNode node, String code) {
         if (node.getLeft() == null && node.getRight() == null) {
             node.getWordNode().setCode(code);

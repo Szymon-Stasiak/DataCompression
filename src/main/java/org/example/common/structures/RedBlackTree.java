@@ -1,53 +1,51 @@
-package org.example.common;
+package org.example.common.structures;
 
 import static org.example.enums.Color.BLACK;
 import static org.example.enums.Color.RED;
 
 import java.util.Iterator;
-import lombok.Getter;
-import org.example.encrypter.QueueBFS;
+import org.example.encrypter.structures.QueueBFS;
 import org.example.service.MapInterface;
 
 public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, Iterable<WordNode<K>> {
 
-    @Getter
     private WordNode<K> root;
 
     public WordNode<K> getNode(K key) {
         validateKey(key);
-        WordNode<K> pair = root;
+        WordNode<K> node = root;
 
-        while (pair != null) {
+        while (node != null) {
 
-            if (shouldCheckOnTheLeft(key, pair)) {
-                pair = pair.getLeft();
+            if (shouldCheckOnTheLeft(key, node)) {
+                node = node.getLeft();
 
-            } else if (shouldCheckOnTheRight(key, pair)) {
-                pair = pair.getRight();
+            } else if (shouldCheckOnTheRight(key, node)) {
+                node = node.getRight();
 
             } else {
                 break;
             }
         }
-        return pair;
+        return node;
     }
 
     public String getCode(K key) {
         validateKey(key);
-        WordNode<K> pair = root;
+        WordNode<K> node = root;
 
         String result = "";
 
-        while (pair != null) {
+        while (node != null) {
 
-            if (shouldCheckOnTheLeft(key, pair)) {
-                pair = pair.getLeft();
+            if (shouldCheckOnTheLeft(key, node)) {
+                node = node.getLeft();
 
-            } else if (shouldCheckOnTheRight(key, pair)) {
-                pair = pair.getRight();
+            } else if (shouldCheckOnTheRight(key, node)) {
+                node = node.getRight();
 
             } else {
-                result = pair.getCode();
+                result = node.getCode();
                 break;
             }
         }

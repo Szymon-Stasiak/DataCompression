@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.io.File;
-import org.example.common.HelpPrinter;
+import org.example.common.tools.HelpPrinter;
 import org.example.exceptions.FilePathsAreTheSameException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ class HuffmanTreeAppTest {
     void should_properlySetPaths() {
         String inputPath = "src/test/java/utils/ocochodzi.txt";
         String outputPath = "src/main/resources/encodedTest.txt";
-        String[] args = {"--in", inputPath, "--out", outputPath};
+        String[] args = {"--in", inputPath, "--out", outputPath, "--length", "1"};
         HuffmanTreeApp.main(args);
         assertTrue(new java.io.File(inputPath).exists());
         assertTrue(new java.io.File(outputPath).exists());
@@ -123,6 +123,17 @@ class HuffmanTreeAppTest {
     }
 
     @Test
+    void should_properlySetPathsWhenIsLackOfArgs7() {
+        String inputPath = "src/main/resources/dane.txt";
+        String outputPath = "src/main/resources/encoded.txt";
+        String[] args = {"--length"};
+        HuffmanTreeApp.main(args);
+        assertTrue(new java.io.File(inputPath).exists());
+        assertTrue(new java.io.File(outputPath).exists());
+        new File(outputPath).delete();
+    }
+
+    @Test
     public void testPrintHelp1Called() {
         HelpPrinter mockPrinter = mock(HelpPrinter.class);
 
@@ -179,6 +190,17 @@ class HuffmanTreeAppTest {
         String[] args = {"--in", "src/main/resources/dane.txt", "--out", "src/main/resources/dane.txt"};
         assertThrows(FilePathsAreTheSameException.class, () -> app.run(args));
     }
+
+    //    @Test
+    //    public void should_throwSequencesCantBeLessThanZeroException() {
+    //        HelpPrinter mockPrinter = mock(HelpPrinter.class);
+    //
+    //        HuffmanTreeApp app = new HuffmanTreeApp(mockPrinter);
+    //
+    //        String[] args = {"--in", "src/main/resources/dane.txt", "--out", "src/main/resources/encoded.txt",
+    // "--length", "0"};
+    //        assertThrows(FilePathsAreTheSameException.class, () -> app.run(args));
+    //    }
 
     //    @Test
     //    public void should_correctCodeOCoChodzi() {

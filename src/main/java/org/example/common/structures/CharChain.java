@@ -1,10 +1,10 @@
-package org.example.enums;
+package org.example.common.structures;
 
 import static java.sql.Types.NULL;
 
 public class CharChain implements Comparable<CharChain> {
 
-    char[] chain;
+    private char[] chain;
 
     public CharChain(int size) {
         chain = new char[size];
@@ -39,7 +39,7 @@ public class CharChain implements Comparable<CharChain> {
 
     @Override
     public int compareTo(CharChain o) {
-        return this.toString().compareTo(o.toString());
+        return -this.toString().compareTo(o.toString());
     }
 
     @Override

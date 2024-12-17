@@ -1,4 +1,4 @@
-package org.example.common;
+package org.example.common.structures;
 
 import static org.example.enums.Color.RED;
 
@@ -37,7 +37,7 @@ public class WordNode<K extends Comparable<K>> implements Comparable<WordNode<K>
 
     @Override
     public int compareTo(WordNode<K> o) {
-        return key.compareTo(o.getKey());
+        return -key.compareTo(o.getKey());
     }
 
     //    @Override

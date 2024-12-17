@@ -25,6 +25,12 @@ class EncrypterTest {
     }
 
     //    @Test
+    //    void shouldThrowExceptionSequencesCantBeLessThanZero() {
+    //        assertThrows(SequencesCantBeLessThanZeroException.class, () -> new
+    // Encrypter("src/main/resources/dane.txt", "src/main/resources/encoded.txt",1));
+    //    }
+
+    //    @Test
     //    void shouldThrowExceptionWhenInputFileIsEmpty() {
     //        assertThrows(
     //                InputFileNotFoundException.class,

@@ -1,6 +1,6 @@
 package org.example.encrypter;
 
-import static org.example.encrypter.BinaryConverter.convertToBin;
+import static org.example.encrypter.tools.BinaryConverter.convertToBin;
 
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -8,9 +8,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
-import org.example.common.RedBlackTree;
-import org.example.common.WordNode;
-import org.example.enums.CharChain;
+import org.example.common.structures.CharChain;
+import org.example.common.structures.RedBlackTree;
+import org.example.common.structures.WordNode;
+import org.example.encrypter.structures.HuffmanTree;
 import org.example.exceptions.InputFileNotFoundException;
 import org.example.exceptions.OutputFIleNotFoundException;
 import org.example.logger.Log;

@@ -1,8 +1,9 @@
 package org.example;
 
-import org.example.common.HelpPrinter;
+import org.example.common.tools.HelpPrinter;
 import org.example.encrypter.Encrypter;
 import org.example.exceptions.FilePathsAreTheSameException;
+import org.example.exceptions.SequencesCantBeLessThanZeroException;
 import org.example.logger.Log;
 
 public class HuffmanTreeApp {
@@ -22,7 +23,7 @@ public class HuffmanTreeApp {
     public void run(String[] args) {
         String inputPath = "src/main/resources/dane.txt";
         String outputPath = "src/main/resources/encoded.txt";
-        int lengthOfSequence = 3;
+        int lengthOfSequence = 1;
         Log.info("Application started");
 
         for (int i = 0; i < args.length; i++) {
@@ -42,6 +43,10 @@ public class HuffmanTreeApp {
         if (inputPath.equals(outputPath)) {
             throw new FilePathsAreTheSameException(
                     "Input and output paths are the same. You have to choose different paths.");
+        }
+        System.out.println("Length of sequence: " + lengthOfSequence);
+        if (lengthOfSequence < 1) {
+            throw new SequencesCantBeLessThanZeroException("Length of sequence has to be greater than 0.");
         }
         new Encrypter(inputPath, outputPath, lengthOfSequence);
     }

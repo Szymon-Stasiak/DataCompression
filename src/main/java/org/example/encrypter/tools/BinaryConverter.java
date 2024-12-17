@@ -1,4 +1,4 @@
-package org.example.encrypter;
+package org.example.encrypter.tools;
 
 public class BinaryConverter {
 
