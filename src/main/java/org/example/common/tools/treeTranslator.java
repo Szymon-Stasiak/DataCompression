@@ -29,6 +29,36 @@ public class treeTranslator<K extends Comparable<K>> {
         return size;
     }
 
+    public static String convertIntToBinary(int value) {
+        if (value <= 0x7F) {
+            return String.format("%8s", Integer.toBinaryString(value)).replace(' ', '0');
+        } else if (value <= 0x7FF) {
+            int byte1 = 0xC0 | (value >> 6);
+            int byte2 = 0x80 | (value & 0x3F);
+            return String.format("%8s", Integer.toBinaryString(byte1)).replace(' ', '0') +
+                    String.format("%8s", Integer.toBinaryString(byte2)).replace(' ', '0');
+        } else if (value <= 0xFFFF) {
+            int byte1 = 0xE0 | (value >> 12);
+            int byte2 = 0x80 | ((value >> 6) & 0x3F);
+            int byte3 = 0x80 | (value & 0x3F);
+            return String.format("%8s", Integer.toBinaryString(byte1)).replace(' ', '0') +
+                    String.format("%8s", Integer.toBinaryString(byte2)).replace(' ', '0') +
+                    String.format("%8s", Integer.toBinaryString(byte3)).replace(' ', '0');
+        } else if (value <= 0x10FFFF) {
+            int byte1 = 0xF0 | (value >> 18);
+            int byte2 = 0x80 | ((value >> 12) & 0x3F);
+            int byte3 = 0x80 | ((value >> 6) & 0x3F);
+            int byte4 = 0x80 | (value & 0x3F);
+            return String.format("%8s", Integer.toBinaryString(byte1)).replace(' ', '0') +
+                    String.format("%8s", Integer.toBinaryString(byte2)).replace(' ', '0') +
+                    String.format("%8s", Integer.toBinaryString(byte3)).replace(' ', '0') +
+                    String.format("%8s", Integer.toBinaryString(byte4)).replace(' ', '0');
+        } else {
+            throw new IllegalArgumentException("Value out of range for UTF-8");
+        }
+    }
+
+
     public static String speaceNeededToWriteCharacter(int bytesOfTheBiggestChar, char c) {
         if (bytesOfTheBiggestChar == 1) {
             return "";
