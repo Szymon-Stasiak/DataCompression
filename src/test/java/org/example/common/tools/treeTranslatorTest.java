@@ -1,8 +1,8 @@
 package org.example.common.tools;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 class treeTranslatorTest {
 
@@ -29,5 +29,4 @@ class treeTranslatorTest {
         String result = treeTranslator.convertIntToBinary(66376);
         assertEquals("11110000100100001000110110001000", result);
     }
-
 }
