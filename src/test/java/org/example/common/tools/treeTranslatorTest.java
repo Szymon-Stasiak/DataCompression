@@ -29,4 +29,10 @@ class treeTranslatorTest {
         String result = treeTranslator.convertIntToBinary(66376);
         assertEquals("11110000100100001000110110001000", result);
     }
+
+    @Test
+    void should_properly_convertSmileCharacterToBinary() {
+        String result = treeTranslator.convertIntToBinary(128578);
+        assertEquals("11110000100111111001100110000010", result);
+    }
 }
