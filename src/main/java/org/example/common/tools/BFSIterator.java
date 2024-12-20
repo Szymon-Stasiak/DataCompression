@@ -1,7 +1,7 @@
 package org.example.common.tools;
 
 import java.util.Iterator;
-import org.example.encrypter.structures.Queue;
+import org.example.common.structures.Queue;
 import org.example.service.TreeNode;
 
 public class BFSIterator<T extends TreeNode<T>> implements Iterator<T> {

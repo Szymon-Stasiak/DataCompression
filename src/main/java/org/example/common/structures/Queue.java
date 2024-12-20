@@ -1,4 +1,4 @@
-package org.example.encrypter.structures;
+package org.example.common.structures;
 
 public class Queue<T> implements org.example.service.QueueInterface<T> {
     // TODO own implementation of Queue

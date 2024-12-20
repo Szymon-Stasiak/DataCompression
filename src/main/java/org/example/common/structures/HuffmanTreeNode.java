@@ -1,8 +1,6 @@
-package org.example.encrypter.structures;
+package org.example.common.structures;
 
 import lombok.Data;
-import org.example.common.structures.CharChain;
-import org.example.common.structures.WordNode;
 import org.example.enums.Color;
 import org.example.service.TreeNode;
 

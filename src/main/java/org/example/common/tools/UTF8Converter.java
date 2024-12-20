@@ -1,9 +1,6 @@
 package org.example.common.tools;
 
-import org.example.logger.Log;
-
 public class UTF8Converter {
-
 
     public static String convertIntToUTF8(int value) {
         if (value <= 0x7F) {
@@ -66,5 +63,4 @@ public class UTF8Converter {
             throw new IllegalArgumentException("Invalid UTF-8 binary string length");
         }
     }
-
 }

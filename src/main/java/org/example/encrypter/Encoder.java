@@ -1,15 +1,14 @@
 package org.example.encrypter;
 
-import static org.example.encrypter.tools.TreeEncoder.encryptTreeAndReturnSize01;
 import static org.example.common.tools.BinaryConverter.convertToBin3Signs;
+import static org.example.encrypter.tools.TreeEncoder.encryptTreeAndReturnSize01;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-
 import org.example.common.structures.CharChain;
 import org.example.common.structures.Dictionary;
+import org.example.common.structures.HuffmanTree;
 import org.example.common.structures.WordNode;
-import org.example.encrypter.structures.HuffmanTree;
 import org.example.exceptions.InputFileNotFoundException;
 import org.example.exceptions.OutputFIleNotFoundException;
 import org.example.logger.Log;
@@ -38,7 +37,7 @@ public class Encoder {
     }
 
     public void writeEncryptCodeToFile() throws IOException {
-        FileOutputStream fw = new FileOutputStream(outputPath + "zeroOnes.txt");
+        FileOutputStream fw = new FileOutputStream(outputPath);
         writeEncryptedTreeToFile(fw);
         countSizeOfEncryptedFileForSequences();
         writeToFileForSequence(fw);
@@ -81,7 +80,6 @@ public class Encoder {
         } catch (IOException e) {
             throw new InputFileNotFoundException("File with path '" + inputPath + "' not found");
         }
-
     }
 
     private void writeEncryptedTreeToFile(FileOutputStream fw) throws IOException {
@@ -99,39 +97,38 @@ public class Encoder {
         Log.info("Additional zeroes: " + additionalZeroes);
     }
 
-
-    //TODO bytes
-//    private void writeToFile() throws IOException {
-//        try (FileOutputStream fw = new FileOutputStream(this.outputPath)) {
-//            InputStream fr = new FileInputStream(this.inputPath);
-//            StringBuilder byteCode = new StringBuilder();
-//            byteCode.append(convertToBin3Signs(additionalZeroes));
-//            CharChain chain = new CharChain(lengthOfSequence);
-//            int i;
-//            while ((i = fr.read()) != -1) {
-//                chain.add(i);
-//                if (chain.isFull()) {
-//                    byteCode.append(dictionary.getCode(chain));
-//                    chain = new CharChain(lengthOfSequence);
-//                    while (byteCode.length() >= 8) {
-//                        String temp = byteCode.substring(0, 8);
-//                        fw.write((byte) Integer.parseInt(temp, 2));
-//                        byteCode.delete(0, 8);
-//                    }
-//                }
-//            }
-//            if (chain.isNorEmpty()) {
-//                byteCode.append(dictionary.getCode(chain));
-//            }
-//            fr.close();
-//            byteCode.append("0".repeat(Math.max(0, additionalZeroes)));
-//            if (byteCode.length() == 8) {
-//                fw.write((byte) Integer.parseInt(byteCode.toString(), 2));
-//            }
-//        } catch (IOException e) {
-//            throw new OutputFIleNotFoundException("File with path '" + outputPath + "' not found");
-//        }
-//    }
+    // TODO bytes
+    //    private void writeToFile() throws IOException {
+    //        try (FileOutputStream fw = new FileOutputStream(this.outputPath)) {
+    //            InputStream fr = new FileInputStream(this.inputPath);
+    //            StringBuilder byteCode = new StringBuilder();
+    //            byteCode.append(convertToBin3Signs(additionalZeroes));
+    //            CharChain chain = new CharChain(lengthOfSequence);
+    //            int i;
+    //            while ((i = fr.read()) != -1) {
+    //                chain.add(i);
+    //                if (chain.isFull()) {
+    //                    byteCode.append(dictionary.getCode(chain));
+    //                    chain = new CharChain(lengthOfSequence);
+    //                    while (byteCode.length() >= 8) {
+    //                        String temp = byteCode.substring(0, 8);
+    //                        fw.write((byte) Integer.parseInt(temp, 2));
+    //                        byteCode.delete(0, 8);
+    //                    }
+    //                }
+    //            }
+    //            if (chain.isNorEmpty()) {
+    //                byteCode.append(dictionary.getCode(chain));
+    //            }
+    //            fr.close();
+    //            byteCode.append("0".repeat(Math.max(0, additionalZeroes)));
+    //            if (byteCode.length() == 8) {
+    //                fw.write((byte) Integer.parseInt(byteCode.toString(), 2));
+    //            }
+    //        } catch (IOException e) {
+    //            throw new OutputFIleNotFoundException("File with path '" + outputPath + "' not found");
+    //        }
+    //    }
 
     public void writeToFileForSequence(FileOutputStream fw) throws IOException {
         FileInputStream fr = new FileInputStream(inputPath);

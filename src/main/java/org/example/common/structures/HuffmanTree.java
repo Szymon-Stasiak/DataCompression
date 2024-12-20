@@ -1,11 +1,8 @@
-package org.example.encrypter.structures;
+package org.example.common.structures;
 
 import java.util.Iterator;
-
 import lombok.Getter;
 import lombok.NonNull;
-import org.example.common.structures.CharChain;
-import org.example.common.structures.Dictionary;
 import org.example.common.tools.BFSIterator;
 
 public class HuffmanTree implements Iterable<HuffmanTreeNode> {
@@ -29,7 +26,6 @@ public class HuffmanTree implements Iterable<HuffmanTreeNode> {
         this.root = root;
         generateCodes();
     }
-
 
     public void handleWhenOnlyOneSequenceExist() {
         root = heap.poll();
@@ -61,8 +57,7 @@ public class HuffmanTree implements Iterable<HuffmanTreeNode> {
     }
 
     @Override
-    @NonNull
-    public Iterator<HuffmanTreeNode> iterator() {
+    @NonNull public Iterator<HuffmanTreeNode> iterator() {
         return new BFSIterator<>(root);
     }
 }

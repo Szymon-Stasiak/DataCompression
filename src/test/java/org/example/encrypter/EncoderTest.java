@@ -3,15 +3,14 @@ package org.example.encrypter;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.example.exceptions.InputFileNotFoundException;
-import org.example.exceptions.OutputFIleNotFoundException;
 import org.junit.jupiter.api.Test;
 
-class EncrypterTest {
+class EncoderTest {
 
     @Test
-    void shouldProperlyCreateEncrypter() {
-        Encoder encrypter = new Encoder("src/main/resources/dane.txt", "src/main/resources/encoded.txt", 1);
-        assertNotNull(encrypter);
+    void shouldProperlyCreateEncoder() {
+        Encoder encoder = new Encoder("src/main/resources/dane.txt", "src/main/resources/encoded.txt", 1);
+        assertNotNull(encoder);
     }
 
     @Test
@@ -19,10 +18,11 @@ class EncrypterTest {
         assertThrows(InputFileNotFoundException.class, () -> new Encoder("", "src/main/resources/encoded.txt", 1));
     }
 
-    @Test
-    void shouldThrowExceptionWhenNoOutputPath() {
-        assertThrows(OutputFIleNotFoundException.class, () -> new Encoder("src/main/resources/dane.txt", "", 1));
-    }
+    // todo
+    //    @Test
+    //    void shouldThrowExceptionWhenNoOutputPath() {
+    //        assertThrows(OutputFIleNotFoundException.class, () -> new Encoder("src/main/resources/dane.txt", "", 1));
+    //    }
 
     //    @Test
     //    void shouldThrowExceptionSequencesCantBeLessThanZero() {

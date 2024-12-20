@@ -1,10 +1,6 @@
-package org.example.encrypter.structures;
+package org.example.common.structures;
 
 import java.util.ArrayList;
-
-import org.example.common.structures.CharChain;
-import org.example.common.structures.Dictionary;
-import org.example.common.structures.WordNode;
 import org.example.service.HeapPriorityQueue;
 
 public class HuffmanNodePriorityQueue extends HeapPriorityQueue<HuffmanTreeNode> {

@@ -4,7 +4,6 @@ import static org.example.enums.Color.BLACK;
 import static org.example.enums.Color.RED;
 
 import java.util.Iterator;
-
 import lombok.NonNull;
 import org.example.common.tools.BFSIterator;
 import org.example.service.MapInterface;
@@ -12,7 +11,7 @@ import org.example.service.MapInterface;
 public class Dictionary<K extends Comparable<K>> implements MapInterface<K>, Iterable<WordNode<K>> {
 
     private WordNode<K> root;
-    private WordNode<K>  toAdd;
+    private WordNode<K> toAdd;
 
     public WordNode<K> getNode(K key) {
         validateKey(key);
@@ -195,8 +194,7 @@ public class Dictionary<K extends Comparable<K>> implements MapInterface<K>, Ite
     }
 
     @Override
-    @NonNull
-    public Iterator<WordNode<K>> iterator() {
+    @NonNull public Iterator<WordNode<K>> iterator() {
         return new BFSIterator<>(root);
     }
 

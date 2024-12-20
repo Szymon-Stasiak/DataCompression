@@ -1,10 +1,10 @@
 package org.example.common.structures;
 
-//to do posible maybe change to K
-
-import lombok.Getter;
+// to do posible maybe change to K
 
 import static java.sql.Types.NULL;
+
+import lombok.Getter;
 
 @Getter
 public class CharChain implements Comparable<CharChain> {
@@ -65,6 +65,4 @@ public class CharChain implements Comparable<CharChain> {
         }
         return sb.toString();
     }
-
-
 }

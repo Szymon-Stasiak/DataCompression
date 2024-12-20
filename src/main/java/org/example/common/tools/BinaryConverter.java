@@ -14,7 +14,6 @@ public class BinaryConverter {
         return String.valueOf(binary);
     }
 
-
     public static String convertToBin3Signs(int number) {
         StringBuilder result = new StringBuilder(convertToBin(number));
         while (result.length() < 3) {

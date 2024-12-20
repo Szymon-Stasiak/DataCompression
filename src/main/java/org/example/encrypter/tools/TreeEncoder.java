@@ -1,14 +1,12 @@
 package org.example.encrypter.tools;
 
-import java.io.*;
-
-import org.example.common.structures.CharChain;
-import org.example.common.tools.BFSIterator;
-import org.example.common.tools.BinaryConverter;
-import org.example.encrypter.structures.HuffmanTreeNode;
-
 import static org.example.common.tools.UTF8Converter.convertIntToUTF8;
 
+import java.io.*;
+import org.example.common.structures.CharChain;
+import org.example.common.structures.HuffmanTreeNode;
+import org.example.common.tools.BFSIterator;
+import org.example.common.tools.BinaryConverter;
 
 public class TreeEncoder {
 
@@ -27,16 +25,15 @@ public class TreeEncoder {
                 byteCode.append("1");
                 size++;
                 CharChain charChain = node.getWordNode().getKey();
-                for (int c : charChain.getChain()) {
-
-                }
-
+                for (int c : charChain.getChain()) {}
             }
         }
         return size;
     }
 
-    public static int encryptTreeAndReturnSize01(HuffmanTreeNode root, boolean hasOneSequence, int lengthOfSequence, FileOutputStream fw) throws IOException {
+    public static int encryptTreeAndReturnSize01(
+            HuffmanTreeNode root, boolean hasOneSequence, int lengthOfSequence, FileOutputStream fw)
+            throws IOException {
         fw.write(hasOneSequence ? '1' : '0');
         String binSizeOfSequence = BinaryConverter.convertToBin4Signs(lengthOfSequence - 1);
         for (int i = 0; i < binSizeOfSequence.length(); i++) {
@@ -68,7 +65,5 @@ public class TreeEncoder {
             }
             size += character.length();
         }
-
     }
 }
-

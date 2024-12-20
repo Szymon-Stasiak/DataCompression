@@ -1,7 +1,6 @@
 package org.example.common.tools;
 
-
-//todo update
+// todo update
 public class HelpPrinter {
     public void printHelp() {
         System.out.println("Usage: java -jar HuffmanTreeApp.jar [options]");
