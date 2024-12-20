@@ -3,12 +3,13 @@ package org.example.common.structures;
 import java.util.ArrayList;
 import org.example.service.HeapPriorityQueue;
 
-public class HuffmanNodePriorityQueue extends HeapPriorityQueue<HuffmanTreeNode> {
+//todo to VK
+public class HuffmanNodePriorityQueue<K extends Comparable<K>,V> extends HeapPriorityQueue<HuffmanTreeNode<K,V>> {
 
-    public HuffmanNodePriorityQueue(Dictionary<CharChain> dictionary) {
+    public HuffmanNodePriorityQueue(Dictionary<K,V> dictionary) {
         heap = new ArrayList<>();
-        for (WordNode<CharChain> charChainWordNode : dictionary) {
-            heap.add(new HuffmanTreeNode(charChainWordNode));
+        for (WordNode<K,V> charChainWordNode : dictionary) {
+            heap.add(new HuffmanTreeNode<K, V>(charChainWordNode));
             size++;
         }
         buildHeap();

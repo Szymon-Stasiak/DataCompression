@@ -1,4 +1,4 @@
-package org.example.decrypter;
+package org.example.decrypter.tools;
 
 import java.io.FileInputStream;
 import java.io.IOException;

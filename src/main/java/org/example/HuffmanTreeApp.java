@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.common.tools.HelpPrinter;
+//import org.example.decrypter.Decoder;
 import org.example.encrypter.Encoder;
 import org.example.exceptions.FilePathsAreTheSameException;
 import org.example.exceptions.SequencesCantBeLessThanZeroException;
@@ -22,15 +23,21 @@ public class HuffmanTreeApp {
 
     public void run(String[] args) {
         String inputPath = "src/main/resources/dane.txt";
+        String inputPathDecoded = "src/main/resources/encoded.txt";
         String outputPath = "src/main/resources/encoded.txt";
-        int lengthOfSequence = 5;
+        String outputPathDecoded = "src/main/resources/decoded.txt";
+        int lengthOfSequence = 1;
         Log.info("Application started");
 
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--help") || args[i].equals("--h") || args[i].equals("-help") || args[i].equals("-h")) {
                 helpPrinter.printHelp();
                 return;
-            } else {
+            } else if (args[i].equals("--d") && i + 1 < args.length && args[i + 1].charAt(0) != '-'){
+
+               // new Decoder( inputPathDecoded, outputPathDecoded);
+                return;
+            }else{
                 if (args[i].equals("--in") && i + 1 < args.length && args[i + 1].charAt(0) != '-') {
                     inputPath = args[++i];
                 } else if (args[i].equals("--out") && i + 1 < args.length && args[i + 1].charAt(0) != '-') {

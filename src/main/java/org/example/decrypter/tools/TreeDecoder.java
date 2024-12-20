@@ -15,11 +15,11 @@ import org.example.logger.Log;
 // todo cleaning
 public class TreeDecoder {
 
-    private static final Queue<HuffmanTreeNode> queue = new Queue<>();
-    private static HuffmanTreeNode root;
+    private static final Queue<HuffmanTreeNode<String,CharChain>> queue = new Queue<>();
+    private static HuffmanTreeNode<String,CharChain> root;
     private static int sizeOfSequence;
 
-    public static void addNodeToQueue(HuffmanTreeNode node) {
+    public static void addNodeToQueue(HuffmanTreeNode<String,CharChain> node) {
         queue.add(node);
         if (root == null) {
             root = node;
@@ -28,8 +28,8 @@ public class TreeDecoder {
         }
     }
 
-    public static void attachToParent(HuffmanTreeNode node) {
-        HuffmanTreeNode parent = queue.peek();
+    public static void attachToParent(HuffmanTreeNode<String,CharChain> node) {
+        HuffmanTreeNode<String,CharChain> parent = queue.peek();
         if (parent.getLeft() == null) {
             parent.setLeft(node);
         } else {
@@ -38,15 +38,12 @@ public class TreeDecoder {
         }
     }
 
-    public static Dictionary<CharChain> generateDictionary() {
+    public static Dictionary<String,CharChain> generateDictionary(StringBuilder byteReader, InputStreamReader fr) {
         int current;
         try {
-            InputStreamReader fr = new InputStreamReader(
-                    new FileInputStream(
-                            "C:\\Users\\stszy\\IdeaProjects\\DataCompression\\src\\main\\resources\\tree.txt"),
-                    "UTF-8");
+
             // Todo
-            Dictionary<CharChain> dictionary = new Dictionary<>();
+            Dictionary<String,CharChain> dictionary = new Dictionary<>();
             boolean hasOneSequence = fr.read() == '1';
             StringBuilder sequence = new StringBuilder();
             for (int i = 0; i < 4; i++) {
@@ -59,27 +56,26 @@ public class TreeDecoder {
                 return generateDictionaryFromOneSequence();
             }
 
-            addNodeToQueue(new HuffmanTreeNode());
+            addNodeToQueue(new HuffmanTreeNode<>());
             while (!queue.isEmpty()) {
                 current = fr.read();
 
                 char character = (char) current;
                 Log.info("Character: " + character);
                 if (character == '0') {
-                    addNodeToQueue(new HuffmanTreeNode());
+                    addNodeToQueue(new HuffmanTreeNode<>());
                 } else {
                     CharChain chain = new CharChain(sizeOfSequence);
                     for (int i = 0; i < sizeOfSequence; i++) {
                         chain.add(convertBinaryToInt(readNextUtf8Char(fr)));
                     }
-                    WordNode<CharChain> word = dictionary.addAt(new WordNode<>(chain));
-                    HuffmanTreeNode node = new HuffmanTreeNode(word);
+
+                    HuffmanTreeNode<String,CharChain> node = new HuffmanTreeNode<>("", chain);
                     attachToParent(node);
                 }
             }
-            Log.info("Queue is empty: " + queue.isEmpty());
             new HuffmanTree(root);
-            fr.close();
+            Log.info("Queue is empty: " + queue.isEmpty());
             return dictionary;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -110,11 +106,10 @@ public class TreeDecoder {
             }
             sb.append((char) current);
         }
-        Log.info("Utf8: " + sb.toString());
         return sb.toString();
     }
 
-    public static Dictionary<CharChain> generateDictionaryFromOneSequence() {
+    public static Dictionary<String,CharChain> generateDictionaryFromOneSequence() {
         // todo
         return null;
     }

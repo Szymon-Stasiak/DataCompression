@@ -15,7 +15,7 @@ import org.example.logger.Log;
 
 public class Encoder {
 
-    private Dictionary<CharChain> dictionary;
+    private Dictionary<CharChain,String> dictionary;
     private final HuffmanTree huffmanTree;
     private final String inputPath;
     private final String outputPath;
@@ -89,8 +89,8 @@ public class Encoder {
     }
 
     private void countSizeOfEncryptedFileForSequences() {
-        for (WordNode<CharChain> node : dictionary) {
-            sizeOfEncryptedFile += node.getCounter() * node.getCode().length();
+        for (WordNode<CharChain,String> node : dictionary) {
+            sizeOfEncryptedFile += node.getCounter() * node.getValue().length();
         }
         additionalZeroes = (8 - sizeOfEncryptedFile % 8) % 8;
         sizeOfEncryptedFile += additionalZeroes;

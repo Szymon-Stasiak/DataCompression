@@ -1,8 +1,8 @@
 package org.example.service;
 
-public interface MapInterface<K extends Comparable<K>> {
+public interface MapInterface<K extends Comparable<K>,V> {
 
     void addAt(K key);
 
-    String getCode(K key);
+    V getCode(K key);
 }
