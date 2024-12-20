@@ -6,6 +6,7 @@ import static org.example.encrypter.tools.BinaryConverter.convertToBin3Signs;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
+
 import org.example.common.structures.CharChain;
 import org.example.common.structures.RedBlackTree;
 import org.example.common.structures.WordNode;
@@ -50,7 +51,7 @@ public class Encrypter {
             while (true) {
                 int charsRead = reader.read(buffer);
                 if (charsRead == -1) {
-                    break; // Koniec pliku
+                    break;
                 }
                 for (int i = 0; i < charsRead; i++) {
                     codePoint = buffer[i];
@@ -58,7 +59,7 @@ public class Encrypter {
                         if (i + 1 < charsRead) {
                             int lowSurrogate = buffer[i + 1];
                             codePoint = Character.toCodePoint((char) codePoint, (char) lowSurrogate);
-                            i++; // Przechodzimy do następnego znaku
+                            i++;
                         }
                     }
                     chain.add(codePoint);
@@ -79,10 +80,11 @@ public class Encrypter {
         } catch (Exception e) {
             throw new InputFileNotFoundException("File with path '" + inputPath + "' is empty");
         }
-       HuffmanTree ht = new HuffmanTree(dictionary);
+        HuffmanTree ht = new HuffmanTree(dictionary);
 
         try {
-            int treeSize = encryptTreeAndReturnSize01(ht.getRoot() , 1,false, lengthOfSequence);
+            int treeSize = encryptTreeAndReturnSize01(ht.getRoot(), false, lengthOfSequence);
+            sizeOfEncryptedFile += treeSize;
             Log.info("treeSize" + treeSize);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -94,6 +96,7 @@ public class Encrypter {
             WordNode<CharChain> node = iterator.next();
             System.out.println(node.getKey().toChars() + " - " + node.getCode());
         }
+
     }
 
     private void countSizeOfEncryptedFileForSequences() {
@@ -159,12 +162,11 @@ public class Encrypter {
             }
             for (int i = 0; i < charsRead; i++) {
                 codePoint = buffer[i];
-                // Jeśli znak jest częścią pary zastępczej, sprawdzamy drugi znak
                 if (Character.isHighSurrogate((char) codePoint)) {
                     if (i + 1 < charsRead) {
                         int lowSurrogate = buffer[i + 1];
                         codePoint = Character.toCodePoint((char) codePoint, (char) lowSurrogate);
-                        i++; // Przechodzimy do następnego znaku
+                        i++;
                     }
                 }
                 chain.add(codePoint);
@@ -172,7 +174,7 @@ public class Encrypter {
 
                 if (chain.isFull()) {
                     String toWrite = dictionary.getCode(chain);
-                    CharChain temp = (CharChain) dictionary.getNode(chain).getKey();
+                    CharChain temp = dictionary.getNode(chain).getKey();
 
                     for (int j = 0; j < toWrite.length(); j++) {
                         fw.write(toWrite.charAt(j));

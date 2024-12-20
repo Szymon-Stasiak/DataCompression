@@ -10,7 +10,7 @@ import org.example.logger.Log;
 
 public class treeTranslator<K extends Comparable<K>> {
 
-    private static int size = 7;
+    private static int size = 5;
 
     public int encryptTreeAndReturnSize(
             HuffmanTreeNode root, FileOutputStream fw, int bytesOfTheBiggestChar, StringBuilder byteCode) {
@@ -34,15 +34,12 @@ public class treeTranslator<K extends Comparable<K>> {
         return size;
     }
 
-    public static int encryptTreeAndReturnSize01(HuffmanTreeNode root, int bytesOfTheBiggestChar, boolean hasOneSequence,int lengthOfSequence) throws IOException {
+    public static int encryptTreeAndReturnSize01(HuffmanTreeNode root, boolean hasOneSequence, int lengthOfSequence) throws IOException {
         FileOutputStream fw = new FileOutputStream("C:\\Users\\stszy\\IdeaProjects\\DataCompression\\src\\main\\resources\\tree.txt"); // Ścieżka do pliku
 
-        String temp = BinaryConverter.convertByteSizeToBinValue(bytesOfTheBiggestChar);
-        for (int i = 0; i < temp.length(); i++) {
-            fw.write(temp.charAt(i));
-        }
+
         fw.write(hasOneSequence ? '1' : '0');
-        String binSizeOfSequence = BinaryConverter.convertToBin4Signs(lengthOfSequence-1);
+        String binSizeOfSequence = BinaryConverter.convertToBin4Signs(lengthOfSequence - 1);
         for (int i = 0; i < binSizeOfSequence.length(); i++) {
             fw.write(binSizeOfSequence.charAt(i));
         }
@@ -54,7 +51,7 @@ public class treeTranslator<K extends Comparable<K>> {
                 fw.write('0');
                 size++;
             } else {
-                writeNodeKeyValue(bytesOfTheBiggestChar, fw, node);
+                writeNodeKeyValue(fw, node);
 
             }
         }
@@ -62,24 +59,13 @@ public class treeTranslator<K extends Comparable<K>> {
         return size;
     }
 
-    private static void writeNodeKeyValue(int bytesOfTheBiggestChar, FileOutputStream fw, HuffmanTreeNode node) throws IOException {
+    private static void writeNodeKeyValue(FileOutputStream fw, HuffmanTreeNode node) throws IOException {
         String character;
         size++;
         fw.write('1');
         CharChain charChain = node.getWordNode().getKey();
         for (int i : charChain.getChain()) {
-            character = convertIntToBinary(i);
-            if (bytesOfTheBiggestChar == 2) {
-                fw.write(character.length() == 8 ? '0' : '1');
-                size++;
-            } else if (bytesOfTheBiggestChar > 2) {
-                int bytes = character.length() / 8;
-                String sign = BinaryConverter.convertByteSizeToBinValue(bytes);
-                for (int k = 0; k < sign.length(); k++) {
-                    fw.write(sign.charAt(k));
-                    size++;
-                }
-            }
+            character = convertIntToUTF8(i);
             for (int j = 0; j < character.length(); j++) {
                 fw.write(character.charAt(j));
             }
@@ -89,7 +75,7 @@ public class treeTranslator<K extends Comparable<K>> {
     }
 
 
-    public static String convertIntToBinary(int value) {
+    public static String convertIntToUTF8(int value) {
         if (value <= 0x7F) {
             return String.format("%8s", Integer.toBinaryString(value)).replace(' ', '0');
         } else if (value <= 0x7FF) {

@@ -46,7 +46,6 @@ public class treeReader {
             InputStreamReader fr = new InputStreamReader(new FileInputStream( "C:\\Users\\stszy\\IdeaProjects\\DataCompression\\src\\main\\resources\\tree.txt"),"UTF-8");
             //Todo
             RedBlackTree<CharChain> dictionary = new RedBlackTree<>();
-            int bytesOfTheBiggestChar = BinaryConverter.convertBinToByteSize(fr.read(),fr.read());
             boolean hasOneSequence = fr.read()=='1';
             StringBuilder sequence = new StringBuilder();
             for (int i = 0; i < 4; i++) {
@@ -58,6 +57,7 @@ public class treeReader {
             if(hasOneSequence){
                 return generateDictionaryFromOneSequence();
             }
+
             addNodeToQueue(new HuffmanTreeNode());
             while(!queue.isEmpty()){
                 current=  fr.read();
@@ -68,13 +68,8 @@ public class treeReader {
                     addNodeToQueue(new HuffmanTreeNode());
                 }else {
                     CharChain chain = new CharChain(sizeOfSequence);
-                    StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < sizeOfSequence; i++) {
-                        for (int j = 0; j <8 ; j++) {
-                            current = fr.read();
-                            sb.append((char) current);
-                        }
-                        chain.add(convertBinaryToInt(sb.toString()));
+                        chain.add(convertBinaryToInt(readNextUtf8Char(fr)));
                     }
                     Log.info("Chain: " + chain.toChars());
                     WordNode<CharChain> word = dictionary.addAt(new WordNode<>(chain));
@@ -90,6 +85,32 @@ public class treeReader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String readNextUtf8Char(InputStreamReader fr) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int current;
+        int counter =0;
+        for (int i = 0; i < 4; i++) {
+            current = fr.read();
+            if(current==-1){
+                return null;
+            }
+            counter++;
+            sb.append((char)current);
+
+            if(current=='0'){break;}
+        }
+        Log.info("Counter: " + counter);
+        for(int i=counter;i<counter*8;i++){
+            current = fr.read();
+            if(current==-1){
+                return null;
+            }
+            sb.append((char)current);
+        }
+        Log.info("Utf8: " + sb.toString());
+        return sb.toString();
     }
 
     public static RedBlackTree<CharChain> generateDictionaryFromOneSequence(){

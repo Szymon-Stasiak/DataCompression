@@ -23,7 +23,7 @@ public class HuffmanTreeApp {
     public void run(String[] args) {
         String inputPath = "src/main/resources/dane.txt";
         String outputPath = "src/main/resources/encoded.txt";
-        int lengthOfSequence = 1;
+        int lengthOfSequence = 5;
         Log.info("Application started");
 
         for (int i = 0; i < args.length; i++) {
