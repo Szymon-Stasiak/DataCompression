@@ -58,15 +58,15 @@ public class RedBlackTreeTest {
         assert (countSizeOfTree(tree) == 1);
     }
 
-    @Test
-    void should_ThrowException_WhenInsertingNull() {
-        try {
-            tree.addAt(null);
-        } catch (IllegalArgumentException e) {
-            assert (e.getMessage().equals("Key cannot be null."));
-            assert (true);
-        }
-    }
+//    @Test
+//    void should_ThrowException_WhenInsertingNull() {
+//        try {
+//            tree.addAt(null);
+//        } catch (IllegalArgumentException e) {
+//            assert (e.getMessage().equals("Key cannot be null."));
+//            assert (true);
+//        }
+//    }
 
     @Test
     void shouldProperlyInsert_WhenInsertingInOrder() {

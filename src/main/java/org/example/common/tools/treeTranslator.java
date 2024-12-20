@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import org.example.common.structures.CharChain;
 import org.example.encrypter.structures.HuffmanTreeNode;
 import org.example.encrypter.tools.BinaryConverter;
+import org.example.logger.Log;
 
 public class treeTranslator<K extends Comparable<K>> {
 
@@ -21,13 +22,56 @@ public class treeTranslator<K extends Comparable<K>> {
             } else {
                 byteCode.append("1");
                 size++;
-                CharChain charChain = new CharChain(node.getWordNode().getKey().toString());
-                //  for(char c : charChain.getChain()){
+                CharChain charChain = node.getWordNode().getKey();
+                 for(int c : charChain.getChain()) {
+
+                 }
 
             }
         }
         return size;
     }
+
+    public static int encryptTreeAndReturnSize01(HuffmanTreeNode root, int bytesOfTheBiggestChar) throws IOException {
+        FileOutputStream fw = new FileOutputStream("C:\\Users\\stszy\\IdeaProjects\\DataCompression\\src\\main\\resources\\tree.txt"); // Ścieżka do pliku
+
+        int size = 2;
+       String temp = BinaryConverter.convertByteSizeToBinValue(bytesOfTheBiggestChar);
+       for(int i =0; i<temp.length(); i++){
+           fw.write(temp.charAt(i));
+       }
+        BFSIterator<HuffmanTreeNode> iterator = new BFSIterator<>(root);
+        while (iterator.hasNext()) {
+            HuffmanTreeNode node = iterator.next();
+            if (node.getWordNode() == null) {
+                fw.write('0');
+                size++;
+            } else {
+                size++;
+                fw.write('1');
+               CharChain charChain = node.getWordNode().getKey();
+               for(int i : charChain.getChain()){
+                   temp= convertIntToBinary(i);
+                   if(bytesOfTheBiggestChar!=1){
+                       int k =temp.length()/8;
+                       String temp2 = BinaryConverter.convertByteSizeToBinValue(k);
+                       for(int xd =0; xd<temp2.length(); xd++){
+                           fw.write(temp2.charAt(xd));
+                       }
+                   }
+                   //fw.write((char)(i));
+                   for(int j =0; j<temp.length(); j++){
+                       fw.write(temp.charAt(j));
+                   }
+                   size+=temp.length();
+                   Log.info(charChain.toChars() + " added as " + temp);
+               }
+
+            }
+        }
+        return size;
+    }
+
 
     public static String convertIntToBinary(int value) {
         if (value <= 0x7F) {
@@ -55,6 +99,42 @@ public class treeTranslator<K extends Comparable<K>> {
                     + String.format("%8s", Integer.toBinaryString(byte4)).replace(' ', '0');
         } else {
             throw new IllegalArgumentException("Value out of range for UTF-8");
+        }
+    }
+
+    public static int convertBinaryToInt(String binary) {
+        if (binary.length() % 8 != 0) {
+            throw new IllegalArgumentException("Invalid UTF-8 binary string length");
+        }
+
+        int length = binary.length() / 8;
+
+        if (length == 1) {
+            return Integer.parseInt(binary, 2);
+        } else if (length > 1 && length <= 4) {
+            int value = 0;
+            for (int i = 0; i < length; i++) {
+                String byteStr = binary.substring(i * 8, (i + 1) * 8);
+                int currentByte = Integer.parseInt(byteStr, 2);
+
+                if (i == 0) {
+                    if (length == 2) {
+                        value = currentByte & 0x1F;
+                    } else if (length == 3) {
+                        value = currentByte & 0x0F;
+                    } else if (length == 4) {
+                        value = currentByte & 0x07;
+                    }
+                } else {
+                    if ((currentByte & 0xC0) != 0x80) {
+                        throw new IllegalArgumentException("Invalid UTF-8 continuation byte");
+                    }
+                    value = (value << 6) | (currentByte & 0x3F);
+                }
+            }
+            return value;
+        } else {
+            throw new IllegalArgumentException("Invalid UTF-8 binary string length");
         }
     }
 

@@ -1,10 +1,8 @@
 package org.example.encrypter.structures;
 
-import org.example.service.Queue;
-
-public class QueueBFS<T> implements Queue<T> {
+public class Queue<T> implements org.example.service.QueueInterface<T> {
     // TODO own implementation of Queue
-    private java.util.Queue<T> elements = new java.util.LinkedList<>();
+    private final java.util.Queue<T> elements = new java.util.LinkedList<>();
 
     @Override
     public boolean isEmpty() {
@@ -19,5 +17,9 @@ public class QueueBFS<T> implements Queue<T> {
     @Override
     public void add(T element) {
         elements.add(element);
+    }
+
+    public T peek() {
+        return elements.peek();
     }
 }

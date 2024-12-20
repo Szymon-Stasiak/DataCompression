@@ -1,16 +1,16 @@
 package org.example.common.tools;
 
 import java.util.Iterator;
-import org.example.encrypter.structures.QueueBFS;
+import org.example.encrypter.structures.Queue;
 import org.example.service.TreeNode;
 
 public class BFSIterator<T extends TreeNode<T>> implements Iterator<T> {
 
-    private final QueueBFS<T> queue;
+    private final Queue<T> queue;
     private T current;
 
     public BFSIterator(T root) {
-        queue = new QueueBFS<>();
+        queue = new Queue<>();
         if (root != null) {
             queue.add(root);
         }

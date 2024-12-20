@@ -1,10 +1,13 @@
 package org.example.common.structures;
 
+import java.security.Key;
+
+//to do posible maybe change to K
 import static java.sql.Types.NULL;
 
 public class CharChain implements Comparable<CharChain> {
 
-    private int[] chain;
+    private final int[] chain;
 
     public CharChain(int size) {
         chain = new int[size];
@@ -63,4 +66,15 @@ public class CharChain implements Comparable<CharChain> {
         }
         return sb.toString();
     }
+
+    public String toChars(){
+        StringBuilder sb = new StringBuilder();
+        for(int i : chain){
+            sb.append((char)i);
+        }
+        return sb.toString();
+    }
+
+
+
 }

@@ -1,5 +1,6 @@
 package org.example.encrypter;
 
+import static org.example.common.tools.treeTranslator.encryptTreeAndReturnSize01;
 import static org.example.encrypter.tools.BinaryConverter.convertToBin;
 
 import java.io.*;
@@ -8,6 +9,7 @@ import java.util.Iterator;
 import org.example.common.structures.CharChain;
 import org.example.common.structures.RedBlackTree;
 import org.example.common.structures.WordNode;
+import org.example.decrypter.treeReader;
 import org.example.encrypter.structures.HuffmanTree;
 import org.example.exceptions.InputFileNotFoundException;
 import org.example.exceptions.OutputFIleNotFoundException;
@@ -37,7 +39,7 @@ public class Encrypter {
     }
 
     private void makeDictionary() {
-        dictionary = new RedBlackTree<CharChain>();
+        dictionary = new RedBlackTree<>();
         try {
             FileInputStream fr = new FileInputStream(inputPath);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fr, StandardCharsets.UTF_8));
@@ -77,7 +79,19 @@ public class Encrypter {
         } catch (Exception e) {
             throw new InputFileNotFoundException("File with path '" + inputPath + "' is empty");
         }
-        new HuffmanTree(dictionary);
+       HuffmanTree ht = new HuffmanTree(dictionary);
+        RedBlackTree<CharChain> rb = treeReader.generateDictionary();
+        Iterator<WordNode<CharChain>> iterator = rb.iterator();
+        while (iterator.hasNext()) {
+            WordNode<CharChain> node = iterator.next();
+            System.out.println(node.getKey().toChars() + " - " + node.getCode());
+        }
+        try {
+            int treeSize = encryptTreeAndReturnSize01(ht.getRoot() , 1);
+            Log.info("treeSize" + treeSize);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void countSizeOfEncryptedFileForSequences() {

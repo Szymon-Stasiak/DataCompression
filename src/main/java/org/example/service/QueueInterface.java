@@ -1,6 +1,7 @@
 package org.example.service;
 
-public interface Queue<T> {
+public interface QueueInterface<T> {
+
 
     boolean isEmpty();
 
@@ -8,3 +9,5 @@ public interface Queue<T> {
 
     void add(T element);
 }
+
+

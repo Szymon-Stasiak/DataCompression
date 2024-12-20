@@ -10,7 +10,7 @@ public class HuffmanTree implements Iterable<HuffmanTreeNode> {
     @Getter
     private HuffmanTreeNode root;
 
-    private final HuffmanNodePriorityQueue heap;
+    private  HuffmanNodePriorityQueue heap;
 
     public HuffmanTree(RedBlackTree redBlackTree) {
         heap = new HuffmanNodePriorityQueue(redBlackTree);
@@ -21,6 +21,12 @@ public class HuffmanTree implements Iterable<HuffmanTreeNode> {
             generateCodes();
         }
     }
+
+    public HuffmanTree(HuffmanTreeNode root) {
+        this.root = root;
+        generateCodes();
+    }
+
 
     public void handleWhenOnlyOneSequenceExist() {
         root = heap.poll();

@@ -1,6 +1,7 @@
 package org.example.encrypter.structures;
 
 import lombok.Data;
+import org.example.common.structures.CharChain;
 import org.example.common.structures.WordNode;
 import org.example.enums.Color;
 import org.example.service.TreeNode;
@@ -10,11 +11,11 @@ public class HuffmanTreeNode implements Comparable<HuffmanTreeNode>, TreeNode<Hu
 
     private HuffmanTreeNode left;
     private HuffmanTreeNode right;
-    private WordNode wordNode;
+    private WordNode<CharChain> wordNode;
     private int value;
     private Color color;
 
-    public HuffmanTreeNode(WordNode wordNode) {
+    public HuffmanTreeNode(WordNode<CharChain> wordNode) {
         this.wordNode = wordNode;
         this.value = wordNode.getCounter();
     }
@@ -24,6 +25,8 @@ public class HuffmanTreeNode implements Comparable<HuffmanTreeNode>, TreeNode<Hu
         this.right = right;
         this.value = left.getValue() + right.getValue();
     }
+
+    public HuffmanTreeNode(){}
 
     @Override
     public int compareTo(HuffmanTreeNode o) {

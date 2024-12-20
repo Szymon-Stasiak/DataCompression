@@ -10,6 +10,7 @@ import org.example.service.MapInterface;
 public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, Iterable<WordNode<K>> {
 
     private WordNode<K> root;
+    private WordNode<K>  toAdd;
 
     public WordNode<K> getNode(K key) {
         validateKey(key);
@@ -54,8 +55,17 @@ public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, I
 
     public void addAt(K key) {
         validateKey(key);
+        toAdd = new WordNode<>(key);
         root = put(root, key);
         root.setColor(BLACK);
+    }
+
+    public WordNode<K> addAt(WordNode<K> node) {
+        validateKey(node.getKey());
+        toAdd = node;
+        root = put(root, node.getKey());
+        root.setColor(BLACK);
+        return toAdd;
     }
 
     private void validateKey(K key) {
@@ -76,7 +86,7 @@ public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, I
     private WordNode<K> put(WordNode<K> node, K key) {
 
         if (node == null) {
-            return new WordNode<>(key);
+            return toAdd;
         }
 
         if (isKeyBiggerThanNode(key, node)) {
@@ -185,5 +195,13 @@ public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, I
     @Override
     public Iterator<WordNode<K>> iterator() {
         return new BFSIterator<>(root);
+    }
+
+    public void writeTree() {
+        Iterator<WordNode<K>> iterator = iterator();
+        while (iterator.hasNext()) {
+            WordNode<K> node = iterator.next();
+            System.out.println(node.getKey()+ " - " + node.getCode());
+        }
     }
 }
