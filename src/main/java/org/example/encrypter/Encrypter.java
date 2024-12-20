@@ -1,7 +1,7 @@
 package org.example.encrypter;
 
 import static org.example.common.tools.treeTranslator.encryptTreeAndReturnSize01;
-import static org.example.encrypter.tools.BinaryConverter.convertToBin;
+import static org.example.encrypter.tools.BinaryConverter.convertToBin3Signs;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -80,17 +80,19 @@ public class Encrypter {
             throw new InputFileNotFoundException("File with path '" + inputPath + "' is empty");
         }
        HuffmanTree ht = new HuffmanTree(dictionary);
+
+        try {
+            int treeSize = encryptTreeAndReturnSize01(ht.getRoot() , 1,false, lengthOfSequence);
+            Log.info("treeSize" + treeSize);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         RedBlackTree<CharChain> rb = treeReader.generateDictionary();
         Iterator<WordNode<CharChain>> iterator = rb.iterator();
         while (iterator.hasNext()) {
             WordNode<CharChain> node = iterator.next();
             System.out.println(node.getKey().toChars() + " - " + node.getCode());
-        }
-        try {
-            int treeSize = encryptTreeAndReturnSize01(ht.getRoot() , 1);
-            Log.info("treeSize" + treeSize);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -109,7 +111,7 @@ public class Encrypter {
         try (FileOutputStream fw = new FileOutputStream(this.outputPath)) {
             InputStream fr = new FileInputStream(this.inputPath);
             StringBuilder byteCode = new StringBuilder();
-            byteCode.append(convertToBin(additionalZeroes));
+            byteCode.append(convertToBin3Signs(additionalZeroes));
             CharChain chain = new CharChain(lengthOfSequence);
             int i;
             while ((i = fr.read()) != -1) {
@@ -141,7 +143,7 @@ public class Encrypter {
         FileInputStream fr = new FileInputStream(inputPath);
         FileOutputStream fw = new FileOutputStream(outputPath + "zeroOnes.txt");
         for (int i = 0; i < 3; i++) {
-            fw.write(convertToBin(sizeOfEncryptedFile).charAt(i));
+            fw.write(convertToBin3Signs(sizeOfEncryptedFile).charAt(i));
         }
         Log.info("Additional zeroes: " + additionalZeroes);
 

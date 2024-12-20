@@ -2,6 +2,7 @@ package org.example.common.tools;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+
 import org.example.common.structures.CharChain;
 import org.example.encrypter.structures.HuffmanTreeNode;
 import org.example.encrypter.tools.BinaryConverter;
@@ -9,9 +10,10 @@ import org.example.logger.Log;
 
 public class treeTranslator<K extends Comparable<K>> {
 
+    private static int size = 7;
+
     public int encryptTreeAndReturnSize(
             HuffmanTreeNode root, FileOutputStream fw, int bytesOfTheBiggestChar, StringBuilder byteCode) {
-        int size = 2;
         byteCode.append(BinaryConverter.convertByteSizeToBinValue(bytesOfTheBiggestChar));
         BFSIterator<HuffmanTreeNode> iterator = new BFSIterator<>(root);
         while (iterator.hasNext()) {
@@ -23,53 +25,67 @@ public class treeTranslator<K extends Comparable<K>> {
                 byteCode.append("1");
                 size++;
                 CharChain charChain = node.getWordNode().getKey();
-                 for(int c : charChain.getChain()) {
+                for (int c : charChain.getChain()) {
 
-                 }
+                }
 
             }
         }
         return size;
     }
 
-    public static int encryptTreeAndReturnSize01(HuffmanTreeNode root, int bytesOfTheBiggestChar) throws IOException {
+    public static int encryptTreeAndReturnSize01(HuffmanTreeNode root, int bytesOfTheBiggestChar, boolean hasOneSequence,int lengthOfSequence) throws IOException {
         FileOutputStream fw = new FileOutputStream("C:\\Users\\stszy\\IdeaProjects\\DataCompression\\src\\main\\resources\\tree.txt"); // Ścieżka do pliku
 
-        int size = 2;
-       String temp = BinaryConverter.convertByteSizeToBinValue(bytesOfTheBiggestChar);
-       for(int i =0; i<temp.length(); i++){
-           fw.write(temp.charAt(i));
-       }
+        String temp = BinaryConverter.convertByteSizeToBinValue(bytesOfTheBiggestChar);
+        for (int i = 0; i < temp.length(); i++) {
+            fw.write(temp.charAt(i));
+        }
+        fw.write(hasOneSequence ? '1' : '0');
+        String binSizeOfSequence = BinaryConverter.convertToBin4Signs(lengthOfSequence-1);
+        for (int i = 0; i < binSizeOfSequence.length(); i++) {
+            fw.write(binSizeOfSequence.charAt(i));
+        }
         BFSIterator<HuffmanTreeNode> iterator = new BFSIterator<>(root);
+        iterator.next();
         while (iterator.hasNext()) {
             HuffmanTreeNode node = iterator.next();
             if (node.getWordNode() == null) {
                 fw.write('0');
                 size++;
             } else {
-                size++;
-                fw.write('1');
-               CharChain charChain = node.getWordNode().getKey();
-               for(int i : charChain.getChain()){
-                   temp= convertIntToBinary(i);
-                   if(bytesOfTheBiggestChar!=1){
-                       int k =temp.length()/8;
-                       String temp2 = BinaryConverter.convertByteSizeToBinValue(k);
-                       for(int xd =0; xd<temp2.length(); xd++){
-                           fw.write(temp2.charAt(xd));
-                       }
-                   }
-                   //fw.write((char)(i));
-                   for(int j =0; j<temp.length(); j++){
-                       fw.write(temp.charAt(j));
-                   }
-                   size+=temp.length();
-                   Log.info(charChain.toChars() + " added as " + temp);
-               }
+                writeNodeKeyValue(bytesOfTheBiggestChar, fw, node);
 
             }
         }
+        fw.close();
         return size;
+    }
+
+    private static void writeNodeKeyValue(int bytesOfTheBiggestChar, FileOutputStream fw, HuffmanTreeNode node) throws IOException {
+        String character;
+        size++;
+        fw.write('1');
+        CharChain charChain = node.getWordNode().getKey();
+        for (int i : charChain.getChain()) {
+            character = convertIntToBinary(i);
+            if (bytesOfTheBiggestChar == 2) {
+                fw.write(character.length() == 8 ? '0' : '1');
+                size++;
+            } else if (bytesOfTheBiggestChar > 2) {
+                int bytes = character.length() / 8;
+                String sign = BinaryConverter.convertByteSizeToBinValue(bytes);
+                for (int k = 0; k < sign.length(); k++) {
+                    fw.write(sign.charAt(k));
+                    size++;
+                }
+            }
+            for (int j = 0; j < character.length(); j++) {
+                fw.write(character.charAt(j));
+            }
+            size += character.length();
+            Log.info(charChain.toChars() + " added as " + character);
+        }
     }
 
 
@@ -154,8 +170,8 @@ public class treeTranslator<K extends Comparable<K>> {
                 "C:\\Users\\stszy\\IdeaProjects\\DataCompression\\src\\main\\resources\\dane.txt"; // Ścieżka do pliku
 
         try (InputStream inputStream = new FileInputStream(filePath);
-                BufferedReader reader =
-                        new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+             BufferedReader reader =
+                     new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
 
             int codePoint;
             int bufferSize = 8192; // Rozmiar bufora (8 KB, można dostosować)
