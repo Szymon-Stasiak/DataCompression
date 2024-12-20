@@ -76,13 +76,13 @@ class CharChainTest {
     void should_properlyProvideIsNorEmpty() {
         CharChain charChain = new CharChain(3);
         charChain.add('a');
-        assertTrue(charChain.isNorEmpty());
+        assertTrue(charChain.isNotEmpty());
     }
 
     @Test
     void should_properlyProvideIsNorEmpty_WhenEmpty() {
         CharChain charChain = new CharChain(3);
-        assertFalse(charChain.isNorEmpty());
+        assertFalse(charChain.isNotEmpty());
     }
 
     @Test

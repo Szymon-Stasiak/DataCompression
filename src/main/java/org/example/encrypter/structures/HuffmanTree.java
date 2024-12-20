@@ -1,8 +1,11 @@
 package org.example.encrypter.structures;
 
 import java.util.Iterator;
+
 import lombok.Getter;
-import org.example.common.structures.RedBlackTree;
+import lombok.NonNull;
+import org.example.common.structures.CharChain;
+import org.example.common.structures.Dictionary;
 import org.example.common.tools.BFSIterator;
 
 public class HuffmanTree implements Iterable<HuffmanTreeNode> {
@@ -10,10 +13,10 @@ public class HuffmanTree implements Iterable<HuffmanTreeNode> {
     @Getter
     private HuffmanTreeNode root;
 
-    private  HuffmanNodePriorityQueue heap;
+    private HuffmanNodePriorityQueue heap;
 
-    public HuffmanTree(RedBlackTree redBlackTree) {
-        heap = new HuffmanNodePriorityQueue(redBlackTree);
+    public HuffmanTree(Dictionary<CharChain> dictionary) {
+        heap = new HuffmanNodePriorityQueue(dictionary);
         if (heap.getSize() == 1) {
             handleWhenOnlyOneSequenceExist();
         } else {
@@ -58,6 +61,7 @@ public class HuffmanTree implements Iterable<HuffmanTreeNode> {
     }
 
     @Override
+    @NonNull
     public Iterator<HuffmanTreeNode> iterator() {
         return new BFSIterator<>(root);
     }

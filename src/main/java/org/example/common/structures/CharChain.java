@@ -1,27 +1,18 @@
 package org.example.common.structures;
 
-import java.security.Key;
-
 //to do posible maybe change to K
+
+import lombok.Getter;
+
 import static java.sql.Types.NULL;
 
+@Getter
 public class CharChain implements Comparable<CharChain> {
 
     private final int[] chain;
 
     public CharChain(int size) {
         chain = new int[size];
-    }
-
-    public CharChain(String s) {
-        chain = new int[s.length()];
-        for (int i = 0; i < s.length(); i++) {
-            chain[i] = s.charAt(i);
-        }
-    }
-
-    public int[] getChain() {
-        return chain;
     }
 
     public void add(int c) {
@@ -42,7 +33,7 @@ public class CharChain implements Comparable<CharChain> {
         return true;
     }
 
-    public boolean isNorEmpty() {
+    public boolean isNotEmpty() {
         for (int c : chain) {
             if (c != 0) {
                 return true;
@@ -67,14 +58,13 @@ public class CharChain implements Comparable<CharChain> {
         return sb.toString();
     }
 
-    public String toChars(){
+    public String toChars() {
         StringBuilder sb = new StringBuilder();
-        for(int i : chain){
-            sb.append((char)i);
+        for (int i : chain) {
+            sb.append((char) i);
         }
         return sb.toString();
     }
-
 
 
 }

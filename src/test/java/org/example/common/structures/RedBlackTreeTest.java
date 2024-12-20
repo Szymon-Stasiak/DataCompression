@@ -11,11 +11,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class RedBlackTreeTest {
-    RedBlackTree<String> tree = new RedBlackTree<>();
+    Dictionary<String> tree = new Dictionary<>();
 
     @BeforeEach
     public void setUp() {
-        tree = new RedBlackTree<>();
+        tree = new Dictionary<>();
     }
 
     @Test
@@ -153,7 +153,7 @@ public class RedBlackTreeTest {
                 "PRZYK?AD"
             })
     public void should_ReorganizeTreeCorrectly_When_Put_With_GivenCharArray(String word) {
-        RedBlackTree<Character> tree = new RedBlackTree<>();
+        Dictionary<Character> tree = new Dictionary<>();
 
         for (char c : word.toCharArray()) {
             tree.addAt(c);

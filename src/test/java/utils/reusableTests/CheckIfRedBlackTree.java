@@ -4,11 +4,11 @@ import static utils.advancedGetters.RedBlackTreeGetter.getRootOfTree;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import org.example.common.structures.RedBlackTree;
+import org.example.common.structures.Dictionary;
 import org.example.common.structures.WordNode;
 
 public class CheckIfRedBlackTree {
-    public static boolean checkTree(RedBlackTree<?> tree) {
+    public static boolean checkTree(Dictionary<?> tree) {
         WordNode<?> root = getRootOfTree(tree);
         if (root == null) return true;
         if (root.isRed()) return false;
@@ -37,7 +37,7 @@ public class CheckIfRedBlackTree {
         return true;
     }
 
-    public static long countSizeOfTree(RedBlackTree<?> tree) {
+    public static long countSizeOfTree(Dictionary<?> tree) {
         WordNode<?> head = getRootOfTree(tree);
         if (head == null) return 0;
         long count = 0;

@@ -10,18 +10,18 @@ class EncrypterTest {
 
     @Test
     void shouldProperlyCreateEncrypter() {
-        Encrypter encrypter = new Encrypter("src/main/resources/dane.txt", "src/main/resources/encoded.txt", 1);
+        Encoder encrypter = new Encoder("src/main/resources/dane.txt", "src/main/resources/encoded.txt", 1);
         assertNotNull(encrypter);
     }
 
     @Test
     void shouldThrowExceptionWhenNoInputPath() {
-        assertThrows(InputFileNotFoundException.class, () -> new Encrypter("", "src/main/resources/encoded.txt", 1));
+        assertThrows(InputFileNotFoundException.class, () -> new Encoder("", "src/main/resources/encoded.txt", 1));
     }
 
     @Test
     void shouldThrowExceptionWhenNoOutputPath() {
-        assertThrows(OutputFIleNotFoundException.class, () -> new Encrypter("src/main/resources/dane.txt", "", 1));
+        assertThrows(OutputFIleNotFoundException.class, () -> new Encoder("src/main/resources/dane.txt", "", 1));
     }
 
     //    @Test

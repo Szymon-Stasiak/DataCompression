@@ -1,8 +1,8 @@
-package org.example.encrypter.tools;
+package org.example.common.tools;
 
 public class BinaryConverter {
 
-    public static String convertToBin3Signs(int number) {
+    public static String convertToBin(int number) {
         int binary = 0;
         int remainder, i = 1;
         while (number != 0) {
@@ -11,27 +11,24 @@ public class BinaryConverter {
             binary += remainder * i;
             i *= 10;
         }
-        String result = String.valueOf(binary);
+        return String.valueOf(binary);
+    }
+
+
+    public static String convertToBin3Signs(int number) {
+        StringBuilder result = new StringBuilder(convertToBin(number));
         while (result.length() < 3) {
-            result = "0" + result;
+            result.insert(0, "0");
         }
-        return result;
+        return result.toString();
     }
 
     public static String convertToBin4Signs(int number) {
-        int binary = 0;
-        int remainder, i = 1;
-        while (number != 0) {
-            remainder = number % 2;
-            number /= 2;
-            binary += remainder * i;
-            i *= 10;
-        }
-        String result = String.valueOf(binary);
+        StringBuilder result = new StringBuilder(convertToBin(number));
         while (result.length() < 4) {
-            result = "0" + result;
+            result.insert(0, "0");
         }
-        return result;
+        return result.toString();
     }
 
     public static int convertBinToInt(String binary) {

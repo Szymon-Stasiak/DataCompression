@@ -2,6 +2,7 @@ package org.example.encrypter.tools;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.example.common.tools.BinaryConverter;
 import org.junit.jupiter.api.Test;
 
 class BinaryConventerTest {

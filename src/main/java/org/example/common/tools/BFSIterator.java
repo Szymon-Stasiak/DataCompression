@@ -7,7 +7,6 @@ import org.example.service.TreeNode;
 public class BFSIterator<T extends TreeNode<T>> implements Iterator<T> {
 
     private final Queue<T> queue;
-    private T current;
 
     public BFSIterator(T root) {
         queue = new Queue<>();
@@ -23,7 +22,7 @@ public class BFSIterator<T extends TreeNode<T>> implements Iterator<T> {
 
     @Override
     public T next() {
-        current = queue.poll();
+        T current = queue.poll();
         if (current.getLeft() != null) {
             queue.add(current.getLeft());
         }

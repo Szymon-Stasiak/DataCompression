@@ -1,7 +1,7 @@
 package org.example;
 
 import org.example.common.tools.HelpPrinter;
-import org.example.encrypter.Encrypter;
+import org.example.encrypter.Encoder;
 import org.example.exceptions.FilePathsAreTheSameException;
 import org.example.exceptions.SequencesCantBeLessThanZeroException;
 import org.example.logger.Log;
@@ -48,6 +48,6 @@ public class HuffmanTreeApp {
         if (lengthOfSequence < 1) {
             throw new SequencesCantBeLessThanZeroException("Length of sequence has to be greater than 0.");
         }
-        new Encrypter(inputPath, outputPath, lengthOfSequence);
+        new Encoder(inputPath, outputPath, lengthOfSequence);
     }
 }

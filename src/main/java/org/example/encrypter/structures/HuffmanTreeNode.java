@@ -15,6 +15,8 @@ public class HuffmanTreeNode implements Comparable<HuffmanTreeNode>, TreeNode<Hu
     private int value;
     private Color color;
 
+    public HuffmanTreeNode() {}
+
     public HuffmanTreeNode(WordNode<CharChain> wordNode) {
         this.wordNode = wordNode;
         this.value = wordNode.getCounter();
@@ -25,8 +27,6 @@ public class HuffmanTreeNode implements Comparable<HuffmanTreeNode>, TreeNode<Hu
         this.right = right;
         this.value = left.getValue() + right.getValue();
     }
-
-    public HuffmanTreeNode(){}
 
     @Override
     public int compareTo(HuffmanTreeNode o) {

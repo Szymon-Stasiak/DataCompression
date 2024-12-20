@@ -3,6 +3,8 @@ package org.example.decrypter;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+
+//to future use
 public class BinReader {
     public static void main(String[] args) {
         String filePath = "src\\main\\resources\\encoded.txt";

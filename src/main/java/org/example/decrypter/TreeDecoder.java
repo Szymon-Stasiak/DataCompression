@@ -1,19 +1,21 @@
 package org.example.decrypter;
 
 import org.example.common.structures.CharChain;
-import org.example.common.structures.RedBlackTree;
+import org.example.common.structures.Dictionary;
 import org.example.common.structures.WordNode;
 import org.example.encrypter.structures.HuffmanTree;
 import org.example.encrypter.structures.HuffmanTreeNode;
-import org.example.encrypter.tools.BinaryConverter;
+import org.example.common.tools.BinaryConverter;
 import org.example.logger.Log;
 import org.example.encrypter.structures.Queue;
 
 import java.io.*;
 
-import static org.example.common.tools.treeTranslator.convertBinaryToInt;
+import static org.example.common.tools.UTF8Converter.convertBinaryToInt;
 
-public class treeReader {
+
+//todo cleaning
+public class TreeDecoder {
 
     private static final Queue<HuffmanTreeNode> queue = new Queue<>();
     private static HuffmanTreeNode root;
@@ -40,12 +42,12 @@ public class treeReader {
     }
 
 
-    public static RedBlackTree<CharChain> generateDictionary(){
+    public static Dictionary<CharChain> generateDictionary(){
         int current;
         try {
             InputStreamReader fr = new InputStreamReader(new FileInputStream( "C:\\Users\\stszy\\IdeaProjects\\DataCompression\\src\\main\\resources\\tree.txt"),"UTF-8");
             //Todo
-            RedBlackTree<CharChain> dictionary = new RedBlackTree<>();
+            Dictionary<CharChain> dictionary = new Dictionary<>();
             boolean hasOneSequence = fr.read()=='1';
             StringBuilder sequence = new StringBuilder();
             for (int i = 0; i < 4; i++) {
@@ -71,7 +73,6 @@ public class treeReader {
                     for (int i = 0; i < sizeOfSequence; i++) {
                         chain.add(convertBinaryToInt(readNextUtf8Char(fr)));
                     }
-                    Log.info("Chain: " + chain.toChars());
                     WordNode<CharChain> word = dictionary.addAt(new WordNode<>(chain));
                     HuffmanTreeNode node = new HuffmanTreeNode(word);
                     attachToParent(node);
@@ -113,7 +114,7 @@ public class treeReader {
         return sb.toString();
     }
 
-    public static RedBlackTree<CharChain> generateDictionaryFromOneSequence(){
+    public static Dictionary<CharChain> generateDictionaryFromOneSequence(){
         //todo
         return null;
     }

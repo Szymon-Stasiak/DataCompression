@@ -4,10 +4,12 @@ import static org.example.enums.Color.BLACK;
 import static org.example.enums.Color.RED;
 
 import java.util.Iterator;
+
+import lombok.NonNull;
 import org.example.common.tools.BFSIterator;
 import org.example.service.MapInterface;
 
-public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, Iterable<WordNode<K>> {
+public class Dictionary<K extends Comparable<K>> implements MapInterface<K>, Iterable<WordNode<K>> {
 
     private WordNode<K> root;
     private WordNode<K>  toAdd;
@@ -193,15 +195,14 @@ public class RedBlackTree<K extends Comparable<K>> implements MapInterface<K>, I
     }
 
     @Override
+    @NonNull
     public Iterator<WordNode<K>> iterator() {
         return new BFSIterator<>(root);
     }
 
     public void writeTree() {
-        Iterator<WordNode<K>> iterator = iterator();
-        while (iterator.hasNext()) {
-            WordNode<K> node = iterator.next();
-            System.out.println(node.getKey()+ " - " + node.getCode());
+        for (WordNode<K> node : this) {
+            System.out.println(node.getKey() + " - " + node.getCode());
         }
     }
 }
