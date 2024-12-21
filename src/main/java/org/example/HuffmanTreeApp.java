@@ -1,5 +1,7 @@
 package org.example;
 
+import static org.example.utils.utils.*;
+
 import org.example.common.tools.HelpPrinter;
 // import org.example.decrypter.Decoder;
 import org.example.encrypter.Encoder;
@@ -22,12 +24,13 @@ public class HuffmanTreeApp {
     }
 
     public void run(String[] args) {
-        String inputPath = "src/main/resources/dane.txt";
-        String inputPathDecoded = "src/main/resources/encoded.txt";
-        String outputPath = "src/main/resources/encoded.txt";
-        String outputPathDecoded = "src/main/resources/decoded.txt";
-        int lengthOfSequence = 1;
         Log.info("Application started");
+
+        String inputPath = INPUT_PATH;
+        String inputPathToDecode = OUTPUT_PATH_DECODED;
+        String outputPath = OUTPUT_PATH;
+        String outputPathDecoded = OUTPUT_PATH_DECODED;
+        int lengthOfSequence = LENGTH_OF_SEQUENCE;
 
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--help") || args[i].equals("--h") || args[i].equals("-help") || args[i].equals("-h")) {
@@ -35,7 +38,7 @@ public class HuffmanTreeApp {
                 return;
             } else if (args[i].equals("--d") && i + 1 < args.length && args[i + 1].charAt(0) != '-') {
 
-                // new Decoder( inputPathDecoded, outputPathDecoded);
+                // new Decoder( inputPathToDecode, outputPathDecoded);
                 return;
             } else {
                 if (args[i].equals("--in") && i + 1 < args.length && args[i + 1].charAt(0) != '-') {
