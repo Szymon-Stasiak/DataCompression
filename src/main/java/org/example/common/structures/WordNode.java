@@ -7,25 +7,20 @@ import org.example.enums.Color;
 import org.example.service.TreeNode;
 
 @Data
-public class WordNode<K extends Comparable<K>,V> implements Comparable<WordNode<K,V>>, TreeNode<WordNode<K,V>> {
+public class WordNode<K extends Comparable<K>, V> implements Comparable<WordNode<K, V>>, TreeNode<WordNode<K, V>> {
 
     private int counter = 0;
     private K key;
     private V value;
     private Color color;
-    private WordNode<K,V> left;
-    private WordNode<K,V> right;
-
-    public WordNode(K key, int counter) {
-        this.key = key;
-        this.counter = counter;
-        this.color = RED;
-    }
+    private WordNode<K, V> left;
+    private WordNode<K, V> right;
 
     public WordNode(K key, V value) {
         this.key = key;
         this.value = value;
         this.color = RED;
+        counter += 1;
     }
 
     public WordNode(K key) {

@@ -1,7 +1,7 @@
 package org.example;
 
 import org.example.common.tools.HelpPrinter;
-//import org.example.decrypter.Decoder;
+// import org.example.decrypter.Decoder;
 import org.example.encrypter.Encoder;
 import org.example.exceptions.FilePathsAreTheSameException;
 import org.example.exceptions.SequencesCantBeLessThanZeroException;
@@ -33,11 +33,11 @@ public class HuffmanTreeApp {
             if (args[i].equals("--help") || args[i].equals("--h") || args[i].equals("-help") || args[i].equals("-h")) {
                 helpPrinter.printHelp();
                 return;
-            } else if (args[i].equals("--d") && i + 1 < args.length && args[i + 1].charAt(0) != '-'){
+            } else if (args[i].equals("--d") && i + 1 < args.length && args[i + 1].charAt(0) != '-') {
 
-               // new Decoder( inputPathDecoded, outputPathDecoded);
+                // new Decoder( inputPathDecoded, outputPathDecoded);
                 return;
-            }else{
+            } else {
                 if (args[i].equals("--in") && i + 1 < args.length && args[i + 1].charAt(0) != '-') {
                     inputPath = args[++i];
                 } else if (args[i].equals("--out") && i + 1 < args.length && args[i + 1].charAt(0) != '-') {

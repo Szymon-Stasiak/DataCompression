@@ -1,19 +1,15 @@
 package org.example.decrypter;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import org.example.common.structures.CharChain;
 import org.example.common.structures.Dictionary;
 import org.example.decrypter.tools.TreeDecoder;
 import org.example.logger.Log;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
-
 public class Decoder {
 
-
-    private final Dictionary<String,CharChain> dictionary;
-
+    private final Dictionary<String, CharChain> dictionary;
 
     public Decoder(String inputPathDecoded, String outputPathDecoded) {
         StringBuilder byteReader = new StringBuilder();
@@ -30,8 +26,8 @@ public class Decoder {
 
     public void decodeMessage(StringBuilder byteReader, InputStreamReader fr, String outputPathDecoded) {
         try (InputStreamReader autoClosableFr = fr;
-             FileOutputStream fos = new FileOutputStream(outputPathDecoded);
-             OutputStreamWriter writer = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
+                FileOutputStream fos = new FileOutputStream(outputPathDecoded);
+                OutputStreamWriter writer = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
 
             int character;
             StringBuilder key = new StringBuilder();
@@ -42,7 +38,7 @@ public class Decoder {
                 CharChain code = dictionary.getValue(key.toString());
                 if (code != null) {
                     writer.write(code.toChars());
-                    key= new StringBuilder();
+                    key = new StringBuilder();
                 }
             }
             Log.info(byteReader.toString());
@@ -51,9 +47,7 @@ public class Decoder {
         }
     }
 
-
     public static void main(String[] args) {
         new Decoder("src/main/resources/encoded.txt", "src/main/resources/decoded.txt");
     }
-
 }

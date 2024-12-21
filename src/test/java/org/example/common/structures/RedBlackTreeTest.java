@@ -11,7 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class RedBlackTreeTest {
-    Dictionary<String> tree = new Dictionary<>();
+    Dictionary<String, Integer> tree = new Dictionary<>();
 
     @BeforeEach
     public void setUp() {
@@ -120,7 +120,7 @@ public class RedBlackTreeTest {
         assert (checkTree(tree));
         assert (!getRootOfTree(tree).isRed());
         assert (countSizeOfTree(tree) == 5);
-        WordNode<String> root = getRootOfTree(tree);
+        WordNode<String, Integer> root = getRootOfTree(tree);
         assert (root.getKey().equals("d"));
         assert (root.getRight().getKey().equals("e"));
         assert (root.getLeft().getKey().equals("b"));
@@ -153,7 +153,7 @@ public class RedBlackTreeTest {
                 "PRZYK?AD"
             })
     public void should_ReorganizeTreeCorrectly_When_Put_With_GivenCharArray(String word) {
-        Dictionary<Character> tree = new Dictionary<>();
+        Dictionary<Character, Integer> tree = new Dictionary<>();
 
         for (char c : word.toCharArray()) {
             tree.addAt(c);
