@@ -3,6 +3,9 @@ package org.example.decrypter.tools;
 import static org.example.common.tools.UTF8Converter.convertBinaryToInt;
 
 import java.io.*;
+import java.util.Iterator;
+
+import lombok.NonNull;
 import org.example.common.structures.CharChain;
 import org.example.common.structures.Dictionary;
 import org.example.common.structures.HuffmanTree;
@@ -17,7 +20,6 @@ public class TreeDecoder {
 
     private static final Queue<HuffmanTreeNode<String,CharChain>> queue = new Queue<>();
     private static HuffmanTreeNode<String,CharChain> root;
-    private static int sizeOfSequence;
 
     public static void addNodeToQueue(HuffmanTreeNode<String,CharChain> node) {
         queue.add(node);
@@ -50,7 +52,7 @@ public class TreeDecoder {
                 sequence.append((char) fr.read());
             }
             Log.info("Sequence: " + sequence);
-            sizeOfSequence = BinaryConverter.convertBinToInt(sequence.toString()) + 1;
+            int sizeOfSequence = BinaryConverter.convertBinToInt(sequence.toString()) + 1;
 
             if (hasOneSequence) {
                 return generateDictionaryFromOneSequence();
@@ -61,7 +63,7 @@ public class TreeDecoder {
                 current = fr.read();
 
                 char character = (char) current;
-                Log.info("Character: " + character);
+               // Log.info("Character: " + character);
                 if (character == '0') {
                     addNodeToQueue(new HuffmanTreeNode<>());
                 } else {
@@ -74,7 +76,17 @@ public class TreeDecoder {
                     attachToParent(node);
                 }
             }
-            new HuffmanTree(root);
+            HuffmanTree<String,CharChain>huffmanTree = new HuffmanTree<>(root);
+
+            for (HuffmanTreeNode<String, CharChain> stringCharChainHuffmanTreeNode : huffmanTree) {
+                WordNode<String, CharChain> node = stringCharChainHuffmanTreeNode.getWordNode();
+                if (node != null) {
+                    dictionary.addAt(node);
+                }
+            }
+
+            dictionary.writeTree();
+
             Log.info("Queue is empty: " + queue.isEmpty());
             return dictionary;
         } catch (IOException e) {
@@ -98,7 +110,7 @@ public class TreeDecoder {
                 break;
             }
         }
-        Log.info("Counter: " + counter);
+       // Log.info("Counter: " + counter);
         for (int i = counter; i < counter * 8; i++) {
             current = fr.read();
             if (current == -1) {

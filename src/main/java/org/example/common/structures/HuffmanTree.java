@@ -24,7 +24,7 @@ public class HuffmanTree<K extends Comparable<K>,V> implements Iterable<HuffmanT
 
     public HuffmanTree(HuffmanTreeNode<K,V> root) {
         this.root = root;
-        generateCodes();
+        generateKeys(root, "");
     }
 
     //Todo latter
@@ -55,6 +55,16 @@ public class HuffmanTree<K extends Comparable<K>,V> implements Iterable<HuffmanT
         }
         generateCodes(node.getRight(), code + "1");
         generateCodes(node.getLeft(), code + "0");
+    }
+
+    //TODo seperate to two new classes?
+    private void generateKeys(HuffmanTreeNode node, String code) {
+        if (node.getLeft() == null && node.getRight() == null) {
+            node.getWordNode().setKey(code);
+            return;
+        }
+        generateKeys(node.getRight(), code + "1");
+        generateKeys(node.getLeft(), code + "0");
     }
 
     @Override

@@ -4,5 +4,5 @@ public interface MapInterface<K extends Comparable<K>,V> {
 
     void addAt(K key);
 
-    V getCode(K key);
+    V getValue(K key);
 }

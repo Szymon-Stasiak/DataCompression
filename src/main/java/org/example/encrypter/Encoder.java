@@ -155,7 +155,7 @@ public class Encoder {
                 }
                 chain.add(codePoint);
                 if (chain.isFull()) {
-                    String toWrite = dictionary.getCode(chain);
+                    String toWrite = dictionary.getValue(chain);
                     for (int j = 0; j < toWrite.length(); j++) {
                         fw.write(toWrite.charAt(j));
                     }
@@ -164,7 +164,7 @@ public class Encoder {
             }
         }
         if (chain.isNotEmpty()) {
-            String toWrite = dictionary.getCode(chain);
+            String toWrite = dictionary.getValue(chain);
             for (int j = 0; j < toWrite.length(); j++) {
                 fw.write(toWrite.charAt(j));
             }

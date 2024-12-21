@@ -33,7 +33,7 @@ public class Dictionary<K extends Comparable<K>,V> implements MapInterface<K,V>,
     }
 
 
-    public V getCode(K key) {
+    public V getValue(K key) {
         validateKey(key);
         WordNode<K,V> node = root;
 
@@ -62,12 +62,11 @@ public class Dictionary<K extends Comparable<K>,V> implements MapInterface<K,V>,
         root.setColor(BLACK);
     }
 
-    public WordNode<K,V> addAt(WordNode<K,V> node) {
+    public void addAt(WordNode<K,V> node) {
         validateKey(node.getKey());
         toAdd = node;
         root = put(root, node.getKey());
         root.setColor(BLACK);
-        return toAdd;
     }
 
     private void validateKey(K key) {
