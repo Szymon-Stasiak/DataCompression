@@ -5,6 +5,7 @@ import static org.example.utils.utils.BREAK_CHAIN;
 
 import java.io.*;
 import java.util.Objects;
+
 import org.example.common.structures.*;
 import org.example.common.tools.BinaryConverter;
 import org.example.logger.Log;
@@ -91,24 +92,26 @@ public class TreeDecoder {
 
     public static String readNextUtf8Char(InputStreamReader fr) throws IOException {
         StringBuilder sb = new StringBuilder();
-        int current;
-        int counter = 0;
-        for (int i = 0; i < 4; i++) {
-            current = fr.read();
-            counter++;
-            sb.append((char) current);
-
-            if (current == '0') {
-                break;
+        int current = fr.read();
+        sb.append((char) current);
+        int counter = 1;
+        if (current == '1') {
+            while (true){
+                current = fr.read();
+                counter++;
+                sb.append((char) current);
+                if (current == '0') {
+                    break;
+                }
+            }
+            if (sb.toString().equals(BREAK_CHAIN)) {
+                Log.info("BREAK_CHAIN found");
+                return sb.toString();
             }
         }
-        current = fr.read();
-        sb.append((char) current);
-        if (sb.toString().equals(BREAK_CHAIN)) {
-            Log.info("BREAK_CHAIN found");
-            return sb.toString();
-        }
-        for (int i = counter + 1; i < counter * 8; i++) {
+
+
+        for (int i = counter; i < (counter==1?counter:counter-1) * 8; i++) {
             current = fr.read();
             sb.append((char) current);
         }
