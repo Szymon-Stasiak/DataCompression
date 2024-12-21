@@ -4,6 +4,7 @@ import static org.example.common.tools.BinaryConverter.convertBinToInt;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+
 import org.example.common.structures.CharChain;
 import org.example.common.structures.Dictionary;
 import org.example.decrypter.tools.TreeDecoder;
@@ -37,19 +38,26 @@ public class Decoder implements Translator {
 
     public void decodeMessage(StringBuilder byteReader, InputStreamReader fr, String outputPathDecoded) {
         try (InputStreamReader autoClosableFr = fr;
-                FileOutputStream fos = new FileOutputStream(outputPathDecoded);
-                OutputStreamWriter writer = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
+             FileOutputStream fos = new FileOutputStream(outputPathDecoded);
+             OutputStreamWriter writer = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
             int character;
             StringBuilder key = new StringBuilder();
             int additionalZeroes = additionalZeroes(byteReader, autoClosableFr);
+            Log.info("Additional zeroes: " + additionalZeroes);
+            for (int i = 0; i < additionalZeroes; i++) {
+                autoClosableFr.read();
+            }
             while ((character = autoClosableFr.read()) != -1) {
                 byteReader.append((char) character);
                 key.append((char) character);
                 CharChain code = dictionary.getValue(key.toString());
                 if (code != null) {
                     for (int c : code.getChain()) {
-                        Log.info("Inr : " + c);
-                        writer.write(new String(Character.toChars(c)));
+                        if (c != 0) {
+                            Log.info("Inr : " + c);
+                            writer.write(new String(Character.toChars(c)));
+                        }
+
                     }
                     key = new StringBuilder();
                 }

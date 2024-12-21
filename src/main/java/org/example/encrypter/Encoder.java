@@ -139,6 +139,9 @@ public class Encoder implements Translator {
         for (int i = 0; i < 3; i++) {
             fw.write(convertToBin3Signs(additionalZeroes).charAt(i));
         }
+        for (int k = 0; k < additionalZeroes; k++) {
+            fw.write('0');
+        }
         int codePoint;
         BufferedReader reader = new BufferedReader(new InputStreamReader(fr, StandardCharsets.UTF_8));
         CharChain chain = new CharChain(lengthOfSequence);
@@ -172,9 +175,6 @@ public class Encoder implements Translator {
             for (int j = 0; j < toWrite.length(); j++) {
                 fw.write(toWrite.charAt(j));
             }
-        }
-        for (int k = 0; k < additionalZeroes; k++) {
-            fw.write('0');
         }
         Log.info("File encrypted successfully, size: " + sizeOfEncryptedFile);
     }
