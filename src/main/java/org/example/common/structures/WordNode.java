@@ -42,8 +42,4 @@ public class WordNode<K extends Comparable<K>, V> implements Comparable<WordNode
         return -key.compareTo(o.getKey());
     }
 
-    //    @Override
-    //    public String toString() {
-    //        return (int) key + " - " + counter + " - " + code;
-    //    }
 }

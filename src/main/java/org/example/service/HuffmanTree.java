@@ -32,7 +32,6 @@ public abstract class HuffmanTree<K extends Comparable<K>, V> implements Iterabl
 
     protected abstract void generateHuffmanCodes();
 
-    // Todo latter
     public HuffmanTreeNode<K, V> handleWhenOnlyOneSequenceExist() {
         return null;
     }

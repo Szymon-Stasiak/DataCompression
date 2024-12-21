@@ -3,7 +3,6 @@ package org.example;
 import static org.example.utils.utils.*;
 
 import org.example.common.tools.HelpPrinter;
-// import org.example.decrypter.Decoder;
 import org.example.encrypter.Encoder;
 import org.example.exceptions.FilePathsAreTheSameException;
 import org.example.exceptions.SequencesCantBeLessThanZeroException;
