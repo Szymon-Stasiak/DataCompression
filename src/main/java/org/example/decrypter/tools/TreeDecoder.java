@@ -99,11 +99,11 @@ public class TreeDecoder {
                 current = fr.read();
                 counter++;
                 sb.append((char) current);
+                if (counter == 5 && sb.toString().equals(BREAK_CHAIN)) {
+                    Log.info("BREAK_CHAIN found");
+                    return sb.toString();
+                }
             } while (current != '0');
-            if (sb.toString().equals(BREAK_CHAIN + "0")) {
-                Log.info("BREAK_CHAIN found");
-                return sb.toString();
-            }
         }
         for (int i = counter; i < (counter == 1 ? counter : counter - 1) * 8; i++) {
             current = fr.read();
