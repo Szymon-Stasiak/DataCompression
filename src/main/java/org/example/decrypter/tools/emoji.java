@@ -16,14 +16,15 @@ public class emoji {
             128536, // 😘 Face Blowing a Kiss
             128545, // 😡 Pouting Face
             128546, // 😢 Crying Face
-            129315  // 🤣 Rolling on the Floor Laughing
-    );
+            129315 // 🤣 Rolling on the Floor Laughing
+            );
 
     public static void main(String[] args) {
         // Create a file to store the output
         String outputFile = "C:\\Users\\stszy\\IdeaProjects\\DataCompression\\src\\main\\resources\\emojis.txt";
 
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8))) {
+        try (BufferedWriter writer =
+                new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8))) {
             for (int codePoint : EMOJI_CODE_POINTS) {
                 // Convert code point to a character string
                 writer.write(new String(Character.toChars(codePoint)));
@@ -35,4 +36,3 @@ public class emoji {
         }
     }
 }
-

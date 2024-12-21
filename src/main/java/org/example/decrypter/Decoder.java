@@ -39,8 +39,8 @@ public class Decoder {
                 key.append((char) character);
                 CharChain code = dictionary.getValue(key.toString());
                 if (code != null) {
-                    for( int c : code.getChain()) {
-                        Log.info("Inr : "+c);
+                    for (int c : code.getChain()) {
+                        Log.info("Inr : " + c);
                         writer.write(new String(Character.toChars(c)));
                     }
                     key = new StringBuilder();
@@ -63,7 +63,4 @@ public class Decoder {
     public static void main(String[] args) {
         new Decoder("src/main/resources/encoded.txt", "src/main/resources/decoded.txt");
     }
-
-
-
 }

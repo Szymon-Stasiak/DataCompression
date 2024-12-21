@@ -5,7 +5,6 @@ import static org.example.utils.utils.BREAK_CHAIN;
 
 import java.io.*;
 import java.util.Objects;
-
 import org.example.common.structures.*;
 import org.example.common.tools.BinaryConverter;
 import org.example.logger.Log;
@@ -96,22 +95,17 @@ public class TreeDecoder {
         sb.append((char) current);
         int counter = 1;
         if (current == '1') {
-            while (true){
+            do {
                 current = fr.read();
                 counter++;
                 sb.append((char) current);
-                if (current == '0') {
-                    break;
-                }
-            }
-            if (sb.toString().equals(BREAK_CHAIN)) {
+            } while (current != '0');
+            if (sb.toString().equals(BREAK_CHAIN + "0")) {
                 Log.info("BREAK_CHAIN found");
                 return sb.toString();
             }
         }
-
-
-        for (int i = counter; i < (counter==1?counter:counter-1) * 8; i++) {
+        for (int i = counter; i < (counter == 1 ? counter : counter - 1) * 8; i++) {
             current = fr.read();
             sb.append((char) current);
         }

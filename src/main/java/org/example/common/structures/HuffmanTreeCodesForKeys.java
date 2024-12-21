@@ -1,6 +1,5 @@
 package org.example.common.structures;
 
-import org.example.logger.Log;
 import org.example.service.HuffmanTree;
 
 public class HuffmanTreeCodesForKeys<V> extends HuffmanTree<String, V> {
