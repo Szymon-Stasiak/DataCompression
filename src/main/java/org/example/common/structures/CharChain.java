@@ -57,16 +57,4 @@ public class CharChain implements Comparable<CharChain> {
         }
         return sb.toString();
     }
-
-    public String toChars() {
-        StringBuilder sb = new StringBuilder();
-        for (int i : chain) {
-            char temp = (char) i;
-            if (temp == NULL) {
-                break;
-            }
-            sb.append(temp);
-        }
-        return sb.toString();
-    }
 }

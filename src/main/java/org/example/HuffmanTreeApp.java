@@ -8,6 +8,7 @@ import org.example.encrypter.Encoder;
 import org.example.exceptions.FilePathsAreTheSameException;
 import org.example.exceptions.SequencesCantBeLessThanZeroException;
 import org.example.logger.Log;
+import org.example.service.Translator;
 
 public class HuffmanTreeApp {
 
@@ -31,6 +32,7 @@ public class HuffmanTreeApp {
         String outputPath = OUTPUT_PATH;
         String outputPathDecoded = OUTPUT_PATH_DECODED;
         int lengthOfSequence = LENGTH_OF_SEQUENCE;
+        Translator translator = null;
 
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--help") || args[i].equals("--h") || args[i].equals("-help") || args[i].equals("-h")) {
@@ -38,7 +40,6 @@ public class HuffmanTreeApp {
                 return;
             } else if (args[i].equals("--d") && i + 1 < args.length && args[i + 1].charAt(0) != '-') {
 
-                // new Decoder( inputPathToDecode, outputPathDecoded);
                 return;
             } else {
                 if (args[i].equals("--in") && i + 1 < args.length && args[i + 1].charAt(0) != '-') {
@@ -58,6 +59,6 @@ public class HuffmanTreeApp {
         if (lengthOfSequence < 1) {
             throw new SequencesCantBeLessThanZeroException("Length of sequence has to be greater than 0.");
         }
-        new Encoder(inputPath, outputPath, lengthOfSequence);
+        new Encoder(inputPath, outputPath, lengthOfSequence).translate();
     }
 }

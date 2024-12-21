@@ -25,16 +25,16 @@ public class RedBlackTreeTest {
 
     @Test
     void shouldProperlyInsert() {
-        tree.addAt("a");
-        tree.addAt("b");
-        tree.addAt("c");
-        tree.addAt("d");
-        tree.addAt("e");
-        tree.addAt("f");
-        tree.addAt("g");
-        tree.addAt("h");
-        tree.addAt("i");
-        tree.addAt("j");
+        tree.add("a");
+        tree.add("b");
+        tree.add("c");
+        tree.add("d");
+        tree.add("e");
+        tree.add("f");
+        tree.add("g");
+        tree.add("h");
+        tree.add("i");
+        tree.add("j");
         assertNotNull(tree);
         assert (checkTree(tree));
         assert (!getRootOfTree(tree).isRed());
@@ -43,15 +43,15 @@ public class RedBlackTreeTest {
 
     @Test
     void shouldProperlyInsert_WhenInsertingSameElement() {
-        tree.addAt("a");
-        tree.addAt("a");
-        tree.addAt("a");
-        tree.addAt("a");
-        tree.addAt("a");
-        tree.addAt("a");
-        tree.addAt("a");
-        tree.addAt("a");
-        tree.addAt("a");
+        tree.add("a");
+        tree.add("a");
+        tree.add("a");
+        tree.add("a");
+        tree.add("a");
+        tree.add("a");
+        tree.add("a");
+        tree.add("a");
+        tree.add("a");
         assertNotNull(tree);
         assert (checkTree(tree));
         assert (!getRootOfTree(tree).isRed());
@@ -61,7 +61,7 @@ public class RedBlackTreeTest {
     //    @Test
     //    void should_ThrowException_WhenInsertingNull() {
     //        try {
-    //            tree.addAt(null);
+    //            tree.add(null);
     //        } catch (IllegalArgumentException e) {
     //            assert (e.getMessage().equals("Key cannot be null."));
     //            assert (true);
@@ -70,16 +70,16 @@ public class RedBlackTreeTest {
 
     @Test
     void shouldProperlyInsert_WhenInsertingInOrder() {
-        tree.addAt("a");
-        tree.addAt("b");
-        tree.addAt("c");
-        tree.addAt("d");
-        tree.addAt("e");
-        tree.addAt("f");
-        tree.addAt("g");
-        tree.addAt("h");
-        tree.addAt("i");
-        tree.addAt("j");
+        tree.add("a");
+        tree.add("b");
+        tree.add("c");
+        tree.add("d");
+        tree.add("e");
+        tree.add("f");
+        tree.add("g");
+        tree.add("h");
+        tree.add("i");
+        tree.add("j");
         assertNotNull(tree);
         assert (checkTree(tree));
         assert (!getRootOfTree(tree).isRed());
@@ -88,16 +88,16 @@ public class RedBlackTreeTest {
 
     @Test
     void shouldProperlyInsert_WhenInsertingInReverseOrder() {
-        tree.addAt("j");
-        tree.addAt("i");
-        tree.addAt("h");
-        tree.addAt("g");
-        tree.addAt("f");
-        tree.addAt("e");
-        tree.addAt("d");
-        tree.addAt("c");
-        tree.addAt("b");
-        tree.addAt("a");
+        tree.add("j");
+        tree.add("i");
+        tree.add("h");
+        tree.add("g");
+        tree.add("f");
+        tree.add("e");
+        tree.add("d");
+        tree.add("c");
+        tree.add("b");
+        tree.add("a");
         assertNotNull(tree);
         assert (checkTree(tree));
         assert (!getRootOfTree(tree).isRed());
@@ -106,16 +106,16 @@ public class RedBlackTreeTest {
 
     @Test
     public void should_CorrectlyBuildTreeFromFiveObject() {
-        tree.addAt("a");
-        tree.addAt("a");
-        tree.addAt("a");
-        tree.addAt("a");
-        tree.addAt("b");
-        tree.addAt("c");
-        tree.addAt("c");
-        tree.addAt("c");
-        tree.addAt("d");
-        tree.addAt("e");
+        tree.add("a");
+        tree.add("a");
+        tree.add("a");
+        tree.add("a");
+        tree.add("b");
+        tree.add("c");
+        tree.add("c");
+        tree.add("c");
+        tree.add("d");
+        tree.add("e");
         assertNotNull(tree);
         assert (checkTree(tree));
         assert (!getRootOfTree(tree).isRed());
@@ -156,7 +156,7 @@ public class RedBlackTreeTest {
         Dictionary<Character, Integer> tree = new Dictionary<>();
 
         for (char c : word.toCharArray()) {
-            tree.addAt(c);
+            tree.add(c);
         }
 
         assert (checkTree(tree));

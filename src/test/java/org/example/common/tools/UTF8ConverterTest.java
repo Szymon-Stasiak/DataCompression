@@ -74,12 +74,72 @@ class UTF8ConverterTest {
     }
 
     @Test
-    void should_throwErrorWhenStringRepresentNotExistingCHar() {
+    void should_throwErrorWhenStringRepresentNotExistingChar() {
         assertThrows(IllegalArgumentException.class, () -> convertBinaryToInt("1111111111"));
     }
 
     @Test
     void should_throwErrorWhenStringRepresentInvalidContinuationByte() {
         assertThrows(IllegalArgumentException.class, () -> convertBinaryToInt("11060000"));
+    }
+
+    @Test
+    void should_throwErrorWhenBinaryStringHasTooManyBytes() {
+        assertThrows(IllegalArgumentException.class, () -> convertBinaryToInt("111100001001000010001101100010001"));
+    }
+
+    @Test
+    void should_properly_convertEdgeCase1ByteCharacterToBinary() {
+        String result = convertIntToUTF8(0x7F);
+        assertEquals("01111111", result);
+    }
+
+    @Test
+    void should_properly_convertEdgeCase2ByteCharacterToBinary() {
+        String result = convertIntToUTF8(0x7FF);
+        assertEquals("1101111110111111", result);
+    }
+
+    @Test
+    void should_properly_convertEdgeCase3ByteCharacterToBinary() {
+        String result = convertIntToUTF8(0xFFFF);
+        assertEquals("111011111011111110111111", result);
+    }
+
+    @Test
+    void should_properly_convertEdgeCase4ByteCharacterToBinary() {
+        String result = convertIntToUTF8(0x10FFFF);
+        assertEquals("11110100100011111011111110111111", result);
+    }
+
+    @Test
+    void should_throwErrorForNonUTF8Character() {
+        assertThrows(IllegalArgumentException.class, () -> convertIntToUTF8(0x110000));
+    }
+
+    @Test
+    void should_throwErrorWhenBiggerThan32() {
+        assertThrows(IllegalArgumentException.class, () -> convertIntToUTF8(888888888));
+    }
+
+    @Test
+    void should_throwErrorWhenContinuationByteIsInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> convertBinaryToInt("1100000000000000"));
+    }
+
+    @Test
+    void should_throwErrorWhenBinaryStringLengthIsNotMultipleOf8() {
+        assertThrows(IllegalArgumentException.class, () -> convertBinaryToInt("110000011201"));
+    }
+
+    @Test
+    void should_throwErrorWhenBinaryStringLengthIs0() {
+        assertThrows(IllegalArgumentException.class, () -> convertBinaryToInt(""));
+    }
+
+    @Test
+    void createInstance() {
+        UTF8Converter converter = new UTF8Converter();
+        assertNotNull(converter);
     }
 }

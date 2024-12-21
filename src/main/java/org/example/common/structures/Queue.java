@@ -1,25 +1,62 @@
 package org.example.common.structures;
 
-public class Queue<T> implements org.example.service.QueueInterface<T> {
-    // TODO own implementation of Queue
-    private final java.util.Queue<T> elements = new java.util.LinkedList<>();
+import org.example.service.QueueInterface;
+
+public class Queue<T> implements QueueInterface<T> {
+    private Node<T> front;
+    private Node<T> rear;
+    private int size;
+
+    private static class Node<T> {
+        T data;
+        Node<T> next;
+
+        Node(T data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    public Queue() {
+        front = rear = null;
+        size = 0;
+    }
 
     @Override
     public boolean isEmpty() {
-        return elements.isEmpty();
+        return size == 0;
     }
 
     @Override
     public T poll() {
-        return elements.poll();
+        if (isEmpty()) {
+            return null;
+        }
+        T data = front.data;
+        front = front.next;
+        if (front == null) {
+            rear = null;
+        }
+        size--;
+        return data;
     }
 
     @Override
     public void add(T element) {
-        elements.add(element);
+        Node<T> newNode = new Node<>(element);
+        if (rear == null) {
+            front = rear = newNode;
+        } else {
+            rear.next = newNode;
+            rear = newNode;
+        }
+        size++;
     }
 
     public T peek() {
-        return elements.peek();
+        if (isEmpty()) {
+            return null;
+        }
+        return front.data;
     }
 }

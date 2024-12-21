@@ -76,7 +76,7 @@ public class TreeDecoder {
             for (HuffmanTreeNode<String, CharChain> stringCharChainHuffmanTreeNode : huffmanTree) {
                 WordNode<String, CharChain> node = stringCharChainHuffmanTreeNode.getWordNode();
                 if (node != null) {
-                    dictionary.addAt(node);
+                    dictionary.add(node);
                 }
             }
 

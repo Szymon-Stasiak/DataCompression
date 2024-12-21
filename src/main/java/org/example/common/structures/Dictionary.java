@@ -54,14 +54,14 @@ public class Dictionary<K extends Comparable<K>, V> implements MapInterface<K, V
         return result;
     }
 
-    public void addAt(K key) {
+    public void add(K key) {
         validateKey(key);
         toAdd = new WordNode<>(key);
         root = put(root, key);
         root.setColor(BLACK);
     }
 
-    public void addAt(WordNode<K, V> node) {
+    public void add(WordNode<K, V> node) {
         validateKey(node.getKey());
         toAdd = node;
         root = put(root, node.getKey());

@@ -8,12 +8,21 @@ import org.example.common.structures.CharChain;
 import org.example.common.structures.Dictionary;
 import org.example.decrypter.tools.TreeDecoder;
 import org.example.logger.Log;
+import org.example.service.Translator;
 
-public class Decoder {
+public class Decoder implements Translator {
 
-    private final Dictionary<String, CharChain> dictionary;
+    private Dictionary<String, CharChain> dictionary;
+    private final String inputPathDecoded;
+    private final String outputPathDecoded;
 
     public Decoder(String inputPathDecoded, String outputPathDecoded) {
+        this.inputPathDecoded = inputPathDecoded;
+        this.outputPathDecoded = outputPathDecoded;
+    }
+
+    @Override
+    public void translate() {
         StringBuilder byteReader = new StringBuilder();
         try {
             InputStreamReader fr = new InputStreamReader(new FileInputStream(inputPathDecoded), "UTF-8");
@@ -30,7 +39,6 @@ public class Decoder {
         try (InputStreamReader autoClosableFr = fr;
                 FileOutputStream fos = new FileOutputStream(outputPathDecoded);
                 OutputStreamWriter writer = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
-
             int character;
             StringBuilder key = new StringBuilder();
             int additionalZeroes = additionalZeroes(byteReader, autoClosableFr);
@@ -61,6 +69,6 @@ public class Decoder {
     }
 
     public static void main(String[] args) {
-        new Decoder("src/main/resources/encoded.txt", "src/main/resources/decoded.txt");
+        new Decoder("src/main/resources/encoded.txt", "src/main/resources/decoded.txt").translate();
     }
 }

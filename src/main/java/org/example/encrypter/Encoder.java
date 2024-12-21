@@ -10,11 +10,12 @@ import org.example.exceptions.InputFileNotFoundException;
 import org.example.exceptions.OutputFIleNotFoundException;
 import org.example.logger.Log;
 import org.example.service.HuffmanTree;
+import org.example.service.Translator;
 
-public class Encoder {
+public class Encoder implements Translator {
 
     private Dictionary<CharChain, String> dictionary;
-    private final HuffmanTree<CharChain, String> huffmanTree;
+    private HuffmanTree<CharChain, String> huffmanTree;
     private final String inputPath;
     private final String outputPath;
     private int sizeOfEncryptedFile = 3;
@@ -25,6 +26,10 @@ public class Encoder {
         this.inputPath = inputPath;
         this.outputPath = outputPath;
         this.lengthOfSequence = lengthOfSequence;
+    }
+
+    @Override
+    public void translate() {
         makeDictionary();
         huffmanTree = new HuffmanTreeCodesForValues<>(dictionary);
         dictionary.writeTree();
@@ -67,13 +72,13 @@ public class Encoder {
                     }
                     chain.add(codePoint);
                     if (chain.isFull()) {
-                        dictionary.addAt(chain);
+                        dictionary.add(chain);
                         chain = new CharChain(lengthOfSequence);
                     }
                 }
             }
             if (chain.isNotEmpty()) {
-                dictionary.addAt(chain);
+                dictionary.add(chain);
             }
             fr.close();
         } catch (IOException e) {
