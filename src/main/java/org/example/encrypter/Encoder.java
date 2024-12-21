@@ -27,6 +27,7 @@ public class Encoder {
         this.lengthOfSequence = lengthOfSequence;
         makeDictionary();
         huffmanTree = new HuffmanTreeCodesForValues<>(dictionary);
+        dictionary.writeTree();
         try {
             writeEncryptCodeToFile();
         } catch (IOException e) {
@@ -81,7 +82,7 @@ public class Encoder {
     }
 
     private void writeEncryptedTreeToFile(FileOutputStream fw) throws IOException {
-        int treeSize = encryptTreeAndReturnSize01(huffmanTree.getRoot(), false, lengthOfSequence, fw);
+        int treeSize = encryptTreeAndReturnSize01(huffmanTree.getRoot(), lengthOfSequence, fw);
         Log.info("Encrypted Tree size: " + treeSize);
         sizeOfEncryptedFile += treeSize;
     }

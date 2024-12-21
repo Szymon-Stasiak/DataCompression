@@ -1,12 +1,14 @@
 package org.example.encrypter.tools;
 
 import static org.example.common.tools.UTF8Converter.convertIntToUTF8;
+import static org.example.utils.utils.BREAK_CHAIN;
 
 import java.io.*;
 import org.example.common.structures.CharChain;
 import org.example.common.structures.HuffmanTreeNode;
 import org.example.common.tools.BFSIterator;
 import org.example.common.tools.BinaryConverter;
+import org.example.logger.Log;
 
 public class TreeEncoder {
 
@@ -35,9 +37,7 @@ public class TreeEncoder {
     }
 
     public static int encryptTreeAndReturnSize01(
-            HuffmanTreeNode<CharChain, String> root, boolean hasOneSequence, int lengthOfSequence, FileOutputStream fw)
-            throws IOException {
-        fw.write(hasOneSequence ? '1' : '0');
+            HuffmanTreeNode<CharChain, String> root, int lengthOfSequence, FileOutputStream fw) throws IOException {
         String binSizeOfSequence = BinaryConverter.convertToBin4Signs(lengthOfSequence - 1);
         for (int i = 0; i < binSizeOfSequence.length(); i++) {
             fw.write(binSizeOfSequence.charAt(i));
@@ -58,16 +58,25 @@ public class TreeEncoder {
 
     private static void writeNodeKeyValue(FileOutputStream fw, HuffmanTreeNode<CharChain, String> node)
             throws IOException {
-        String character;
         size++;
         fw.write('1');
         CharChain charChain = node.getWordNode().getKey();
-        for (int i : charChain.getChain()) {
-            character = convertIntToUTF8(i);
-            for (int j = 0; j < character.length(); j++) {
-                fw.write(character.charAt(j));
-            }
-            size += character.length();
+        if (charChain == null) {
+            writeUTF8Character(fw, BREAK_CHAIN);
+            Log.info("BREAK_CHAIN added");
+            return;
         }
+
+        for (int i : charChain.getChain()) {
+            writeUTF8Character(fw, convertIntToUTF8(i));
+        }
+    }
+
+    public static void writeUTF8Character(FileOutputStream fw, String character) throws IOException {
+        Log.info("Character: " + character);
+        for (int j = 0; j < character.length(); j++) {
+            fw.write(character.charAt(j));
+        }
+        size += character.length();
     }
 }

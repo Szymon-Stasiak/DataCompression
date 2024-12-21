@@ -61,7 +61,11 @@ public class CharChain implements Comparable<CharChain> {
     public String toChars() {
         StringBuilder sb = new StringBuilder();
         for (int i : chain) {
-            sb.append((char) i);
+            char temp = (char) i;
+            if (temp == NULL) {
+                break;
+            }
+            sb.append(temp);
         }
         return sb.toString();
     }

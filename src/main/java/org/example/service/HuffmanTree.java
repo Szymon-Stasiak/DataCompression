@@ -13,25 +13,28 @@ public abstract class HuffmanTree<K extends Comparable<K>, V> implements Iterabl
     @Getter
     protected HuffmanTreeNode<K, V> root;
 
-    private HuffmanNodePriorityQueue<K, V> heap;
+    protected HuffmanNodePriorityQueue<K, V> heap;
 
     public HuffmanTree(HuffmanTreeNode<K, V> root) {
         this.root = root;
+        generateHuffmanCodes();
     }
 
     public HuffmanTree(Dictionary<K, V> dictionary) {
         heap = new HuffmanNodePriorityQueue<>(dictionary);
         if (heap.getSize() == 1) {
-            handleWhenOnlyOneSequenceExist();
+            root = handleWhenOnlyOneSequenceExist();
         } else {
             buildTree();
+            generateHuffmanCodes();
         }
     }
 
+    protected abstract void generateHuffmanCodes();
+
     // Todo latter
-    public void handleWhenOnlyOneSequenceExist() {
-        root = heap.poll();
-        root.getWordNode();
+    public HuffmanTreeNode<K, V> handleWhenOnlyOneSequenceExist() {
+        return null;
     }
 
     private void buildTree() {

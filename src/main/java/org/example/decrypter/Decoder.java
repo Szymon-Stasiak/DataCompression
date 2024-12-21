@@ -37,7 +37,6 @@ public class Decoder {
             while ((character = autoClosableFr.read()) != -1) {
                 byteReader.append((char) character);
                 key.append((char) character);
-                Log.info("Key: " + key);
                 CharChain code = dictionary.getValue(key.toString());
                 if (code != null) {
                     writer.write(code.toChars());

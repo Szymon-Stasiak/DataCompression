@@ -1,8 +1,10 @@
 package org.example.decrypter.tools;
 
 import static org.example.common.tools.UTF8Converter.convertBinaryToInt;
+import static org.example.utils.utils.BREAK_CHAIN;
 
 import java.io.*;
+import java.util.Objects;
 import org.example.common.structures.*;
 import org.example.common.tools.BinaryConverter;
 import org.example.logger.Log;
@@ -39,30 +41,29 @@ public class TreeDecoder {
 
             // Todo
             Dictionary<String, CharChain> dictionary = new Dictionary<>();
-            boolean hasOneSequence = fr.read() == '1';
             StringBuilder sequence = new StringBuilder();
             for (int i = 0; i < 4; i++) {
                 sequence.append((char) fr.read());
             }
-            Log.info("Sequence: " + sequence);
             int sizeOfSequence = BinaryConverter.convertBinToInt(sequence.toString()) + 1;
-
-            if (hasOneSequence) {
-                return generateDictionaryFromOneSequence();
-            }
+            Log.info("Size of sequence: " + sizeOfSequence);
 
             addNodeToQueue(new HuffmanTreeNode<>());
             while (!queue.isEmpty()) {
                 current = fr.read();
 
                 char character = (char) current;
-                // Log.info("Character: " + character);
                 if (character == '0') {
                     addNodeToQueue(new HuffmanTreeNode<>());
                 } else {
                     CharChain chain = new CharChain(sizeOfSequence);
                     for (int i = 0; i < sizeOfSequence; i++) {
-                        chain.add(convertBinaryToInt(readNextUtf8Char(fr)));
+                        String readNextUtf8Char = readNextUtf8Char(fr);
+                        if (Objects.equals(readNextUtf8Char, BREAK_CHAIN)) {
+                            chain = null;
+                            break;
+                        }
+                        chain.add(convertBinaryToInt(readNextUtf8Char));
                     }
 
                     HuffmanTreeNode<String, CharChain> node = new HuffmanTreeNode<>("", chain);
@@ -93,9 +94,6 @@ public class TreeDecoder {
         int counter = 0;
         for (int i = 0; i < 4; i++) {
             current = fr.read();
-            if (current == -1) {
-                return null;
-            }
             counter++;
             sb.append((char) current);
 
@@ -103,19 +101,16 @@ public class TreeDecoder {
                 break;
             }
         }
-        // Log.info("Counter: " + counter);
-        for (int i = counter; i < counter * 8; i++) {
+        current = fr.read();
+        sb.append((char) current);
+        if (sb.toString().equals(BREAK_CHAIN)) {
+            Log.info("BREAK_CHAIN found");
+            return sb.toString();
+        }
+        for (int i = counter + 1; i < counter * 8; i++) {
             current = fr.read();
-            if (current == -1) {
-                return null;
-            }
             sb.append((char) current);
         }
         return sb.toString();
-    }
-
-    public static Dictionary<String, CharChain> generateDictionaryFromOneSequence() {
-        // todo
-        return null;
     }
 }
