@@ -1,5 +1,7 @@
 package org.example.decrypter;
 
+import static org.example.common.tools.BinaryConverter.convertBinToInt;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import org.example.common.structures.CharChain;
@@ -31,6 +33,7 @@ public class Decoder {
 
             int character;
             StringBuilder key = new StringBuilder();
+            int additionalZeroes = additionalZeroes(byteReader, autoClosableFr);
             while ((character = autoClosableFr.read()) != -1) {
                 byteReader.append((char) character);
                 key.append((char) character);
@@ -45,6 +48,14 @@ public class Decoder {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private int additionalZeroes(StringBuilder byteReader, InputStreamReader fr) throws IOException {
+        while (byteReader.length() < 3) {
+            int current = fr.read();
+            byteReader.append((char) current);
+        }
+        return convertBinToInt(byteReader.substring(0, 3));
     }
 
     public static void main(String[] args) {
