@@ -3,14 +3,10 @@ package org.example.decrypter.tools;
 import static org.example.common.tools.UTF8Converter.convertBinaryToInt;
 
 import java.io.*;
-import org.example.common.structures.CharChain;
-import org.example.common.structures.Dictionary;
-import org.example.common.structures.HuffmanTree;
-import org.example.common.structures.HuffmanTreeNode;
-import org.example.common.structures.Queue;
-import org.example.common.structures.WordNode;
+import org.example.common.structures.*;
 import org.example.common.tools.BinaryConverter;
 import org.example.logger.Log;
+import org.example.service.HuffmanTree;
 
 // todo cleaning
 public class TreeDecoder {
@@ -73,7 +69,7 @@ public class TreeDecoder {
                     attachToParent(node);
                 }
             }
-            HuffmanTree<String, CharChain> huffmanTree = new HuffmanTree<>(root);
+            HuffmanTree<String, CharChain> huffmanTree = new HuffmanTreeCodesForKeys<>(root);
 
             for (HuffmanTreeNode<String, CharChain> stringCharChainHuffmanTreeNode : huffmanTree) {
                 WordNode<String, CharChain> node = stringCharChainHuffmanTreeNode.getWordNode();

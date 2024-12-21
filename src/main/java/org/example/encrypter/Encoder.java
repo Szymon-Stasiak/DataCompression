@@ -5,18 +5,16 @@ import static org.example.encrypter.tools.TreeEncoder.encryptTreeAndReturnSize01
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import org.example.common.structures.CharChain;
-import org.example.common.structures.Dictionary;
-import org.example.common.structures.HuffmanTree;
-import org.example.common.structures.WordNode;
+import org.example.common.structures.*;
 import org.example.exceptions.InputFileNotFoundException;
 import org.example.exceptions.OutputFIleNotFoundException;
 import org.example.logger.Log;
+import org.example.service.HuffmanTree;
 
 public class Encoder {
 
     private Dictionary<CharChain, String> dictionary;
-    private final HuffmanTree huffmanTree;
+    private final HuffmanTree<CharChain, String> huffmanTree;
     private final String inputPath;
     private final String outputPath;
     private int sizeOfEncryptedFile = 3;
@@ -28,7 +26,7 @@ public class Encoder {
         this.outputPath = outputPath;
         this.lengthOfSequence = lengthOfSequence;
         makeDictionary();
-        huffmanTree = new HuffmanTree(dictionary);
+        huffmanTree = new HuffmanTreeCodesForValues<>(dictionary);
         try {
             writeEncryptCodeToFile();
         } catch (IOException e) {
