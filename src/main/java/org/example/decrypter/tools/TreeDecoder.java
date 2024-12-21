@@ -63,6 +63,7 @@ public class TreeDecoder {
                             chain = null;
                             break;
                         }
+                        Log.info("Read next UTF-8 char: " + readNextUtf8Char);
                         chain.add(convertBinaryToInt(readNextUtf8Char));
                     }
 

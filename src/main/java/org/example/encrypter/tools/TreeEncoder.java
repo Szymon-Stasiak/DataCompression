@@ -12,7 +12,7 @@ import org.example.logger.Log;
 
 public class TreeEncoder {
 
-    private static int size = 5;
+    private static int size = 4;
 
     public int encryptTreeAndReturnSize(
             HuffmanTreeNode<CharChain, String> root,

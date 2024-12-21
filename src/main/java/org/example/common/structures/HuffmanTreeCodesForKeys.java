@@ -15,7 +15,6 @@ public class HuffmanTreeCodesForKeys<V> extends HuffmanTree<String, V> {
     }
 
     private void generateKeys(HuffmanTreeNode<String, V> node, String code) {
-        Log.info("Generating keys");
         if (node.getLeft() == null && node.getRight() == null) {
             node.getWordNode().setKey(code);
             return;
